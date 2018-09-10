@@ -1,0 +1,14 @@
+void PWM_output(uint16_t off_value);
+void UART_init(unsigned int BAUD_RATE);
+void UART_transmit(uint8_t myValue);
+unsigned char USART_receive(void);
+void ADC_init();
+int ADC_read();
+float adc_calculation();
+void MFCmodulator(void);
+void VERmodulator(void);
+void PARAMmodulator(void);
+void ERRORmodulator(void);
+void PWM_control(uint16_t topValue, uint16_t bottomValue);
+void PWM_init();
+void DEAD_control(uint16_t time);
