@@ -5,7 +5,7 @@
  *  Author: hasna
  */ 
 
-#include "drivers/adc.h"
+#include "adc.h"
 
 void adc_init(){
 	// selection channel is set to internal reference 1.1V

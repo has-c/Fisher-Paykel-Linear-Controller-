@@ -6,11 +6,13 @@
  */ 
 
 #include <avr/io.h>
-#include <stdint.h>
-
+#include <stdio.h>
+#include <stdbool.h>
+#include <avr/interrupt.h>
 
 #ifndef MAIN_H_
 #define MAIN_H_
+
 
 
 
