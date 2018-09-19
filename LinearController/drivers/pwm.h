@@ -12,13 +12,10 @@
 #ifndef PWM_H_
 #define PWM_H_
 
+ 
+void pwm_init();
+void pwm_control(uint16_t topValue, uint16_t bottomValue);
 
-//to do setup in the Fast PWM mode 
-void pwm_init(){
-	TCCR1B |= (1<<WGM12) | (1<<CS11)|(1<<CS10);//CTC mode & 64 prescaler
-	TIMSK1 |= (1<<OCIE1A)|(1<<OCIE1B); //Enabling interrupts for match on OCR1A and OCR1B
-	
-}
 
 
 
