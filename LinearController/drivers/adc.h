@@ -12,9 +12,9 @@
 #ifndef ADC_H_
 #define ADC_H_
 
-void adc_init();
-uint16_t adc_read();
-uint8_t adc_calculate();
+void ADC_Init();
+uint16_t ADC_Read();
+uint8_t ADC_Calculate();
 
 
 

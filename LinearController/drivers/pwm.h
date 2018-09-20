@@ -13,8 +13,8 @@
 #define PWM_H_
 
  
-void pwm_init();
-void pwm_control(uint16_t topValue, uint16_t bottomValue);
+void PWM_Init();
+void PWM_Change(uint16_t topValue, uint16_t bottomValue);
 
 
 

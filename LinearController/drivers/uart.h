@@ -18,13 +18,18 @@
 
 #include <avr/io.h>
 #include <stdio.h>
+#include <avr/power.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #ifndef UART_H_
 #define UART_H_
 
-void uart_init(unsigned int BAUD_RATE);
-void uart_transmit(uint8_t myValue);
-uint8_t uart_receive(void)
+
+void UART_Init(unsigned int BAUD_RATE);
+void UART_Transmit(uint8_t myValue);
+uint8_t UART_Receive(void);
+void UART_InterpretStrokelength(uint8_t strokeLength);
 
 #endif /* UART_H_ */
 

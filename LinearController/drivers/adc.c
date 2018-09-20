@@ -4,13 +4,13 @@
  * Created: 15/09/2018 5:24:17 PM
  *  Author: hasna
  */ 
-
+  
 #include "adc.h"
 
-void adc_init(){
+void ADC_Init(){
 	// selection channel is set to internal reference 1.1V
-	ADMUX |= (1<<REFS1);
-	ADMUX |= (1<<REFS0);
+	//ADMUX |= (1<<REFS1);
+	//ADMUX |= (1<<REFS0);
 	
 	//Selects ADC5 as the analog channel selection
 	ADMUX |= ((1<<MUX2)|(1<<MUX0));
@@ -21,19 +21,18 @@ void adc_init(){
 	ADCSRA |= (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1);
 	ADCSRA &= ~(1<<ADPS0);
 
-	//ADCSRA |= (1<<ADIE); //enables ADC interrupt
 }
 
 //polling ADC 
-uint16_t adc_read(){
+uint16_t ADC_Read(){
 	while(!(ADCSRA &&(1<<ADIF)));
 	return ADC;
 }
 
 //note: do not use float as ATMEGA328P does not have a floating point unit. It uses integers to perform float operations thus use integers and multiply them by 1000 to
 //get millivolt(mV) accuracy 
-uint8_t adc_calculate(){
-	uint16_t  adcValue = adc_read();
+uint8_t ADC_Calculate(){
+	uint16_t  adcValue = ADC_Read();
 	uint8_t measuredVoltage =(adcValue*1000)/1024 * 5;
 	return measuredVoltage;
 }
