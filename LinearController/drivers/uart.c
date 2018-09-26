@@ -40,6 +40,7 @@ uint8_t UART_Receive(){
 }
 
 void UART_InterpretPumpingEffort(){
+	pumpingEffort = 1; //mock pumping effort
 	if(pumpingEffort==0){ //turn off mode 
 		power_all_disable(); //disables all modules on the microcontroller 
 		power_usart_enable(); //enable UART for communication to see when to turn back on
@@ -47,11 +48,14 @@ void UART_InterpretPumpingEffort(){
 		//70% of values - care about efficiency and meeting pumpingEffort
 		//efficiency actions turn two switches off
 		//disable all unused modules
-		dutyCycle = (PROPORTIONALITY_CONSTANT* MAX_LOW_POWER * (pumpingEffort/178))/(10000*1000);	//10000 and 1000 are because we didnt use floats 						 
+		dutyCycle = (PROPORTIONALITY_CONSTANT* MAX_LOW_POWER * (pumpingEffort/178))/(10000*1000);	//10000 and 1000 are because we didnt use floats 		
+		lowPowerMode = true;				 
 	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
 		//30% of values - go ham fam
+		lowPowerMode = false;
 	}else{ //255 lose your mind
 		//change duty cycle and pwm to max out the motor
+		lowPowerMode = false;
 	}
 }
 	

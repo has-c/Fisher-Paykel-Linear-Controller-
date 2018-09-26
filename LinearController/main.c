@@ -27,6 +27,7 @@
 volatile uint8_t count = 0;
 volatile bool isDead = false; //indication of whether you are in the deadzone
 volatile bool isLHS = true; //true = uses the LHS driver, false = uses the RHS driver
+volatile bool lowPowerMode = true; //false = high power mode, bidirectional and true = low power mode which is single sided movement 
 volatile float voltage = 0;
 volatile uint8_t pumpingEffort;
 volatile uint8_t dutyCycle; 
@@ -35,7 +36,7 @@ volatile uint16_t timerDutyCycle;
 //************************************ Interrupt Service Routines *******************************//
 
 ISR(TIMER1_COMPA_vect){
-	if(isLHS){	//LHS MOTION
+	if(isLHS || lowPowerMode){	//LHS MOTION
 		if((count <= NUMBER_OF_WAVES) && (!isDead)){//PRODUCING X NUMBER OF PWM OSCILLATIONS
 			PORTB |= (1<<PB1) | (1<< PB2); //turn RHS ON
 			count++;
@@ -45,7 +46,9 @@ ISR(TIMER1_COMPA_vect){
 			PORTB &= ~(1<<PB2);//turn nmos off
 			TCCR1B |= (1 << CS11); //change prescalar to 8
 			PWM_Change(DEAD_TIME,0);
-			isLHS = false;
+			if(!lowPowerMode){
+				isLHS = false;
+			}
 			count = 0;
 			isDead = true; //deadzone begins
 		}
@@ -74,11 +77,11 @@ ISR(TIMER1_COMPA_vect){
 			isDead = false;
 			PWM_Change(400,timerDutyCycle);
 		}
-	}
+	
 }
 
 ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
-	if(isLHS){//LHS MOTION
+	if(isLHS || lowPowerMode){//LHS MOTION
 		if((~isDead) && (count <=NUMBER_OF_WAVES)){
 			PORTB &= ~(1 << PB1);
 		}
