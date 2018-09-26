@@ -29,7 +29,7 @@
 void UART_Init(unsigned int BAUD_RATE);
 void UART_Transmit(uint8_t myValue);
 uint8_t UART_Receive(void);
-void UART_InterpretStrokelength(uint8_t strokeLength);
+void UART_InterpretPumpingEffort(uint8_t pumpingEffort);
 
 #endif /* UART_H_ */
 

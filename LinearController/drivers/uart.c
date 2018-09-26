@@ -13,6 +13,8 @@
  */ 
 
 #include "uart.h"
+#define MAX_LOW_POWER 37885
+#define PROPORTIONALITY_CONSTANT 21983
 
 //uart intializer
 void UART_Init(unsigned int BAUD_RATE){
@@ -33,19 +35,20 @@ void UART_Transmit(uint8_t myValue){
 //uart recieve 
 //interrupt config
 uint8_t UART_Receive(){
-	uint8_t strokeLength = UDR0;
-	return strokeLength;
+	uint8_t pumpingEffort = UDR0;
+	return pumpingEffort;
 }
 
-void UART_InterpretStrokelength(uint8_t strokeLength){
-	if(strokeLength==0){ //turn off mode 
+void UART_InterpretPumpingEffort(){
+	if(pumpingEffort==0){ //turn off mode 
 		power_all_disable(); //disables all modules on the microcontroller 
 		power_usart_enable(); //enable UART for communication to see when to turn back on
-	}else if((strokeLength>=1)&&(strokeLength<=178)){
-		//70% of values - care about efficiency and meeting strokelength
+	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
+		//70% of values - care about efficiency and meeting pumpingEffort
 		//efficiency actions turn two switches off
 		//disable all unused modules
-	}else if((strokeLength>178)&&(strokeLength<=254)){
+		dutyCycle = (PROPORTIONALITY_CONSTANT* MAX_LOW_POWER * (pumpingEffort/178))/(10000*1000);	//10000 and 1000 are because we didnt use floats 						 
+	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
 		//30% of values - go ham fam
 	}else{ //255 lose your mind
 		//change duty cycle and pwm to max out the motor

@@ -20,8 +20,7 @@
 #define BAUDRATE 9600
 #define UBRRVALUE F_CPU/16/BAUDRATE - 1
 
-#define NUMBER_OF_WAVES 200
-#define DUTY_CYCLE 320
+#define NUMBER_OF_WAVES 250
 #define DEAD_TIME 3000
 
 //global variables
@@ -29,8 +28,9 @@ volatile uint8_t count = 0;
 volatile bool isDead = false; //indication of whether you are in the deadzone
 volatile bool isLHS = true; //true = uses the LHS driver, false = uses the RHS driver
 volatile float voltage = 0;
-volatile uint8_t strokeLength;
-volatile bool isMicroOff = false;
+volatile uint8_t pumpingEffort;
+volatile uint8_t dutyCycle; 
+volatile uint16_t timerDutyCycle; 
 
 //************************************ Interrupt Service Routines *******************************//
 
@@ -52,7 +52,7 @@ ISR(TIMER1_COMPA_vect){
 		else{	//end of deadzone, set the pwm frequency back to normal
 			TCCR1B &= ~(1<<CS11);
 			isDead = false;
-			PWM_Change(400,DUTY_CYCLE);
+			PWM_Change(400,timerDutyCycle);
 		}
 	}
 	else{//RHS MOTION
@@ -72,7 +72,7 @@ ISR(TIMER1_COMPA_vect){
 		else{	//end of deadzone, set the pwm frequency back to normal
 			TCCR1B &= ~(1<<CS11);
 			isDead = false;
-			PWM_Change(400,DUTY_CYCLE);
+			PWM_Change(400,timerDutyCycle);
 		}
 	}
 }
@@ -91,10 +91,10 @@ ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
 }
  
 ISR(USART_RX_vect){
-	strokeLength = UART_Receive();
+	pumpingEffort = UART_Receive();
 }
 
-//JSON file format 
+ 
 
 
 int main(void)
@@ -110,9 +110,13 @@ int main(void)
 
     while (1) 
     {
-		
+		 UART_InterpretPumpingEffort();
+		 ConvertTimerValueToDutyCycle();
     }
 	
 	return 0;
 }
 
+void ConvertTimerValueToDutyCycle(){
+	timerDutyCycle = dutyCycle*400;
+}
