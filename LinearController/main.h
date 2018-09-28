@@ -10,10 +10,18 @@
 #include <stdbool.h>
 #include <avr/interrupt.h>
 
+
 #ifndef MAIN_H_
 #define MAIN_H_
 
-void ConvertTimerValueToDutyCycle();
+uint8_t ConvertTimerValueToDutyCycle();
+uint16_t CalculateDeadTime();
+
+extern volatile uint8_t pumpingEffort;
+extern volatile uint16_t dutyCycle;
+extern volatile bool lowPowerMode;
+extern volatile bool changePumpingEffort;
+
 
 
 

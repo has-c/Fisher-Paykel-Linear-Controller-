@@ -12,9 +12,9 @@
 #include <avr/interrupt.h>
 
 #include "main.h"
-#include "drivers/ADC.h"
-#include "drivers/PWM.h"
-#include "drivers/UART.h"
+#include "drivers/adc.h"
+#include "drivers/pwm.h"
+#include "drivers/uart.h"
 
 #define F_CPU 8000000UL
 #define BAUDRATE 9600
@@ -22,6 +22,7 @@
 
 #define NUMBER_OF_WAVES 250
 #define DEAD_TIME 3000
+#define PWM_FREQUENCY 1000
 
 //global variables
 volatile uint8_t count = 0;
@@ -29,72 +30,91 @@ volatile bool isDead = false; //indication of whether you are in the deadzone
 volatile bool isLHS = true; //true = uses the LHS driver, false = uses the RHS driver
 volatile bool lowPowerMode = true; //false = high power mode, bidirectional and true = low power mode which is single sided movement 
 volatile float voltage = 0;
-volatile uint8_t pumpingEffort;
-volatile uint8_t dutyCycle; 
+volatile uint8_t pumpingEffort = 0;
 volatile uint16_t timerDutyCycle; 
+volatile bool changePumpingEffort = false;
+volatile bool pumpingIsOccurring = true;
+volatile uint8_t frequency = 15;
+volatile uint8_t noOfWaves = 250;
+volatile uint16_t dutyCycle = 50;
 
-//************************************ Interrupt Service Routines *******************************//
-
-ISR(TIMER1_COMPA_vect){
-	if(isLHS || lowPowerMode){	//LHS MOTION
-		if((count <= NUMBER_OF_WAVES) && (!isDead)){//PRODUCING X NUMBER OF PWM OSCILLATIONS
-			PORTB |= (1<<PB1) | (1<< PB2); //turn RHS ON
-			count++;
-		}
-		else if(count > NUMBER_OF_WAVES){//DEADZONE: leave the port off for 14ms in total
-			PORTB &= ~(1<<PB1); //turn pmos off
-			PORTB &= ~(1<<PB2);//turn nmos off
-			TCCR1B |= (1 << CS11); //change prescalar to 8
-			PWM_Change(DEAD_TIME,0);
-			if(!lowPowerMode){
-				isLHS = false;
-			}
-			count = 0;
-			isDead = true; //deadzone begins
-		}
-		else{	//end of deadzone, set the pwm frequency back to normal
-			TCCR1B &= ~(1<<CS11);
-			isDead = false;
-			PWM_Change(400,timerDutyCycle);
-		}
-	}
-	else{//RHS MOTION
-		if((count <= NUMBER_OF_WAVES) && (!isDead)){
-			PORTD |= (1<< PD6)|(1<<PD5); //NMOS and PMOS on
-			count++;
-		}
-		else if(count > NUMBER_OF_WAVES){//DEADZONE: leave the port off for 14ms in total
-			PORTD &= ~(1<< PD6);
-			PORTD &= ~(1<<PD5);
-			TCCR1B |= (1 << CS11);	//change prescaler to 8
-			PWM_Change(DEAD_TIME,0); //apply deadzone
-			isLHS = true;
-			count = 0;
-			isDead = true; //deadzone begins
-		}
-		else{	//end of deadzone, set the pwm frequency back to normal
-			TCCR1B &= ~(1<<CS11);
-			isDead = false;
-			PWM_Change(400,timerDutyCycle);
-		}
-	
-}
-
-ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
-	if(isLHS || lowPowerMode){//LHS MOTION
-		if((~isDead) && (count <=NUMBER_OF_WAVES)){
-			PORTB &= ~(1 << PB1);
-		}
-	}
-	else{//RHS MOTION
-		if((~isDead) && (count <=NUMBER_OF_WAVES)){
-			PORTD &= ~(1 << PD6);
-		}
-	}
-}
+//adc arrays 
  
+ ISR(TIMER1_COMPA_vect){
+	 if(isLHS || lowPowerMode){	//LHS MOTION
+		 if((count <= noOfWaves) && (!isDead)){//PRODUCING X NUMBER OF PWM OSCILLATIONS
+			 PORTB |= (1<<PB1) | (1<< PB2); //turn RHS ON
+			 count++;
+		 }
+		 else if(count > NUMBER_OF_WAVES){//DEADZONE: leave the port off for 14ms in total
+			 PORTB &= ~(1<<PB1); //turn pmos off
+			 PORTB &= ~(1<<PB2);//turn nmos off
+			 PWM_Change(CalculateDeadTime(),0);
+			 if(!lowPowerMode){
+				 isLHS = false;
+			 }
+			 count = 0;
+			 isDead = true; //deadzone begins
+		 }
+		 else{	//end of deadzone, set the pwm frequency back to normal
+			 TCCR1B &= ~(1<<CS11);
+			 isDead = false;
+			 PWM_Change(125,ConvertTimerValueToDutyCycle());
+		 }
+	 }
+	 else{//RHS MOTION
+		 if((count <= NUMBER_OF_WAVES) && (!isDead)){
+			 PORTD |= (1<< PD6)|(1<<PD5); //NMOS and PMOS on
+			 count++;
+		 }
+		 else if(count > NUMBER_OF_WAVES){//DEADZONE: leave the port off for 14ms in total
+			 PORTD &= ~(1<< PD6);
+			 PORTD &= ~(1<<PD5);
+			 PWM_Change(CalculateDeadTime(),0); //apply deadzone
+			 isLHS = true;
+			 count = 0;
+			 isDead = true; //deadzone begins
+		 }
+		 else{	//end of deadzone, set the pwm frequency back to normal
+			 TCCR1B &= ~(1<<CS11);
+			 isDead = false;
+			 PWM_Change(125,ConvertTimerValueToDutyCycle());
+		 }
+		 
+	 }
+ }
+
+	 ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
+		 if(isLHS || lowPowerMode){//LHS MOTION
+			 if((~isDead) && (count <=NUMBER_OF_WAVES)){
+				 PORTB &= ~(1 << PB1);
+			 }
+		 }
+		 else{//RHS MOTION
+			 if((~isDead) && (count <=NUMBER_OF_WAVES)){
+				 PORTD &= ~(1 << PD6);
+			 }
+		 }
+	 }
+
+
+
+//ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
+	//if(isLHS || lowPowerMode){//LHS MOTION
+		//if((~isDead) && (count <=NUMBER_OF_WAVES)){
+			//PORTB &= ~(1 << PB1);
+		//}
+	//}
+	//else{//RHS MOTION
+		//if((~isDead) && (count <=NUMBER_OF_WAVES)){
+			//PORTD &= ~(1 << PD6);
+		//}
+	//}
+//}
+ //
 ISR(USART_RX_vect){
 	pumpingEffort = UART_Receive();
+	changePumpingEffort = true;
 }
 
  
@@ -113,13 +133,22 @@ int main(void)
 
     while (1) 
     {
-		 UART_InterpretPumpingEffort();
-		 ConvertTimerValueToDutyCycle();
+		if(changePumpingEffort){
+			 UART_InterpretPumpingEffort();
+			 ConvertTimerValueToDutyCycle();
+		}
+		
+		
+			
     }
 	
 	return 0;
 }
 
-void ConvertTimerValueToDutyCycle(){
-	timerDutyCycle = dutyCycle*400;
+uint8_t ConvertTimerValueToDutyCycle(){
+	return ((dutyCycle*125)/100);
+}
+
+uint16_t CalculateDeadTime(){
+	uint8_t (((1000/frequency) - (noOfWaves*(1000/PWM_FREQUENCY)))) //in ms 
 }

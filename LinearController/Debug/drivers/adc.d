@@ -1,4 +1,4 @@
-drivers/ADC.d drivers/ADC.o: ../drivers/ADC.c ../drivers/adc.h \
+drivers/adc.d drivers/adc.o: ../drivers/adc.c ../drivers/adc.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
