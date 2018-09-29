@@ -9,7 +9,7 @@
 
 //to do setup in the Fast PWM mode
 void PWM_Init(){
-	TCCR1B |= (1<<WGM12)|(1<<CS12);//CTC mode and no prescaler
+	TCCR1B |= (1<<WGM12)|(1<<CS11)|(1<<CS10);//CTC mode and no prescaler
 	TIMSK1 |= (1<<OCIE1A)|(1<<OCIE1B); //Enabling interrupts for match on OCR1A and OCR1B
 	
 }
