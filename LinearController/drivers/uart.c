@@ -62,4 +62,212 @@ void UART_InterpretPumpingEffort(){
 	changePumpingEffort = false;
 }
 
+void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint8_t appliedVoltage, uint8_t current, uint8_t errorArray){
+	MFCmodulator();
+	VERmodulator();
+	PARAMmodulator();
+	ERRORmodulator();
+}
+
+void MFCmodulator(){
+	UART_Transmit(123);
+	UART_Transmit(10);
 	
+	UART_Transmit(34);
+	UART_Transmit(51);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(10);
+	
+	UART_Transmit(123);
+	UART_Transmit(10);
+
+	UART_Transmit(34);
+	UART_Transmit(109);
+	UART_Transmit(102);
+	UART_Transmit(99);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(123);
+	UART_Transmit(34);
+	UART_Transmit(114);
+	UART_Transmit(101);
+	UART_Transmit(113);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(34);
+	UART_Transmit(49); //first (Req)
+	UART_Transmit(48); //second (req)
+	UART_Transmit(48); //Third (req)
+	UART_Transmit(34);
+	UART_Transmit(44);
+	UART_Transmit(34);
+	UART_Transmit(99);
+	UART_Transmit(117);
+	UART_Transmit(114);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(34);
+	UART_Transmit(48); //first (cur)
+	UART_Transmit(57);//second (cur)
+	UART_Transmit(53);//third (cur)
+	UART_Transmit(34);
+	UART_Transmit(125);
+	UART_Transmit(44);
+	UART_Transmit(10);
+}
+
+void VERmodulator(){
+	UART_Transmit(34);
+	UART_Transmit(118);
+	UART_Transmit(101);
+	UART_Transmit(114);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(34);
+	UART_Transmit(48);//set1 - first(ver)
+	UART_Transmit(48);//set2 - second(Ver)
+	UART_Transmit(49);//set 3 - third (ver)
+	UART_Transmit(46);//dot
+	UART_Transmit(48);//set 2 - first(ver)
+	UART_Transmit(48);//set 2 - second (ver)
+	UART_Transmit(50);//set 2 - thrid (ver)
+	UART_Transmit(46);//dot
+	UART_Transmit(48);//set 3 - first(Ver)
+	UART_Transmit(48);//set 3 - second(ver)
+	UART_Transmit(51);//set 3 - third(ver)
+	UART_Transmit(34);
+	UART_Transmit(44);
+	UART_Transmit(10);
+}
+
+void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint8_t appliedVoltage, uint8_t current){
+	UART_Transmit(34);
+	UART_Transmit(112);
+	UART_Transmit(97);
+	UART_Transmit(114);
+	UART_Transmit(97);
+	UART_Transmit(109);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(123);
+	UART_Transmit(34);
+	UART_Transmit(112);
+	UART_Transmit(119);
+	UART_Transmit(114);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(34);
+	UART_Transmit(49); //first - power
+	UART_Transmit(46); //second - power
+	UART_Transmit(50); //third - power
+	UART_Transmit(48); // fourth - power
+	UART_Transmit(87);
+	UART_Transmit(34);
+	UART_Transmit(44);
+	UART_Transmit(34);
+	UART_Transmit(102);
+	UART_Transmit(114);
+	UART_Transmit(101);
+	UART_Transmit(113);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(34);
+	UART_Transmit(49); //first - frequency
+	UART_Transmit(48); //second - frequency
+	UART_Transmit(48); //third - frequency
+	UART_Transmit(72);
+	UART_Transmit(122);
+	UART_Transmit(34);
+	UART_Transmit(44);
+	UART_Transmit(34);
+	UART_Transmit(99);
+	UART_Transmit(117);
+	UART_Transmit(114);
+	UART_Transmit(114);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(34);
+	UART_Transmit(48);//first - current
+	UART_Transmit(57);//second - current
+	UART_Transmit(55);//third - current
+	UART_Transmit(109);
+	UART_Transmit(65);
+	UART_Transmit(34);
+	UART_Transmit(44);
+	UART_Transmit(34);
+	UART_Transmit(118);
+	UART_Transmit(111);
+	UART_Transmit(108);
+	UART_Transmit(116);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(34);
+	UART_Transmit(49);//first - voltage
+	UART_Transmit(50);//second - voltage
+	UART_Transmit(46);//dot
+	UART_Transmit(51);//third - voltage
+	UART_Transmit(50);//fourth - voltage
+	UART_Transmit(86);
+	UART_Transmit(34);
+	UART_Transmit(125);
+	UART_Transmit(44);
+	UART_Transmit(10);
+}
+
+//in the error modulator need to add a for loop to display all possible errors from the error array 
+void ERRORmodulator(uint8_t errorArray[NUMBER_OF_POSSIBLE_ERRORS]){
+	UART_Transmit(34);
+	UART_Transmit(99);
+	UART_Transmit(108);
+	UART_Transmit(114);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(34);
+	UART_Transmit(101);
+	UART_Transmit(119);
+	UART_Transmit(34);
+	UART_Transmit(44);
+	UART_Transmit(10);
+
+	UART_Transmit(34);
+	UART_Transmit(101);
+	UART_Transmit(119);
+	UART_Transmit(34);
+	UART_Transmit(58);
+	UART_Transmit(91);
+	UART_Transmit(34);
+	UART_Transmit(99);
+	UART_Transmit(109);
+	UART_Transmit(112);
+	UART_Transmit(114);
+	UART_Transmit(83);
+	UART_Transmit(116);
+	UART_Transmit(97);
+	UART_Transmit(108);
+	UART_Transmit(108);
+	UART_Transmit(101);
+	UART_Transmit(100);
+	UART_Transmit(34);
+	UART_Transmit(44);
+	UART_Transmit(34);
+	UART_Transmit(98);
+	UART_Transmit(108);
+	UART_Transmit(111);
+	UART_Transmit(99);
+	UART_Transmit(107);
+	UART_Transmit(101);
+	UART_Transmit(100);
+	UART_Transmit(68);
+	UART_Transmit(117);
+	UART_Transmit(99);
+	UART_Transmit(116);
+	UART_Transmit(34);
+	UART_Transmit(93);
+	UART_Transmit(10);
+
+	UART_Transmit(125);
+	UART_Transmit(10);
+	UART_Transmit(125);
+}
+

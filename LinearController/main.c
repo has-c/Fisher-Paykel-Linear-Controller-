@@ -20,25 +20,29 @@
 #define BAUDRATE 9600
 #define UBRRVALUE F_CPU/16/BAUDRATE - 1
 
-#define NUMBER_OF_WAVES 250
-#define DEAD_TIME 3000
 #define PWM_FREQUENCY 1000
+#define NUMBER_OF_POSSIBLE_ERRORS 2 //jam, collision
 
 //global variables
 volatile uint8_t count = 0;
 volatile bool isDead = false; //indication of whether you are in the deadzone
 volatile bool isLHS = true; //true = uses the LHS driver, false = uses the RHS driver
 volatile bool lowPowerMode = false; //false = high power mode, bidirectional and true = low power mode which is single sided movement 
-volatile float voltage = 0;
 volatile uint8_t pumpingEffort = 0;
 volatile uint16_t timerDutyCycle; 
 volatile bool changePumpingEffort = false;
 volatile bool pumpingIsOccurring = true;
-volatile uint8_t frequency = 15;
-volatile uint8_t noOfWaves = 30;
-volatile uint16_t dutyCycle = 99;
+volatile uint8_t frequency = 13;
+volatile uint8_t noOfWaves = 10;
+volatile uint32_t dutyCycle = 50;
 
-//adc arrays 
+volatile char errorArray[NUMBER_OF_POSSIBLE_ERRORS]; //J = Jam , C = Collision
+volatile uint8_t current = 0;
+volatile uint8_t operatingFrequency = 0;
+volatile uint8_t appliedVoltage = 0;
+volatile uint8_t averagePower = 0;
+
+//adc arrays
  
  ISR(TIMER1_COMPA_vect){
 	 if(isLHS || lowPowerMode){	//LHS MOTION
@@ -86,12 +90,12 @@ volatile uint16_t dutyCycle = 99;
 
 	 ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
 		 if(isLHS || lowPowerMode){//LHS MOTION
-			 if((~isDead) && (count <=NUMBER_OF_WAVES)){
+			 if((~isDead) && (count <=noOfWaves)){
 				 PORTB &= ~(1 << PB1);
 			 }
 		 }
 		 else{//RHS MOTION
-			 if((~isDead) && (count <=NUMBER_OF_WAVES)){
+			 if((~isDead) && (count <=noOfWaves)){
 				 PORTD &= ~(1 << PD6);
 			 }
 		 }
@@ -99,25 +103,19 @@ volatile uint16_t dutyCycle = 99;
 
 
 
-//ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
-	//if(isLHS || lowPowerMode){//LHS MOTION
-		//if((~isDead) && (count <=NUMBER_OF_WAVES)){
-			//PORTB &= ~(1 << PB1);
-		//}
-	//}
-	//else{//RHS MOTION
-		//if((~isDead) && (count <=NUMBER_OF_WAVES)){
-			//PORTD &= ~(1 << PD6);
-		//}
-	//}
-//}
- //
 ISR(USART_RX_vect){
 	pumpingEffort = UART_Receive();
 	changePumpingEffort = true;
 }
 
- 
+
+uint8_t ConvertTimerValueToDutyCycle(){
+	return ((dutyCycle*125)/100);
+}
+
+uint16_t CalculateDeadTime(){
+	return (((500/frequency) - (noOfWaves*(1000/PWM_FREQUENCY))))*125; //in ms
+}
 
 
 int main(void)
@@ -133,6 +131,7 @@ int main(void)
 
     while (1) 
     {
+		UART_Transmit(55);
 		if(changePumpingEffort){
 			 UART_InterpretPumpingEffort();
 			 ConvertTimerValueToDutyCycle();
@@ -145,10 +144,3 @@ int main(void)
 	return 0;
 }
 
-uint8_t ConvertTimerValueToDutyCycle(){
-	return ((dutyCycle*125)/100);
-}
-
-uint16_t CalculateDeadTime(){
-	return (((500/frequency) - (noOfWaves*(1000/PWM_FREQUENCY))))*125; //in ms 
-}

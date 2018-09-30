@@ -8,10 +8,10 @@
 #include "adc.h"
 
 void ADC_Init(){
-	// selection channel is set to internal reference 1.1V
-	//ADMUX |= (1<<REFS1);
-	//ADMUX |= (1<<REFS0);
-	
+	// selection channel is set to AVcc
+	ADMUX &= ~(1<<REFS1);
+	ADMUX |= (1<<REFS0);
+
 	//Selects ADC5 as the analog channel selection
 	ADMUX |= ((1<<MUX2)|(1<<MUX0));
 	
@@ -40,30 +40,15 @@ uint8_t ADC_Calculate(){
 void ADC_ChannelSwitching(){
 	switch(ADMUX){
 		case 0b01000000: //channel 0 Hall sensor 1
-		//adcValue = ((float)ADC_read()*5.0)/1024.0;
-		//printf("ADC0's value is  : %f\n", adcValue);
-		ADMUX = 0b01000001;
-		break;
+			ADMUX = 0b01000001;
 		case 0b01000001: //channel 1 Hall sensor 2
-		//adcValue = ((float)ADC_read()*5.0)/1024.0;
-		//printf("ADC1's value is : %f\n", adcValue);
-		ADMUX = 0b01000010; //change if using all
-		break;
+			ADMUX = 0b01000010; //change if using all	
 		case 0b01000010: //channel 2 Voltage Sensor 1
-		//adcValue = ((float)ADC_read()*5.0)/1024.0;
-		//printf("ADC2's value is : %f\n", adcValue);
-		ADMUX = 0b01000011;
-		break;
+			ADMUX = 0b01000011;
 		case 0b01000011: //channel 3 Voltage sensor 2
-		//adcValue = ((float)ADC_read()*5.0)/1024.0;
-		//printf("ADC3's value is : %f\n", adcValue);
-		ADMUX = 0b01000100;
-		break;
+			ADMUX = 0b01000100;
 		case 0b01000100: //channel 4 Current Sensor
-		//adcValue = ((float)ADC_read()*5.0)/1024.0;
-		//printf("ADC4's value is : %f\n", adcValue);
-		ADMUX = 0b01000000;
-		break;
+			ADMUX = 0b01000000;
 
 		ADCSRA |= (1<<ADSC); //restart ADC conversion
 	}
