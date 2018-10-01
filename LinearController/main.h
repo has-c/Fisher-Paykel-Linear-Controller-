@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <avr/interrupt.h>
+#include "drivers/uart.h"
 
 
 
@@ -17,8 +18,8 @@
 
 uint8_t ConvertTimerValueToDutyCycle();
 uint16_t CalculateDeadTime();
+uint8_t ASCIIConversion(uint8_t value);
 
-#define NUMBER_OF_POSSIBLE_ERRORS 2
 
 extern volatile uint8_t pumpingEffort;
 extern volatile uint32_t dutyCycle;

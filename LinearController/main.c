@@ -11,14 +11,16 @@
 #include <stdbool.h>
 #include <avr/interrupt.h>
 
+#include <avr/power.h>
+
 #include "main.h"
 #include "drivers/adc.h"
 #include "drivers/pwm.h"
 #include "drivers/uart.h"
 
-#define F_CPU 8000000UL
+#define F_CPU 16000000
 #define BAUDRATE 9600
-#define UBRRVALUE F_CPU/16/BAUDRATE - 1
+#define UBRR_VALUE F_CPU/16/BAUDRATE - 1
 
 #define PWM_FREQUENCY 1000
 #define NUMBER_OF_POSSIBLE_ERRORS 2 //jam, collision
@@ -33,8 +35,9 @@ volatile uint16_t timerDutyCycle;
 volatile bool changePumpingEffort = false;
 volatile bool pumpingIsOccurring = true;
 volatile uint8_t frequency = 13;
-volatile uint8_t noOfWaves = 10;
+volatile uint8_t noOfWaves = 25;
 volatile uint32_t dutyCycle = 50;
+volatile bool transmitParameters = true;
 
 volatile char errorArray[NUMBER_OF_POSSIBLE_ERRORS]; //J = Jam , C = Collision
 volatile uint8_t current = 0;
@@ -117,25 +120,42 @@ uint16_t CalculateDeadTime(){
 	return (((500/frequency) - (noOfWaves*(1000/PWM_FREQUENCY))))*125; //in ms
 }
 
+uint8_t ASCIIConversion(uint8_t value){
+	uint8_t asciiValue = value + 48;
+	return asciiValue;
+}
+
+
+
 
 int main(void)
 {	
+	//clock_prescale_set(clock_div_2);
     sei();
-	UART_Init(UBRRVALUE);
-	ADC_Init();
+	UART_Init(UBRR_VALUE);
+	//ADC_Init();
 	PWM_Init();
 	
 	//output pin setup
 	DDRB |= (1<<PB1)|(1<<PB2);
 	DDRD |= (1<<PD5)|(1<<PD6);
 
+	
+	errorArray[0] = 'J';
+	errorArray[1] = 'C';
+	//MFCmodulator(120,123);
+	//VERmodulator();
+	
     while (1) 
     {
-		UART_Transmit(55);
+		
 		if(changePumpingEffort){
 			 UART_InterpretPumpingEffort();
 			 ConvertTimerValueToDutyCycle();
 		}
+		
+		
+		
 		
 		
 			
