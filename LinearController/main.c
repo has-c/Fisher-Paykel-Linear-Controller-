@@ -143,8 +143,9 @@ int main(void)
 	
 	errorArray[0] = 'J';
 	errorArray[1] = 'C';
-	//MFCmodulator(120,123);
+	MFCmodulator(120,123);
 	//VERmodulator();
+	//PARAMmodulator(12,15,1232,20);
 	
     while (1) 
     {
