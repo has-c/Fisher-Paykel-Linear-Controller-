@@ -107,8 +107,7 @@ volatile uint8_t averagePower = 0;
 
 
 ISR(USART_RX_vect){
-	pumpingEffort = UART_Receive();
-	changePumpingEffort = true;
+	
 }
 
 
@@ -139,14 +138,10 @@ int main(void)
 	//output pin setup
 	DDRB |= (1<<PB1)|(1<<PB2);
 	DDRD |= (1<<PD5)|(1<<PD6);
+	
 
-	
-	errorArray[0] = 'J';
-	errorArray[1] = 'C';
-	MFCmodulator(120,123);
-	//VERmodulator();
-	//PARAMmodulator(12,15,1232,20);
-	
+	UART_SendJson(12, 15, 1232, 20, false, true, true, 120,123);
+
     while (1) 
     {
 		

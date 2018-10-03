@@ -35,6 +35,7 @@ void UART_Transmit(uint8_t myValue){
 //interrupt config
 uint8_t UART_Receive(){
 	uint8_t pumpingEffort = UDR0;
+	UART_Transmit(pumpingEffort + 48);
 	return pumpingEffort;
 }
 
@@ -60,12 +61,14 @@ void UART_InterpretPumpingEffort(){
 	changePumpingEffort = false;
 }
 
-//void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint8_t appliedVoltage, uint8_t current, char errorArray[MAX_ARRAY_SIZE]){
-	//MFCmodulator();
-	//VERmodulator();
-	//PARAMmodulator();
-	//ERRORmodulator();
-//}
+void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint16_t appliedVoltage, uint8_t current, bool errorClear,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
+	MFCmodulator(requiredValue,currentValue);
+	VERmodulator();
+	PARAMmodulator(averagePower,operatingFrequency,appliedVoltage,current);
+	ERRORmodulator(errorClear, jamErrorFlag, collisionErrorFlag);
+
+}
+
 
 void MFCmodulator(uint8_t requiredValue, uint8_t currentValue){
 	//temp conversion variables. Used to split 3 digit numbers as only one digit can be sent at a time
@@ -75,6 +78,7 @@ void MFCmodulator(uint8_t requiredValue, uint8_t currentValue){
 	
 	UART_Transmit(13); //carriage return
 	UART_Transmit(123); //{
+	UART_Transmit(10); //line feed 
 	UART_Transmit(13); //carriage return
 	
 	//LCC Identifier 
@@ -82,11 +86,14 @@ void MFCmodulator(uint8_t requiredValue, uint8_t currentValue){
 	UART_Transmit(51);//3
 	UART_Transmit(34);//"
 	UART_Transmit(58);//:
-	UART_Transmit(2);
 
 	//MFC 
+	UART_Transmit(10); //Line feed
+	UART_Transmit(13); //carriage return
 	UART_Transmit(123); //{
-	UART_Transmit(13); //new line
+	UART_Transmit(10); //Line feed
+	UART_Transmit(13); //carriage return
+	
 	
 	//MFC letter setup
 	UART_Transmit(34); //'
@@ -95,59 +102,51 @@ void MFCmodulator(uint8_t requiredValue, uint8_t currentValue){
 	UART_Transmit(99);//c
 	UART_Transmit(34);//"
 	UART_Transmit(58);//:
+	 
+
+	//MFC Values 
+	UART_Transmit(123); //{
+	UART_Transmit(34); //"
+	UART_Transmit(114);//r
+	UART_Transmit(101);//e
+	UART_Transmit(113);//q
+	UART_Transmit(34);//"
+	UART_Transmit(58);//:
+	UART_Transmit(34);//"
+	
+	//required value transmission
+	firstDigit = requiredValue/100;
+	secondDigit = (requiredValue-(firstDigit*100))/10;
+	thirdDigit = requiredValue - (firstDigit*100) - (secondDigit*10);
+	UART_Transmit(ASCIIConversion(firstDigit));
+	UART_Transmit(ASCIIConversion(secondDigit)); 
+	UART_Transmit(ASCIIConversion(thirdDigit));
+	UART_Transmit(34);//"
+	UART_Transmit(44);//,
+	
+
+	UART_Transmit(34);//"
+	UART_Transmit(99);//c
+	UART_Transmit(117);//u
+	UART_Transmit(114);//r
+	UART_Transmit(34);//"
+	UART_Transmit(58);//:
+	UART_Transmit(34);//"
+	//current value transmission
+	firstDigit = currentValue/100;
+	secondDigit = (currentValue-(firstDigit*100))/10;
+	thirdDigit = currentValue - (firstDigit*100) - (secondDigit*10);
+	UART_Transmit(ASCIIConversion(firstDigit));
+	UART_Transmit(ASCIIConversion(secondDigit));
+	UART_Transmit(ASCIIConversion(thirdDigit));
+	
+	UART_Transmit(34);//"
+	UART_Transmit(125);//}
+	UART_Transmit(44);//,
+	UART_Transmit(10); //Line feed
 	UART_Transmit(13); //carriage return
-//
-	 //
-	//
-	//
-	////MFC Values 
-	//UART_Transmit(123); //{
-	//UART_Transmit(13); //new line
-	//UART_Transmit(34); //"
-	//UART_Transmit(114);//r
-	//UART_Transmit(101);//e
-	//UART_Transmit(113);//q
-	//UART_Transmit(34);//"
-	//UART_Transmit(58);//:
-	//UART_Transmit(34);//"
-	//
-	////required value transmission
-	//firstDigit = requiredValue/100;
-	//secondDigit = (requiredValue-(firstDigit*100))/10;
-	//thirdDigit = requiredValue - (firstDigit*100) - (secondDigit*10);
-	//UART_Transmit(ASCIIConversion(firstDigit));
-	//UART_Transmit(ASCIIConversion(secondDigit)); 
-	//UART_Transmit(ASCIIConversion(thirdDigit));
-	//
-	//UART_Transmit(34);//"
-	//UART_Transmit(44);//,
-	//UART_Transmit(13); //carriage return
-//
-	//UART_Transmit(32); //space
-	//UART_Transmit(34);//"
-	//UART_Transmit(99);//c
-	//UART_Transmit(117);//u
-	//UART_Transmit(114);//r
-	//UART_Transmit(34);//"
-	//UART_Transmit(58);//:
-	//UART_Transmit(34);//"
-	//
-	////current value transmission
-	//firstDigit = currentValue/100;
-	//secondDigit = (currentValue-(firstDigit*100))/10;
-	//thirdDigit = currentValue - (firstDigit*100) - (secondDigit*10);
-	//UART_Transmit(ASCIIConversion(firstDigit));
-	//UART_Transmit(ASCIIConversion(secondDigit));
-	//UART_Transmit(ASCIIConversion(thirdDigit));
-	//
-	//UART_Transmit(34);//"
-	//UART_Transmit(13); //carriage return
-	 //
-	//UART_Transmit(125);//}
-	//UART_Transmit(44);//,
-	//UART_Transmit(13); //carriage return
-	 //
-	//
+	 
+	
 }
 
 void VERmodulator(){
@@ -165,8 +164,8 @@ void VERmodulator(){
 	UART_Transmit(51);//3
 	UART_Transmit(34);//"
 	UART_Transmit(44); //,
+	UART_Transmit(10); //Line feed 
 	UART_Transmit(13); //carriage return
-	UART_Transmit(13); //new line
 	 
 }
 
@@ -186,10 +185,6 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint16_t a
 	UART_Transmit(123);//{
 	
 	//parameters
-	UART_Transmit(13); //carriage return
-	UART_Transmit(13); //new line
-	 
-	 
 	
 	UART_Transmit(34); //"
 	UART_Transmit(112); //p
@@ -210,8 +205,6 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint16_t a
 	UART_Transmit(87); //W
 	UART_Transmit(34); //"
 	UART_Transmit(44); //,
-	UART_Transmit(13); //carriage return
-	UART_Transmit(13); //new line
 	 
 	 
 	
@@ -234,10 +227,7 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint16_t a
 	UART_Transmit(44);//,
 	
 	//current 
-	UART_Transmit(13); //carriage return
-	UART_Transmit(13); //new line
-	 
-	 
+
 	UART_Transmit(34); //"
 	UART_Transmit(99); //c
 	UART_Transmit(117); //u
@@ -246,19 +236,18 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint16_t a
 	UART_Transmit(34); //"
 	UART_Transmit(58); //:
 	UART_Transmit(34);//"
-	firstDigit = current/10;
-	secondDigit = current-(firstDigit*10);
+	firstDigit = current/100;
+	secondDigit = (current-(firstDigit*100))/10;
+	thirdDigit = current - (firstDigit*100) - (secondDigit*10);
 	UART_Transmit(ASCIIConversion(firstDigit));
 	UART_Transmit(ASCIIConversion(secondDigit));
+	UART_Transmit(ASCIIConversion(thirdDigit));
 	UART_Transmit(109); //m
 	UART_Transmit(65); //A
 	UART_Transmit(34); //"
 	UART_Transmit(44); //,
 	
 	//applied voltage
-	UART_Transmit(13); //carriage return
-	UART_Transmit(13); //new line
-	 
 	 
 	UART_Transmit(34); //"
 	UART_Transmit(118); //v
@@ -280,71 +269,90 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint16_t a
 	UART_Transmit(86); //V
 	UART_Transmit(34); //"
 	
-	UART_Transmit(13); //carriage return
-	UART_Transmit(13); //new line
 	 
 	UART_Transmit(125); //}
 	UART_Transmit(44);//,
+	UART_Transmit(10); //line feed
 	UART_Transmit(13); //carriage return
-	UART_Transmit(13); //new line
 	 
 }
 
 
-void ERRORmodulator(uint8_t errorArray[MAX_ARRAY_SIZE], bool errorClear){
-	UART_Transmit(34); //"
-	UART_Transmit(99); //c
-	UART_Transmit(108); //l
-	UART_Transmit(114); //r
-	UART_Transmit(34); //"
-	UART_Transmit(58); //:
-	UART_Transmit(34); //"
-	UART_Transmit(101); //e
-	UART_Transmit(119); //w
-	UART_Transmit(34); //"
-	UART_Transmit(44);
-	UART_Transmit(13);
 
-	UART_Transmit(34);
-	UART_Transmit(101);
-	UART_Transmit(119);
-	UART_Transmit(34);
-	UART_Transmit(58);
-	UART_Transmit(91);
-	UART_Transmit(34);
-	UART_Transmit(99);
-	UART_Transmit(109);
-	UART_Transmit(112);
-	UART_Transmit(114);
-	UART_Transmit(83);
-	UART_Transmit(116);
-	UART_Transmit(97);
-	UART_Transmit(108);
-	UART_Transmit(108);
-	UART_Transmit(101);
-	UART_Transmit(100);
-	UART_Transmit(34);
-	UART_Transmit(44);
-	UART_Transmit(34);
-	UART_Transmit(98);
-	UART_Transmit(108);
-	UART_Transmit(111);
-	UART_Transmit(99);
-	UART_Transmit(107);
-	UART_Transmit(101);
-	UART_Transmit(100);
-	UART_Transmit(68);
-	UART_Transmit(117);
-	UART_Transmit(99);
-	UART_Transmit(116);
-	UART_Transmit(34);
-	UART_Transmit(93);
-	UART_Transmit(13);
-
-	UART_Transmit(125);
-	UART_Transmit(13);
-	UART_Transmit(125);
-	for(int i = 0; i < MAX_ARRAY_SIZE;i++){
-		
+void ERRORmodulator(bool errorClear,bool jamErrorFlag, bool collisionErrorFlag){  
+	//error clear tells us whether we need to clear the error array
+	if(!errorClear){
+		UART_Transmit(34); //"
+		UART_Transmit(99); //c
+		UART_Transmit(108); //l
+		UART_Transmit(114); //r
+		UART_Transmit(34); //"
+		UART_Transmit(58); //:
+		UART_Transmit(34); //"
+		UART_Transmit(101); //e
+		UART_Transmit(119); //w
+		UART_Transmit(34); //"
+		UART_Transmit(44); //,
+		UART_Transmit(10); //line feed
+		UART_Transmit(13); //carriage return
+	}else{
+		UART_Transmit(10); //line feed
+		UART_Transmit(13); //carriage return
 	}
+	
+	if(collisionErrorFlag || jamErrorFlag) {
+		UART_Transmit(34); //'
+		UART_Transmit(101); //e
+		UART_Transmit(119); //w
+		UART_Transmit(34); // "
+		UART_Transmit(58); //:
+		UART_Transmit(91); //[
+		//print errors
+		
+		if(jamErrorFlag){ //compressor jammed
+			UART_Transmit(34); //"
+			UART_Transmit(106); //j
+			UART_Transmit(97); //a
+			UART_Transmit(109); //m
+			UART_Transmit(34); //"
+			if(jamErrorFlag && collisionErrorFlag){
+				UART_Transmit(44); //,
+			}
+		}
+
+		if(collisionErrorFlag){ //compressor colliding
+			UART_Transmit(34); //"
+			UART_Transmit(99); //c
+			UART_Transmit(111); //o
+			UART_Transmit(108); //l
+			UART_Transmit(108); //l
+			UART_Transmit(105); //i
+			UART_Transmit(115); //s
+			UART_Transmit(105); //i
+			UART_Transmit(111); //o
+			UART_Transmit(110); //n
+			UART_Transmit(34); //"
+		}
+			
+			
+		UART_Transmit(93); //[
+		
+	}else{ //no errors present
+		UART_Transmit(10); //line feed
+		UART_Transmit(13); //carriage return
+	}
+	
+	
+	//print final curly brackets
+	
+	UART_Transmit(10); //line feed
+	UART_Transmit(13); //carriage return
+	UART_Transmit(125); // }
+	UART_Transmit(10); //line feed
+	UART_Transmit(13); //carriage return
+	UART_Transmit(125); // }
+	UART_Transmit(10); //line feed
+	UART_Transmit(13); //carriage return
+
+
 }
