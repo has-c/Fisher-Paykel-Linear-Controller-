@@ -58,30 +58,30 @@ void parseUARTMessage(){
 
 
 //only changes dutycycle 
-void UART_InterpretPumpingEffort(){
-	uint32_t voltageEquivalentValue;
-	pumpingEffort = 250; //mock pumping effort
-	if(pumpingEffort==0){ //turn off mode 
-		power_all_disable(); //disables all modules on the microcontroller 
-		//power_usart_enable();
-	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
-		//70% of values - care about efficiency and meeting pumpingEffort
-		//efficiency actions turn two switches off
-		//disable all unused modules
-		//dutyCycle = (PROPORTIONALITY_CONSTANT* MAX_LOW_POWER * (pumpingEffort/178))/(10000*1000);	//10000 and 1000 are because we didnt use floats [integer overflow error here]
-		lowPowerMode = true; //turn off two switches push from one direction
-	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
-		//30% of values - go ham fam
-		lowPowerMode = false;
-		voltageEquivalentValue = pumpingEffort;
-		dutyCycle = (917*voltageEquivalentValue + 5000)/100;
-	}else{ //255 lose your mind
-		//change duty cycle and pwm to max out the motor
-		lowPowerMode = false;
-		dutyCycle = 99;
-	}
-	changePumpingEffort = false;
-}
+//void UART_InterpretPumpingEffort(){
+	//uint32_t voltageEquivalentValue;
+	//pumpingEffort = 179; //mock pumping effort
+	//if(pumpingEffort==0){ //turn off mode 
+		//power_all_disable(); //disables all modules on the microcontroller 
+		////power_usart_enable();
+	//}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
+		////70% of values - care about efficiency and meeting pumpingEffort
+		////efficiency actions turn two switches off
+		////disable all unused modules
+		//
+		//lowPowerMode = true; //turn off two switches push from one direction
+	//}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
+		////30% of values - go ham fam
+		//lowPowerMode = false;
+		//voltageEquivalentValue = pumpingEffort/30; //30 is a constant used to make this relationship work 
+		//dutyCycle = (917*voltageEquivalentValue + 456)/100;
+	//}else{ //255 lose your mind
+		////change duty cycle and pwm to max out the motors
+		//lowPowerMode = false;
+		//dutyCycle = 99;
+	//}
+	//changePumpingEffort = false;
+//}
 
 void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint16_t appliedVoltage, uint8_t current, bool errorClear,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
 	MFCmodulator(requiredValue,currentValue);

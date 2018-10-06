@@ -29,14 +29,14 @@
 volatile uint8_t count = 0;
 volatile bool isDead = false; //indication of whether you are in the deadzone
 volatile bool isLHS = true; //true = uses the LHS driver, false = uses the RHS driver
-volatile bool lowPowerMode = false; //false = high power mode, bidirectional and true = low power mode which is single sided movement 
+volatile bool lowPowerMode = true; //false = high power mode, bidirectional and true = low power mode which is single sided movement 
 volatile uint8_t pumpingEffort = 0;
 volatile uint16_t timerDutyCycle; 
 volatile bool changePumpingEffort = true;
 volatile bool pumpingIsOccurring = true;
-volatile uint8_t frequency = 15;
+volatile uint8_t frequency = 65; //note need to divide the freq by half when using the low power mode, also divide everything by 10
 volatile uint8_t noOfWaves = 32;
-volatile uint32_t dutyCycle = 0;
+volatile uint32_t dutyCycle = 10;
 volatile bool transmitParameters = true;
 volatile unsigned char value = 0;
 
@@ -105,7 +105,6 @@ ISR(TIMER1_COMPA_vect){
 			isDead = true; //deadzone begins
 		}
 		else{	//end of deadzone, set the pwm frequency back to normal
-			//TCCR1B &= ~(1<<CS11);
 			isDead = false;
 			PWM_Change(125,ConvertTimerValueToDutyCycle());
 		}
@@ -125,7 +124,6 @@ ISR(TIMER1_COMPA_vect){
 			isDead = true; //deadzone begins
 		}
 		else{	//end of deadzone, set the pwm frequency back to normal
-			//TCCR1B &= ~(1<<CS11);
 			isDead = false;
 			PWM_Change(125,ConvertTimerValueToDutyCycle());
 		}
@@ -153,22 +151,13 @@ uint8_t ConvertTimerValueToDutyCycle(){
 }
 
 uint16_t CalculateDeadTime(){
-	return (((500/frequency) - (noOfWaves*(1000/PWM_FREQUENCY))))*125; //in ms
+	return (((5000/frequency) - (noOfWaves*(1000/PWM_FREQUENCY))))*125; //in ms
 }
 
 uint8_t ASCIIConversion(uint8_t value){
 	uint8_t asciiValue = value + 48;
 	return asciiValue;
 }
-
-void jamCheck(uint16_t voltageArray){
-	
-}
-
-void collisionCheck(){
-	
-}
-
 
 int main(void)
 {	
@@ -187,11 +176,9 @@ int main(void)
 
     while (1) 
     {
-		//message received is true
-		//parse message 
-		parseUARTMessage();
+	
 		if(changePumpingEffort){
-			 UART_InterpretPumpingEffort();
+			 //UART_InterpretPumpingEffort();
 		}
 		
 		
