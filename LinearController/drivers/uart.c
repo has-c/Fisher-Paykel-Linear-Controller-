@@ -61,7 +61,7 @@ void UART_InterpretPumpingEffort(){
 	changePumpingEffort = false;
 }
 
-void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint16_t appliedVoltage, uint8_t current, bool errorClear,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
+void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current, bool errorClear,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
 	MFCmodulator(requiredValue,currentValue);
 	VERmodulator();
 	PARAMmodulator(averagePower,operatingFrequency,appliedVoltage,current);
@@ -169,7 +169,7 @@ void VERmodulator(){
 	 
 }
 
-void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint16_t appliedVoltage, uint8_t current){
+void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current){
 	uint8_t firstDigit; 
 	uint8_t secondDigit;
 	uint8_t thirdDigit;
