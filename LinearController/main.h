@@ -30,6 +30,11 @@ extern volatile uint8_t operatingFrequency;
 extern volatile uint8_t appliedVoltage;
 extern volatile uint8_t averagePower;
 
+extern volatile char receiveBuffer[100]; //message buffer
+extern volatile uint8_t indexCount; //receive buffer index count
+extern volatile uint8_t reverseCurlyBracketCount; 
+extern volatile bool messageReceived;
+
 
 
 #endif /* MAIN_H_ */
