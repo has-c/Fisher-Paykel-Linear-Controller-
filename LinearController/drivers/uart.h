@@ -24,8 +24,10 @@ void UART_Init(unsigned int BAUD_RATE);
 void UART_Transmit(uint8_t myValue); 
 uint8_t UART_Receive();
 void UART_InterpretPumpingEffort();
+void parseUARTMessage();
 
 extern volatile uint8_t pumpingEffort;
+unsigned char UART_receive(void);
 
 //sending parameter information functions 
 void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint16_t appliedVoltage, uint8_t current, bool errorClear,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue);

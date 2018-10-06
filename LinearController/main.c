@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <avr/interrupt.h>
-
 #include <avr/power.h>
 
 #include "main.h"
@@ -18,12 +17,13 @@
 #include "drivers/pwm.h"
 #include "drivers/uart.h"
 
-#define F_CPU 16000000
+#define F_CPU 8000000
 #define BAUDRATE 9600
 #define UBRR_VALUE F_CPU/16/BAUDRATE - 1
 
 #define PWM_FREQUENCY 1000
 #define NUMBER_OF_POSSIBLE_ERRORS 2 //jam, collision
+#define MAX_JSON_SIZE 
 
 //global variables
 volatile uint8_t count = 0;
@@ -34,81 +34,118 @@ volatile uint8_t pumpingEffort = 0;
 volatile uint16_t timerDutyCycle; 
 volatile bool changePumpingEffort = false;
 volatile bool pumpingIsOccurring = true;
-volatile uint8_t frequency = 13;
-volatile uint8_t noOfWaves = 25;
-volatile uint32_t dutyCycle = 50;
+volatile uint8_t frequency = 30;
+volatile uint8_t noOfWaves = 15;
+volatile uint32_t dutyCycle = 20;
 volatile bool transmitParameters = true;
+volatile unsigned char value = 0;
 
-volatile char errorArray[NUMBER_OF_POSSIBLE_ERRORS]; //J = Jam , C = Collision
+
+//receive global variable
+volatile char receiveBuffer[100]; //100 is just a guess
+volatile uint8_t indexCount = 0;
+volatile uint8_t reverseCurlyBracketCount = 0;
+volatile bool messageReceived = false;
+
+//json parameters
 volatile uint8_t current = 0;
 volatile uint8_t operatingFrequency = 0;
 volatile uint8_t appliedVoltage = 0;
 volatile uint8_t averagePower = 0;
 
 //adc arrays
- 
- ISR(TIMER1_COMPA_vect){
-	 if(isLHS || lowPowerMode){	//LHS MOTION
-		 if((count <= noOfWaves) && (!isDead)){//PRODUCING X NUMBER OF PWM OSCILLATIONS
-			 PORTB |= (1<<PB1) | (1<< PB2); //turn RHS ON
-			 count++;
-		 }
-		 else if(count > noOfWaves){//DEADZONE: leave the port off for 14ms in total
-			 PORTB &= ~(1<<PB1); //turn pmos off
-			 PORTB &= ~(1<<PB2);//turn nmos off
-			 PWM_Change(CalculateDeadTime(),65535);
-			 if(!lowPowerMode){
-				 isLHS = false;
-			 }
-			 count = 0;
-			 isDead = true; //deadzone begins
-		 }
-		 else{	//end of deadzone, set the pwm frequency back to normal
-			 //TCCR1B &= ~(1<<CS11);
-			 isDead = false;
-			 PWM_Change(125,ConvertTimerValueToDutyCycle());
-		 }
-	 }
-	 else{//RHS MOTION
-		 if((count <= noOfWaves) && (!isDead)){
-			 PORTD |= (1<< PD6)|(1<<PD5); //NMOS and PMOS on
-			 count++;
-		 }
-		 else if(count > noOfWaves){//DEADZONE: leave the port off for 14ms in total
-			 PORTD &= ~(1<< PD6);
-			 PORTD &= ~(1<<PD5);
-			 PWM_Change(CalculateDeadTime(),65535); //apply deadzone
-			 isLHS = true;
-			 count = 0;
-			 isDead = true; //deadzone begins
-		 }
-		 else{	//end of deadzone, set the pwm frequency back to normal
-			 //TCCR1B &= ~(1<<CS11);
-			 isDead = false;
-			 PWM_Change(125,ConvertTimerValueToDutyCycle());
-		 }
-		 
-	 }
- }
-
-	 ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
-		 if(isLHS || lowPowerMode){//LHS MOTION
-			 if((~isDead) && (count <=noOfWaves)){
-				 PORTB &= ~(1 << PB1);
-			 }
-		 }
-		 else{//RHS MOTION
-			 if((~isDead) && (count <=noOfWaves)){
-				 PORTD &= ~(1 << PD6);
-			 }
-		 }
-	 }
 
 
 
 ISR(USART_RX_vect){
+	//disable transmitter 
+	//UCSR0B &= ~(1<<TXEN0);
+	//UCSR0B &= ~(1<<TXCIE0);
 	
+	PORTD |= (1<<PD3);
+	
+	//put received character inside the receive array
+	//receiveBuffer[indexCount] = UDR0;
+	//if(receiveBuffer[indexCount]=='}'){
+		//reverseCurlyBracketCount++;
+	//}
+	//indexCount++; //increase indexCount 
+	//if(reverseCurlyBracketCount == 3){
+		//messageReceived = true;
+	//}
 }
+
+//disable recieve during transmission
+//ISR(USART_TX_vect){
+	////enable receive 
+	//UCSR0B |= (1<<RXEN0);
+	//UCSR0B |= (1<<RXCIE0);
+//}
+
+//adc arrays
+
+//on pcb pair one NMOS - PD5, PMOS - PB2
+//				  NMOS - PD6, PMOS - PB1
+ 
+ISR(TIMER1_COMPA_vect){
+	if(isLHS || lowPowerMode){	//LHS MOTION
+		if((count <= noOfWaves) && (!isDead)){//PRODUCING X NUMBER OF PWM OSCILLATIONS
+			PORTB |= (1<< PB2); //turn RHS ON
+			PORTD |= (1<<PD5); 
+			count++;
+		}
+		else if(count > noOfWaves){//DEADZONE: leave the port off for 14ms in total
+			PORTD &= ~(1<<PD5); //turn pmos off
+			PORTB &= ~(1<<PB2);//turn nmos off
+			PWM_Change(CalculateDeadTime(),65535);
+			if(!lowPowerMode){
+				isLHS = false;
+			}
+			count = 0;
+			isDead = true; //deadzone begins
+		}
+		else{	//end of deadzone, set the pwm frequency back to normal
+			//TCCR1B &= ~(1<<CS11);
+			isDead = false;
+			PWM_Change(125,ConvertTimerValueToDutyCycle());
+		}
+	}
+	else{//RHS MOTION
+		if((count <= noOfWaves) && (!isDead)){
+			PORTD |= (1<< PD6); //NMOS and PMOS on
+			PORTB |= (1<<PB1);
+			count++;
+		}
+		else if(count > noOfWaves){//DEADZONE: leave the port off for 14ms in total
+			PORTD &= ~(1<< PD6);
+			PORTB &= ~(1<<PB1);
+			PWM_Change(CalculateDeadTime(),65535); //apply deadzone
+			isLHS = true;
+			count = 0;
+			isDead = true; //deadzone begins
+		}
+		else{	//end of deadzone, set the pwm frequency back to normal
+			//TCCR1B &= ~(1<<CS11);
+			isDead = false;
+			PWM_Change(125,ConvertTimerValueToDutyCycle());
+		}
+		 
+	}
+}
+
+ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
+	if(isLHS || lowPowerMode){//LHS MOTION
+		if((~isDead) && (count <=noOfWaves)){
+			PORTB &= ~(1 << PB2);
+		}
+	}
+	else{//RHS MOTION
+		if((~isDead) && (count <=noOfWaves)){
+			PORTB &= ~(1 << PB1);
+		}
+	}
+}
+
 
 
 uint8_t ConvertTimerValueToDutyCycle(){
@@ -124,12 +161,18 @@ uint8_t ASCIIConversion(uint8_t value){
 	return asciiValue;
 }
 
+void jamCheck(uint16_t voltageArray){
+	
+}
 
+void collisionCheck(){
+	
+}
 
 
 int main(void)
 {	
-	//clock_prescale_set(clock_div_2);
+
     sei();
 	UART_Init(UBRR_VALUE);
 	//ADC_Init();
@@ -139,19 +182,23 @@ int main(void)
 	DDRB |= (1<<PB1)|(1<<PB2);
 	DDRD |= (1<<PD5)|(1<<PD6);
 	
+	DDRD |= (1<<PD3); //check if receive works
 
-	UART_SendJson(12, 15, 1232, 20, false, true, true, 120,123);
+
+	//UART_SendJson(12, 15, 1232, 20, false, true, true, 120,123);
 
     while (1) 
     {
-		
+		//message received is true
+		//parse message 
+		parseUARTMessage();
 		if(changePumpingEffort){
 			 UART_InterpretPumpingEffort();
 			 ConvertTimerValueToDutyCycle();
 		}
 		
 		
-		
+
 		
 		
 			

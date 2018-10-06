@@ -8,55 +8,77 @@
 
 #include "uart.h"
 #include "../main.h"
+#include <avr/power.h>
+#include <string.h>
 
 #define MAX_LOW_POWER 37885
 #define PROPORTIONALITY_CONSTANT 21983
+#define MAX_VOLTAGE 13
 
 //uart intializer
-//initializes UART transmitter
 void UART_Init(unsigned int BAUD_RATE){
 	
 	UBRR0H |= (BAUD_RATE>>8); //sets the baud rate to 9600bps
 	UBRR0L |= (BAUD_RATE);
-	UCSR0B |= (1<<TXEN0)|(1<RXEN0); //enables UART transmitter
+	UCSR0B |= (1<RXEN0); //enables UART transmitter and reciever
 	UCSR0C |= (1<<UCSZ01)|(1<<UCSZ00); //sets character size to 8 data bits
-
+	UCSR0B |= (1<<RXCIE0); //enable reciever interrupt
+	//UCSR0B |= (1<<TXCIE0); //enable reciever interrupt
 }
 
-
-////uart transmit
-////polling uart
-void UART_Transmit(uint8_t myValue){
-	while (!((1<<UDRE0)&&(UCSR0A))); //wait until the transmit register is ready
-	UDR0 = myValue;//once ready, store next value for transmission
+//parse UART Receive message
+void parseUARTMessage(){
+	uint8_t collonCount = 0;
+	for(int i = 0; i < indexCount;i++){
+		if(receiveBuffer[i]==':'){
+			collonCount++;
+		}
+		//hit the third colon the required flow number is the next few characters
+		if(collonCount == 3){
+			//mfc values are three digit so grab the next 3 indexes
+			pumpingEffort = (receiveBuffer[i]*100) + (receiveBuffer[i+1]*10) + (receiveBuffer[i+2]); //pumping effort number
+			break;
+		}
+	}
+	//after message is parsed empty the array, reset the numbers 
+	memset(receiveBuffer, 0, sizeof(receiveBuffer)); //clear the array to 0 
+	reverseCurlyBracketCount = 0;
+	messageReceived = false;
 }
 
-//uart recieve 
-//interrupt config
-uint8_t UART_Receive(){
-	uint8_t pumpingEffort = UDR0;
-	UART_Transmit(pumpingEffort + 48);
-	return pumpingEffort;
-}
+//
+//void UART_Transmit(uint8_t myValue){
+	////disable receive 
+	//UCSR0B &= ~(1 << RXEN0);
+	//UCSR0B &= ~(1 << RXCIE0);
+	//while (!((1<<UDRE0)&&(UCSR0A))); //wait until the transmit register is ready
+	//UDR0 = myValue;//once ready, store next value for transmission
+//}
 
+
+
+//only changes dutycycle 
 void UART_InterpretPumpingEffort(){
+	uint32_t voltageEquivalentValue;
 	pumpingEffort = 1; //mock pumping effort
 	if(pumpingEffort==0){ //turn off mode 
 		power_all_disable(); //disables all modules on the microcontroller 
-		//power_usart_enable(); //enable UART for communication to see when to turn back on
+		//power_usart_enable();
 	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
 		//70% of values - care about efficiency and meeting pumpingEffort
 		//efficiency actions turn two switches off
 		//disable all unused modules
 		//dutyCycle = (PROPORTIONALITY_CONSTANT* MAX_LOW_POWER * (pumpingEffort/178))/(10000*1000);	//10000 and 1000 are because we didnt use floats [integer overflow error here]
-		lowPowerMode = true;
-						 
+		lowPowerMode = true; //turn off two switches push from one direction
 	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
 		//30% of values - go ham fam
 		lowPowerMode = false;
+		voltageEquivalentValue = pumpingEffort/178*MAX_VOLTAGE;
+		dutyCycle = (917*voltageEquivalentValue + 456)/100;
 	}else{ //255 lose your mind
 		//change duty cycle and pwm to max out the motor
 		lowPowerMode = false;
+		dutyCycle = 99;
 	}
 	changePumpingEffort = false;
 }
