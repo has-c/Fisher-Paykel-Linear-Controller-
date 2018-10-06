@@ -23,7 +23,7 @@
 
 #define PWM_FREQUENCY 1000
 #define NUMBER_OF_POSSIBLE_ERRORS 2 //jam, collision
-#define NUMBER_OF_SAMPLES 10
+#define NUMBER_OF_SAMPLES 150
 #define MAX_JSON_SIZE 
 
 //global variables
@@ -37,7 +37,7 @@ volatile bool changePumpingEffort = true;
 volatile bool pumpingIsOccurring = true;
 volatile uint8_t frequency = 65; //note need to divide the freq by half when using the low power mode, also divide everything by 10
 volatile uint8_t noOfWaves = 32;
-volatile uint32_t dutyCycle = 10;
+volatile uint32_t dutyCycle = 50;
 volatile bool transmitParameters = true;
 volatile unsigned char value = 0;
 
@@ -52,10 +52,10 @@ volatile char errorArray[NUMBER_OF_POSSIBLE_ERRORS]; //J = Jam , C = Collision
 volatile uint8_t current[NUMBER_OF_SAMPLES];
 volatile uint8_t currentIndex = 0;
 
-volatile uint8_t voltageLHS[NUMBER_OF_SAMPLES];
+volatile uint32_t voltageLHS[NUMBER_OF_SAMPLES];
 volatile uint8_t voltageLHSIndex = 0;
 
-volatile uint8_t voltageRHS[NUMBER_OF_SAMPLES];
+volatile uint32_t voltageRHS[NUMBER_OF_SAMPLES];
 volatile uint8_t voltageRHSIndex = 0;
 
 volatile uint8_t operatingFrequency = 0;
@@ -63,7 +63,13 @@ volatile uint8_t appliedVoltage = 0;
 volatile uint8_t averagePower = 0;
 
 //adc arrays
+int usart_putchar_printf(char var, FILE *stream){
+	if(var== '\n') UART_Transmit('\r');
+	UART_Transmit(var);
+	return 0;
+}
 
+static FILE mystdout = FDEV_SETUP_STREAM(usart_putchar_printf, NULL, _FDEV_SETUP_WRITE);
 
 
 ISR(USART_RX_vect){
@@ -170,7 +176,7 @@ uint8_t ASCIIConversion(uint8_t value){
 
 int main(void)
 {	
-	
+	stdout= &mystdout;//printf
 
 	//clock_prescale_set(clock_div_2);
     sei();
@@ -192,25 +198,26 @@ int main(void)
 			 //UART_InterpretPumpingEffort();
 		}
 		//UART_SendJson(12, 15, value, 20, false, true, true, 120,123);
-		if(currentIndex < NUMBER_OF_SAMPLES){
-			current[currentIndex] = ADC_Current();
-			UART_SendJson(0, currentIndex, 0, current[currentIndex], false, true, true, 120,123);
-			currentIndex++;
-		}
-		
-		if(voltageLHSIndex < NUMBER_OF_SAMPLES){
-			voltageLHS[voltageLHSIndex] = ADC_LHSVoltage();
-			UART_SendJson(1, voltageLHSIndex, voltageLHS[voltageLHSIndex], 0, false, true, true, 120,123);
-			if(voltageLHS[voltageLHSIndex]>100){
-			}
-			voltageLHSIndex++;
-		}
-		
-		if(voltageRHSIndex < NUMBER_OF_SAMPLES){
-			voltageRHS[voltageRHSIndex] = ADC_RHSVoltage();
-			UART_SendJson(2, voltageRHSIndex, 0, voltageRHS[voltageRHSIndex], false, true, true, 120,123);
-			voltageRHSIndex++;
-		}
+		//if(currentIndex < NUMBER_OF_SAMPLES){
+			//current[currentIndex] = ADC_Current();
+			//UART_SendJson(0, currentIndex, 0, current[currentIndex], false, true, true, 120,123);
+			//currentIndex++;
+		//}
+		//
+		//if(voltageLHSIndex < NUMBER_OF_SAMPLES){
+			//voltageLHS[voltageLHSIndex] = ADC_Read();
+			//UART_SendJson(1, voltageLHSIndex, voltageLHS[voltageLHSIndex]/10, 0, false, true, true, 120,123);
+			//voltageLHSIndex++;
+			//ADCSRA |= (1<<ADSC);
+		//}
+		ADCSRA |= (1<<ADSC);
+		int value = ADC_Read();
+		printf("%d\n",value);
+		//if(voltageRHSIndex < NUMBER_OF_SAMPLES){
+			//voltageRHS[voltageRHSIndex] = ADC_RHSVoltage();
+			//UART_SendJson(2, voltageRHSIndex, voltageRHS[voltageRHSIndex]/10, 0 , false, true, true, 120,123);
+			//voltageRHSIndex++;
+		//}
 			
     }
 	return 0;

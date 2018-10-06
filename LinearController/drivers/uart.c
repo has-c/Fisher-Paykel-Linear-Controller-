@@ -20,7 +20,7 @@ void UART_Init(unsigned int BAUD_RATE){
 	
 	UBRR0H |= (BAUD_RATE>>8); //sets the baud rate to 9600bps
 	UBRR0L |= (BAUD_RATE);
-	UCSR0B |= (1<RXEN0); //enables UART transmitter and reciever
+	UCSR0B |= (1<RXEN0)|(1<<TXEN0); //enables UART transmitter and reciever
 	UCSR0C |= (1<<UCSZ01)|(1<<UCSZ00); //sets character size to 8 data bits
 	UCSR0B |= (1<<RXCIE0); //enable reciever interrupt
 	//UCSR0B |= (1<<TXCIE0); //enable reciever interrupt
@@ -47,13 +47,13 @@ void parseUARTMessage(){
 }
 
 //
-//void UART_Transmit(uint8_t myValue){
-	////disable receive 
-	//UCSR0B &= ~(1 << RXEN0);
-	//UCSR0B &= ~(1 << RXCIE0);
-	//while (!((1<<UDRE0)&&(UCSR0A))); //wait until the transmit register is ready
-	//UDR0 = myValue;//once ready, store next value for transmission
-//}
+void UART_Transmit(uint8_t myValue){
+	//disable receive 
+	UCSR0B &= ~(1 << RXEN0);
+	UCSR0B &= ~(1 << RXCIE0);
+	while (!((1<<UDRE0)&&(UCSR0A))); //wait until the transmit register is ready
+	UDR0 = myValue;//once ready, store next value for transmission
+}
 
 
 

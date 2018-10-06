@@ -13,11 +13,11 @@
 #define ADC_H_
 
 void ADC_Init();
-int ADC_Read();
+uint32_t ADC_Read();
 uint32_t ADC_Calculate();
-int ADC_LHSVoltage();
-int ADC_RHSVoltage();
-int ADC_Current();
+uint32_t ADC_LHSVoltage();
+uint32_t ADC_RHSVoltage();
+uint32_t ADC_Current();
 void ADC_ChannelSwitching();
 
 
