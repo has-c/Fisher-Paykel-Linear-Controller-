@@ -60,7 +60,7 @@ void parseUARTMessage(){
 //only changes dutycycle 
 void UART_InterpretPumpingEffort(){
 	uint32_t voltageEquivalentValue;
-	pumpingEffort = 1; //mock pumping effort
+	pumpingEffort = 250; //mock pumping effort
 	if(pumpingEffort==0){ //turn off mode 
 		power_all_disable(); //disables all modules on the microcontroller 
 		//power_usart_enable();
@@ -73,8 +73,8 @@ void UART_InterpretPumpingEffort(){
 	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
 		//30% of values - go ham fam
 		lowPowerMode = false;
-		voltageEquivalentValue = pumpingEffort/178*MAX_VOLTAGE;
-		dutyCycle = (917*voltageEquivalentValue + 456)/100;
+		voltageEquivalentValue = pumpingEffort;
+		dutyCycle = (917*voltageEquivalentValue + 5000)/100;
 	}else{ //255 lose your mind
 		//change duty cycle and pwm to max out the motor
 		lowPowerMode = false;

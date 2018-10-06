@@ -32,11 +32,11 @@ volatile bool isLHS = true; //true = uses the LHS driver, false = uses the RHS d
 volatile bool lowPowerMode = false; //false = high power mode, bidirectional and true = low power mode which is single sided movement 
 volatile uint8_t pumpingEffort = 0;
 volatile uint16_t timerDutyCycle; 
-volatile bool changePumpingEffort = false;
+volatile bool changePumpingEffort = true;
 volatile bool pumpingIsOccurring = true;
-volatile uint8_t frequency = 30;
-volatile uint8_t noOfWaves = 15;
-volatile uint32_t dutyCycle = 20;
+volatile uint8_t frequency = 15;
+volatile uint8_t noOfWaves = 32;
+volatile uint32_t dutyCycle = 0;
 volatile bool transmitParameters = true;
 volatile unsigned char value = 0;
 
@@ -182,8 +182,6 @@ int main(void)
 	DDRB |= (1<<PB1)|(1<<PB2);
 	DDRD |= (1<<PD5)|(1<<PD6);
 	
-	DDRD |= (1<<PD3); //check if receive works
-
 
 	//UART_SendJson(12, 15, 1232, 20, false, true, true, 120,123);
 
@@ -194,7 +192,6 @@ int main(void)
 		parseUARTMessage();
 		if(changePumpingEffort){
 			 UART_InterpretPumpingEffort();
-			 ConvertTimerValueToDutyCycle();
 		}
 		
 		
