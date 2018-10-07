@@ -62,6 +62,8 @@ volatile uint8_t operatingFrequency = 0;
 volatile uint8_t appliedVoltage = 0;
 volatile uint8_t averagePower = 0;
 
+volatile uint32_t tempParam = 0;
+
 //adc arrays
 int usart_putchar_printf(char var, FILE *stream){
 	if(var== '\n') UART_Transmit('\r');
@@ -210,14 +212,16 @@ int main(void)
 			//voltageLHSIndex++;
 			//ADCSRA |= (1<<ADSC);
 		//}
-		ADCSRA |= (1<<ADSC);
-		int value = ADC_Read();
-		printf("%d\n",value);
+		//ADCSRA |= (1<<ADSC);
+		//uint32_t value = ADC_Current();
+		//printf("%d\n",value);
 		//if(voltageRHSIndex < NUMBER_OF_SAMPLES){
 			//voltageRHS[voltageRHSIndex] = ADC_RHSVoltage();
 			//UART_SendJson(2, voltageRHSIndex, voltageRHS[voltageRHSIndex]/10, 0 , false, true, true, 120,123);
 			//voltageRHSIndex++;
 		//}
+		
+		//TAKE 
 			
     }
 	return 0;

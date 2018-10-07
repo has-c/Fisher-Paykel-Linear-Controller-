@@ -60,7 +60,7 @@ uint32_t ADC_Current(){
 	ADMUX |= (1<<MUX1);
 	ADCSRA |= (1<<ADSC);
 	uint32_t adc_val = ADC_Calculate();
-	return (adc_val*4.8);
+	return ((adc_val*4.8 - (200*4.8))*4);
 }
 
 
