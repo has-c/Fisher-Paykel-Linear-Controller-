@@ -43,10 +43,11 @@ volatile unsigned char value = 0;
 
 
 //receive global variable
-volatile char receiveBuffer[100]; //100 is just a guess
-volatile uint8_t indexCount = 0;
-volatile uint8_t reverseCurlyBracketCount = 0;
-volatile bool messageReceived = false;
+volatile bool finished = false;
+volatile unsigned char received;
+volatile int rx_count = 0;
+volatile unsigned char pumpingEffortArray[40] = {0};
+volatile int pumpParam = 0;
 
 volatile char errorArray[NUMBER_OF_POSSIBLE_ERRORS]; //J = Jam , C = Collision
 volatile uint8_t current[NUMBER_OF_SAMPLES];
@@ -73,31 +74,30 @@ int usart_putchar_printf(char var, FILE *stream){
 
 static FILE mystdout = FDEV_SETUP_STREAM(usart_putchar_printf, NULL, _FDEV_SETUP_WRITE);
 
+int concatenate(int a, int b, int c){
+	return ((a-48)*100 + (b-48)*10 + (c-48));
+}
 
-ISR(USART_RX_vect){
-	//disable transmitter 
-	//UCSR0B &= ~(1<<TXEN0);
-	//UCSR0B &= ~(1<<TXCIE0);
-	
-	PORTD |= (1<<PD3);
-	
-	//put received character inside the receive array
-	//receiveBuffer[indexCount] = UDR0;
-	//if(receiveBuffer[indexCount]=='}'){
-		//reverseCurlyBracketCount++;
-	//}
-	//indexCount++; //increase indexCount 
-	//if(reverseCurlyBracketCount == 3){
-		//messageReceived = true;
-	//}
+ISR(USART_RX_vect){ //USART receiver ISR
+	received = UDR0;
+	rx_count++;
+	if(rx_count > 20){
+		pumpingEffortArray[rx_count - 21] = received;
+	}
+	if(rx_count>37){
+		UCSR0B &= ~(1<<RXCIE0); //turn of receiver after having received
+		UCSR0B &= ~(1<<RXEN0);
+		finished = true;
+		rx_count = 0;
+	}
 }
 
 //disable recieve during transmission
-//ISR(USART_TX_vect){
-	////enable receive 
-	//UCSR0B |= (1<<RXEN0);
-	//UCSR0B |= (1<<RXCIE0);
-//}
+ISR(USART_TX_vect){ //wait till tx flag is set before ready to receive
+	UCSR0B |= (1<<RXEN0);
+	UCSR0B |= (1<<RXCIE0);
+}
+
 
 //adc arrays
 
@@ -191,10 +191,18 @@ int main(void)
 	DDRD |= (1<<PD5)|(1<<PD6);
 	DDRD |= (1<<PD3);
 
-	//UART_SendJson(12, 15, voltage, 20, false, true, true, 120,123);
-
     while (1) 
     {
+		if(finished){
+			pumpParam = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
+			UART_Transmit(pumpParam);
+			for(int i = 0; i < 38; i++){
+				pumpingEffortArray[i] = 0;
+			}
+
+			finished = false;
+			rx_count = 0;
+		}
 	
 		if(changePumpingEffort){
 			 //UART_InterpretPumpingEffort();
