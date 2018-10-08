@@ -11,6 +11,10 @@
 #include <stdbool.h>
 #include <avr/interrupt.h>
 #include <avr/power.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+#include <util/delay.h>
 
 #include "main.h"
 #include "drivers/adc.h"
@@ -23,7 +27,7 @@
 
 #define PWM_FREQUENCY 1000
 #define NUMBER_OF_POSSIBLE_ERRORS 2 //jam, collision
-#define NUMBER_OF_SAMPLES 150
+#define NUMBER_OF_SAMPLES 130
 #define MAX_JSON_SIZE 
 
 //global variables
@@ -33,9 +37,9 @@ volatile bool isLHS = true; //true = uses the LHS driver, false = uses the RHS d
 volatile bool lowPowerMode = true; //false = high power mode, bidirectional and true = low power mode which is single sided movement 
 volatile uint8_t pumpingEffort = 0;
 volatile uint16_t timerDutyCycle; 
-volatile bool changePumpingEffort = true;
+volatile bool changePumpingEffort = false;
 volatile bool pumpingIsOccurring = true;
-volatile uint8_t frequency = 65; //note need to divide the freq by half when using the low power mode, also divide everything by 10
+volatile uint16_t frequency = 65; //note need to divide the freq by half when using the low power mode, also divide everything by 10
 volatile uint8_t noOfWaves = 32;
 volatile uint32_t dutyCycle = 50;
 volatile bool transmitParameters = true;
@@ -43,13 +47,11 @@ volatile unsigned char value = 0;
 
 
 //receive global variable
-volatile bool finished = false;
-volatile unsigned char received;
-volatile int rx_count = 0;
-volatile unsigned char pumpingEffortArray[40] = {0};
-volatile int pumpParam = 0;
+volatile char receiveBuffer[100]; //100 is just a guess
+volatile uint8_t indexCount = 0;
+volatile uint8_t reverseCurlyBracketCount = 0;
+volatile bool messageReceived = false;
 
-volatile char errorArray[NUMBER_OF_POSSIBLE_ERRORS]; //J = Jam , C = Collision
 volatile uint8_t current[NUMBER_OF_SAMPLES];
 volatile uint8_t currentIndex = 0;
 
@@ -58,6 +60,8 @@ volatile uint8_t voltageLHSIndex = 0;
 
 volatile uint32_t voltageRHS[NUMBER_OF_SAMPLES];
 volatile uint8_t voltageRHSIndex = 0;
+
+volatile int voltageAcrossTheCoil[NUMBER_OF_SAMPLES];
 
 volatile uint8_t operatingFrequency = 0;
 volatile uint8_t appliedVoltage = 0;
@@ -74,30 +78,6 @@ int usart_putchar_printf(char var, FILE *stream){
 
 static FILE mystdout = FDEV_SETUP_STREAM(usart_putchar_printf, NULL, _FDEV_SETUP_WRITE);
 
-int concatenate(int a, int b, int c){
-	return ((a-48)*100 + (b-48)*10 + (c-48));
-}
-
-ISR(USART_RX_vect){ //USART receiver ISR
-	received = UDR0;
-	rx_count++;
-	if(rx_count > 20){
-		pumpingEffortArray[rx_count - 21] = received;
-	}
-	if(rx_count>37){
-		UCSR0B &= ~(1<<RXCIE0); //turn of receiver after having received
-		UCSR0B &= ~(1<<RXEN0);
-		finished = true;
-		rx_count = 0;
-	}
-}
-
-//disable recieve during transmission
-ISR(USART_TX_vect){ //wait till tx flag is set before ready to receive
-	UCSR0B |= (1<<RXEN0);
-	UCSR0B |= (1<<RXCIE0);
-}
-
 
 //adc arrays
 
@@ -108,7 +88,7 @@ ISR(TIMER1_COMPA_vect){
 	if(isLHS || lowPowerMode){	//LHS MOTION
 		if((count <= noOfWaves) && (!isDead)){//PRODUCING X NUMBER OF PWM OSCILLATIONS
 			PORTB |= (1<< PB2); //turn RHS ON
-			PORTD |= (1<<PD5); 
+			PORTD |= (1<<PD5);
 			count++;
 		}
 		else if(count > noOfWaves){//DEADZONE: leave the port off for 14ms in total
@@ -144,7 +124,7 @@ ISR(TIMER1_COMPA_vect){
 			isDead = false;
 			PWM_Change(125,ConvertTimerValueToDutyCycle());
 		}
-		 
+		
 	}
 }
 
@@ -160,6 +140,7 @@ ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
 		}
 	}
 }
+
 
 
 
@@ -180,7 +161,6 @@ int main(void)
 {	
 	stdout= &mystdout;//printf
 
-	//clock_prescale_set(clock_div_2);
     sei();
 	UART_Init(UBRR_VALUE);
 	ADC_Init();
@@ -191,45 +171,62 @@ int main(void)
 	DDRD |= (1<<PD5)|(1<<PD6);
 	DDRD |= (1<<PD3);
 
-    while (1) 
-    {
-		if(finished){
-			pumpParam = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
-			UART_Transmit(pumpParam);
-			for(int i = 0; i < 38; i++){
-				pumpingEffortArray[i] = 0;
-			}
-
-			finished = false;
-			rx_count = 0;
-		}
+	//UART_SendJson(12, 15, voltage, 20, false, true, true, 120,123);
 	
-		if(changePumpingEffort){
-			 //UART_InterpretPumpingEffort();
-		}
-		//UART_SendJson(12, 15, value, 20, false, true, true, 120,123);
-		//if(currentIndex < NUMBER_OF_SAMPLES){
-			//current[currentIndex] = ADC_Current();
-			//UART_SendJson(0, currentIndex, 0, current[currentIndex], false, true, true, 120,123);
-			//currentIndex++;
-		//}
-		//
-		//if(voltageLHSIndex < NUMBER_OF_SAMPLES){
-			//voltageLHS[voltageLHSIndex] = ADC_Read();
-			//UART_SendJson(1, voltageLHSIndex, voltageLHS[voltageLHSIndex]/10, 0, false, true, true, 120,123);
-			//voltageLHSIndex++;
-			//ADCSRA |= (1<<ADSC);
-		//}
-		//ADCSRA |= (1<<ADSC);
-		//uint32_t value = ADC_Current();
-		//printf("%d\n",value);
-		//if(voltageRHSIndex < NUMBER_OF_SAMPLES){
-			//voltageRHS[voltageRHSIndex] = ADC_RHSVoltage();
-			//UART_SendJson(2, voltageRHSIndex, voltageRHS[voltageRHSIndex]/10, 0 , false, true, true, 120,123);
-			//voltageRHSIndex++;
+	_delay_ms(5200);
+
+    while (1) 
+    {	
+		//reset index positions
+		voltageLHSIndex = 0;
+		voltageRHSIndex = 0;
+		currentIndex = 0;
+		uint64_t voltageSum = 0;
+		uint32_t rmsVoltage = 0;
+		uint64_t currentSum = 0;
+		uint32_t rmsCurrent = 0;
+		uint32_t powerArray[NUMBER_OF_SAMPLES];
+		
+		//if(changePumpingEffort){
+			 ////UART_InterpretPumpingEffort();
 		//}
 		
-		//TAKE 
+		
+		/****Voltage and Current*****/
+		////get voltage values
+		while(voltageLHSIndex < NUMBER_OF_SAMPLES){
+			voltageLHS[voltageLHSIndex] = ADC_LHSVoltage();
+			voltageRHS[voltageLHSIndex] = ADC_RHSVoltage();
+			current[voltageLHSIndex] = ADC_Current();
+			//printf("%d\t",voltageRHS[voltageLHSIndex]);
+			//printf("%d\n",voltageLHS[voltageLHSIndex]);
+			voltageLHSIndex++;
+		}
+		
+		//get voltage across the coil
+		for(int i = 0;i<NUMBER_OF_SAMPLES;i++){
+			voltageAcrossTheCoil[i] = voltageRHS[i] - voltageLHS[i];
+			if(voltageAcrossTheCoil[i]<0){
+					voltageAcrossTheCoil[i] = voltageAcrossTheCoil[i]*-1;
+			}
+			voltageSum += (uint64_t)(voltageAcrossTheCoil[i]*voltageAcrossTheCoil[i]);
+			currentSum += (uint64_t)(current[i]*current[i]);
+			//printf("%d\n",voltageSum);
+		}
+		
+		
+		//calculate rms voltage and current
+		rmsVoltage = (uint32_t) (voltageSum / NUMBER_OF_SAMPLES);
+		rmsCurrent = (uint32_t) (currentSum / NUMBER_OF_SAMPLES);
+		rmsVoltage = sqrt(rmsVoltage);
+		rmsCurrent = sqrt(rmsCurrent);
+		//printf("%d\n",rmsVoltage);
+		//printf("%d\n",rmsCurrent
+		
+		//calculate average power	
+		
+		
+		
 			
     }
 	return 0;
