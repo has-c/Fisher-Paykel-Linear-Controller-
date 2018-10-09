@@ -14,7 +14,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-#include <util/delay.h>
+#include "delay.h"
 
 #include "main.h"
 #include "drivers/adc.h"
