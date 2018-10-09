@@ -37,37 +37,37 @@ void UART_Transmit(uint8_t myValue){
 
 
 //only changes dutycycle
-void uart_interpretpumpingeffort(){
+void uart_interpretPumpingEffort(){
 	uint32_t voltageequivalentvalue;
-	pumpingeffort = 179; //mock pumping effort
-	if(pumpingeffort==0){ //turn off mode
+	pumpingEffort = 179; //mock pumping effort
+	if(pumpingEffort==0){ //turn off mode
 		power_all_disable(); //disables all modules on the microcontroller
 		//power_usart_enable();
-	}else if((pumpingeffort>=1)&&(pumpingeffort<=178)){
-		//70% of values - care about efficiency and meeting pumpingeffort
+	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
+		//70% of values - care about efficiency and meeting pumpingEffort
 		//efficiency actions turn two switches off
 		//disable all unused modules
-		lowpowermode = true; //turn off two switches push from one direction
+		lowPowerMode = true; //turn off two switches push from one direction
 		
-	}else if((pumpingeffort>178)&&(pumpingeffort<=254)){
+	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
 		//30% of values - go ham fam
-		lowpowermode = false;
-		voltageequivalentvalue = pumpingeffort/30; //30 is a constant used to make this relationship work
-		dutycycle = (917*voltageequivalentvalue + 456)/100;
+		lowPowerMode = false;
+		voltageequivalentvalue = pumpingEffort/30; //30 is a constant used to make this relationship work
+		dutyCycle = (917*voltageequivalentvalue + 456)/100;
 	}else{ //255 lose your mind
 		//change duty cycle and pwm to max out the motors
-		lowpowermode = false;
-		dutycycle = 99;
+		lowPowerMode = false;
+		dutyCycle = 99;
 	}
-	changepumpingeffort	 = false;
+	changePumpingEffort	 = false;
 }
 
 
-void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current, bool errorClear,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
+void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
 	MFCmodulator(requiredValue,currentValue);
 	VERmodulator();
 	PARAMmodulator(averagePower,operatingFrequency,appliedVoltage,current);
-	ERRORmodulator(errorClear, jamErrorFlag, collisionErrorFlag);
+	ERRORmodulator(jamErrorFlag, collisionErrorFlag);
 
 }
 
@@ -279,11 +279,9 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t a
 	 
 }
 
-
-
-void ERRORmodulator(bool errorClear,bool jamErrorFlag, bool collisionErrorFlag){  
+void ERRORmodulator(bool jamErrorFlag, bool collisionErrorFlag){  
 	//error clear tells us whether we need to clear the error array
-	if(!errorClear){
+	if(clearErrorFlag){
 		UART_Transmit(34); //"
 		UART_Transmit(99); //c
 		UART_Transmit(108); //l
@@ -297,51 +295,52 @@ void ERRORmodulator(bool errorClear,bool jamErrorFlag, bool collisionErrorFlag){
 		UART_Transmit(44); //,
 		UART_Transmit(10); //line feed
 		UART_Transmit(13); //carriage return
+		clearErrorFlag = false;
 	}else{
 		UART_Transmit(10); //line feed
 		UART_Transmit(13); //carriage return
-	}
-	
-	if(collisionErrorFlag || jamErrorFlag) {
-		UART_Transmit(34); //'
-		UART_Transmit(101); //e
-		UART_Transmit(119); //w
-		UART_Transmit(34); // "
-		UART_Transmit(58); //:
-		UART_Transmit(91); //[
-		//print errors
 		
-		if(jamErrorFlag){ //compressor jammed
-			UART_Transmit(34); //"
-			UART_Transmit(106); //j
-			UART_Transmit(97); //a
-			UART_Transmit(109); //m
-			UART_Transmit(34); //"
-			if(jamErrorFlag && collisionErrorFlag){
-				UART_Transmit(44); //,
+		if(collisionErrorFlag || jamErrorFlag) {
+			UART_Transmit(34); //'
+			UART_Transmit(101); //e
+			UART_Transmit(119); //w
+			UART_Transmit(34); // "
+			UART_Transmit(58); //:
+			UART_Transmit(91); //[
+			//print errors
+			
+			if(jamErrorFlag){ //compressor jammed
+				UART_Transmit(34); //"
+				UART_Transmit(106); //j
+				UART_Transmit(97); //a
+				UART_Transmit(109); //m
+				UART_Transmit(34); //"
+				if(jamErrorFlag && collisionErrorFlag){
+					UART_Transmit(44); //,
+				}
 			}
-		}
 
-		if(collisionErrorFlag){ //compressor colliding
-			UART_Transmit(34); //"
-			UART_Transmit(99); //c
-			UART_Transmit(111); //o
-			UART_Transmit(108); //l
-			UART_Transmit(108); //l
-			UART_Transmit(105); //i
-			UART_Transmit(115); //s
-			UART_Transmit(105); //i
-			UART_Transmit(111); //o
-			UART_Transmit(110); //n
-			UART_Transmit(34); //"
+			if(collisionErrorFlag){ //compressor colliding
+				UART_Transmit(34); //"
+				UART_Transmit(99); //c
+				UART_Transmit(111); //o
+				UART_Transmit(108); //l
+				UART_Transmit(108); //l
+				UART_Transmit(105); //i
+				UART_Transmit(115); //s
+				UART_Transmit(105); //i
+				UART_Transmit(111); //o
+				UART_Transmit(110); //n
+				UART_Transmit(34); //"
+			}
+			
+			
+			UART_Transmit(93); //[
+			
+			}else{ //no errors present
+			UART_Transmit(10); //line feed
+			UART_Transmit(13); //carriage return
 		}
-			
-			
-		UART_Transmit(93); //[
-		
-	}else{ //no errors present
-		UART_Transmit(10); //line feed
-		UART_Transmit(13); //carriage return
 	}
 	
 	

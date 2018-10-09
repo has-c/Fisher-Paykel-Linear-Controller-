@@ -54,6 +54,7 @@ volatile int rx_count = 0;
 volatile unsigned char pumpingEffortArray[40] = {0};
 volatile int pumpParam = 0;
 
+
 volatile uint32_t current[NUMBER_OF_SAMPLES];
 volatile uint8_t currentIndex = 0;
 
@@ -72,8 +73,10 @@ volatile uint8_t averagePower = 0;
 volatile uint32_t tempParam = 0;
 
 //error detection
-volatile bool cmprJammed = false;
-
+volatile bool cmprJammed = true;
+volatile bool clearErrorFlag = false;
+volatile unsigned char clearErrorArray[20] = {0};
+volatile bool cmprCollide = true;
 
 
 //adc arrays
@@ -89,11 +92,22 @@ int concatenate(int a, int b, int c){
 	return ((a-48)*100 + (b-48)*10 + (c-48));
 }
 
+bool checkForError(unsigned char a, unsigned char b){
+	if((a == 101) && (b == 119)){ //101 = e, 119 = w
+		return true;
+	}else{
+		return false;
+	}
+}
+
 ISR(USART_RX_vect){ //USART receiver ISR
 	received = UDR0;
 	rx_count++;
 	if(rx_count > 20){
 		pumpingEffortArray[rx_count - 21] = received;
+	}
+	if(rx_count > 33){
+		clearErrorArray[rx_count - 34] = received;
 	}
 	if(rx_count>37){
 		UCSR0B &= ~(1<<RXCIE0); //turn of receiver after having received
@@ -229,11 +243,17 @@ int main(void)
 		//receive message code
 		if(finished){
 			pumpParam = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
-			UART_Transmit(pumpParam);
+			
+			//UART_Transmit(pumpParam);
 			for(int i = 0; i < 38; i++){
 				pumpingEffortArray[i] = 0;
 			}
-
+			clearErrorFlag = checkForError(clearErrorArray[0],clearErrorArray[1]);
+			if(clearErrorFlag){
+				cmprCollide = false;
+				cmprJammed = false;;
+			}
+			UART_SendJson(0,0,pumpParam,0,cmprJammed,cmprCollide, 102,101);
 			finished = false;
 			rx_count = 0;
 		}

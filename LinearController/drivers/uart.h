@@ -30,11 +30,11 @@ extern volatile uint8_t pumpingEffort;
 unsigned char UART_receive(void);
 
 //sending parameter information functions 
-void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current, bool errorClear,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue);
+void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue);
 void MFCmodulator(uint8_t requiredValue, uint8_t currentValue); //send MFC values 
 void VERmodulator(); //sends VER JSON portion
 void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current); //sends parameter json portion
-void ERRORmodulator(bool errorClear,bool jamErrorFlag, bool collisionErrorFlag); //sends error json portion
+void ERRORmodulator(bool jamErrorFlag, bool collisionErrorFlag); //sends error json portion
 
 
 #endif /* UART_H_ */

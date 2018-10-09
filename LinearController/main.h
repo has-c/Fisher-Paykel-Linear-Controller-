@@ -36,6 +36,8 @@ extern volatile uint8_t indexCount; //receive buffer index count
 extern volatile uint8_t reverseCurlyBracketCount; 
 extern volatile bool messageReceived;
 
+extern volatile bool clearErrorFlag;
+
 
 
 #endif /* MAIN_H_ */
