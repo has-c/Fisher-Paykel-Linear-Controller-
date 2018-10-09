@@ -29,7 +29,6 @@
 #define PWM_FREQUENCY 1000
 #define NUMBER_OF_POSSIBLE_ERRORS 2 //jam, collision
 #define NUMBER_OF_SAMPLES 20
-#define MAX_JSON_SIZE 
 
 //global variables
 volatile uint8_t count = 0;
@@ -42,7 +41,7 @@ volatile bool changePumpingEffort = false;
 volatile bool pumpingIsOccurring = true;
 volatile uint16_t frequency = 65; //note need to divide the freq by half when using the low power mode, also divide everything by 10
 volatile uint8_t noOfWaves = 32;
-volatile uint16_t dutyCycle = 50;
+volatile uint16_t dutyCycle = 0;
 volatile bool transmitParameters = true;
 volatile unsigned char value = 0;
 
@@ -222,10 +221,7 @@ int main(void)
 	//output pin setup
 	DDRB |= (1<<PB1)|(1<<PB2);
 	DDRD |= (1<<PD5)|(1<<PD6);
-	
-	//UART_SendJson(12, 15, voltage, 20, false, true, true, 120,123);
-	
-	//_delay_ms(5200);
+
 
 
     while (1) 
@@ -240,28 +236,10 @@ int main(void)
 		uint32_t voltageSum = 0;
 		uint32_t powerArray[NUMBER_OF_SAMPLES] = {0};
 		
-		//receive message code
-		if(finished){
-			pumpParam = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
-			
-			//UART_Transmit(pumpParam);
-			for(int i = 0; i < 38; i++){
-				pumpingEffortArray[i] = 0;
-			}
-			clearErrorFlag = checkForError(clearErrorArray[0],clearErrorArray[1]);
-			if(clearErrorFlag){
-				cmprCollide = false;
-				cmprJammed = false;;
-			}
-			UART_SendJson(0,0,pumpParam,0,cmprJammed,cmprCollide, 102,101);
-			finished = false;
-			rx_count = 0;
-		}
 		
 		//change the pumping effort
-		//if(changePumpingEffort){
-			 ////UART_InterpretPumpingEffort();
-		//}
+		UART_InterpretPumpingEffort();
+		
 		
 		
 		/****Voltage and Current*****/
@@ -331,6 +309,23 @@ int main(void)
 		//printf("%d\t",rmsPower/1000);
 		//printf("%d\n",rmsPower%1000);
 		
+		
+		//receive message code
+		if(finished){
+			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
+				
+			for(int i = 0; i < 38; i++){
+				pumpingEffortArray[i] = 0;
+			}
+			clearErrorFlag = checkForError(clearErrorArray[0],clearErrorArray[1]);
+			if(clearErrorFlag){
+				cmprCollide = false;
+				cmprJammed = false;;
+			}
+			UART_SendJson(rmsPower,frequency,rmsVoltage,rmsCurrent,cmprJammed,cmprCollide, pumpingEffort,pumpingEffort);
+			finished = false;
+			rx_count = 0;
+		}
 			
     }
 	
