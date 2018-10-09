@@ -25,26 +25,6 @@ void UART_Init(unsigned int BAUD_RATE){
 	UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);
 }
 
-//parse UART Receive message
-void parseUARTMessage(){
-	uint8_t collonCount = 0;
-	for(int i = 0; i < indexCount;i++){
-		if(receiveBuffer[i]==':'){
-			collonCount++;
-		}
-		//hit the third colon the required flow number is the next few characters
-		if(collonCount == 3){
-			//mfc values are three digit so grab the next 3 indexes
-			pumpingEffort = (receiveBuffer[i]*100) + (receiveBuffer[i+1]*10) + (receiveBuffer[i+2]); //pumping effort number
-			break;
-		}
-	}
-	//after message is parsed empty the array, reset the numbers
-	memset(receiveBuffer, 0, sizeof(receiveBuffer)); //clear the array to 0
-	reverseCurlyBracketCount = 0;
-	messageReceived = false;
-}
-
 //
 void UART_Transmit(uint8_t myValue){
 	//disable receive
