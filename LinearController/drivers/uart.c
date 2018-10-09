@@ -37,30 +37,30 @@ void UART_Transmit(uint8_t myValue){
 
 
 //only changes dutycycle
-//void uart_interpretpumpingeffort(){
-	//uint32_t voltageEquivalentvalue;
-	//pumpingEffort = 179; //mock pumping effort
-	//if(pumpingEffort==0){ //turn off mode
-		//power_all_disable(); //disables all modules on the microcontroller
-		////power_usart_enable();
-	//}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
-		////70% of values - care about efficiency and meeting pumpingeffort
-		////efficiency actions turn two switches off
-		////disable all unused modules
-		//lowPowerMode = true; //turn off two switches push from one direction
-		//
-	//}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
-		////30% of values - go ham fam
-		//lowPowerMode = false;
-		//voltageEquivalentvalue = pumpingEffort/30; //30 is a constant used to make this relationship work
-		//dutyCycle = (917*voltageEquivalentvalue + 456)/100;
-	//}else{ //255 lose your mind
-		////change duty cycle and pwm to max out the motors
-		//lowPowerMode = false;
-		//dutyCycle = 99;
-	//}
-	//changePumpingEffort	 = false;
-//}
+void uart_interpretpumpingeffort(){
+	uint32_t voltageequivalentvalue;
+	pumpingeffort = 179; //mock pumping effort
+	if(pumpingeffort==0){ //turn off mode
+		power_all_disable(); //disables all modules on the microcontroller
+		//power_usart_enable();
+	}else if((pumpingeffort>=1)&&(pumpingeffort<=178)){
+		//70% of values - care about efficiency and meeting pumpingeffort
+		//efficiency actions turn two switches off
+		//disable all unused modules
+		lowpowermode = true; //turn off two switches push from one direction
+		
+	}else if((pumpingeffort>178)&&(pumpingeffort<=254)){
+		//30% of values - go ham fam
+		lowpowermode = false;
+		voltageequivalentvalue = pumpingeffort/30; //30 is a constant used to make this relationship work
+		dutycycle = (917*voltageequivalentvalue + 456)/100;
+	}else{ //255 lose your mind
+		//change duty cycle and pwm to max out the motors
+		lowpowermode = false;
+		dutycycle = 99;
+	}
+	changepumpingeffort	 = false;
+}
 
 
 void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current, bool errorClear,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
