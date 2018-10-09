@@ -19,13 +19,14 @@
 uint8_t ConvertTimerValueToDutyCycle();
 uint16_t CalculateDeadTime();
 uint8_t ASCIIConversion(uint8_t value);
+void jamDetection(int i);
+void safetyShutdown();
 
 extern volatile uint8_t pumpingEffort;
-extern volatile uint32_t dutyCycle;
+extern volatile uint16_t dutyCycle;
 extern volatile bool lowPowerMode;
 extern volatile bool changePumpingEffort;
 
-extern volatile char errorArray[NUMBER_OF_POSSIBLE_ERRORS]; //J = Jam , C = Collision
 extern volatile uint8_t operatingFrequency;
 extern volatile uint8_t appliedVoltage;
 extern volatile uint8_t averagePower;

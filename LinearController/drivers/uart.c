@@ -18,12 +18,11 @@
 //uart intializer
 void UART_Init(unsigned int BAUD_RATE){
 	
-	UBRR0H |= (BAUD_RATE>>8); //sets the baud rate to 9600bps
-	UBRR0L |= (BAUD_RATE);
-	UCSR0B |= (1<RXEN0)|(1<<TXEN0); //enables UART transmitter and reciever
-	UCSR0C |= (1<<UCSZ01)|(1<<UCSZ00); //sets character size to 8 data bits
-	UCSR0B |= (1<<RXCIE0); //enable reciever interrupt
-	//UCSR0B |= (1<<TXCIE0); //enable reciever interrupt
+	UBRR0H = BAUD_RATE >>8;
+	UBRR0L = BAUD_RATE;
+	UCSR0B = (1<<RXEN0)|(1<<RXCIE0);
+	UCSR0B |= (1<<TXEN0)|(1<<TXCIE0);
+	UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);
 }
 
 //parse UART Receive message
@@ -40,15 +39,15 @@ void parseUARTMessage(){
 			break;
 		}
 	}
-	//after message is parsed empty the array, reset the numbers 
-	memset(receiveBuffer, 0, sizeof(receiveBuffer)); //clear the array to 0 
+	//after message is parsed empty the array, reset the numbers
+	memset(receiveBuffer, 0, sizeof(receiveBuffer)); //clear the array to 0
 	reverseCurlyBracketCount = 0;
 	messageReceived = false;
 }
 
 //
 void UART_Transmit(uint8_t myValue){
-	//disable receive 
+	//disable receive
 	UCSR0B &= ~(1 << RXEN0);
 	UCSR0B &= ~(1 << RXCIE0);
 	while (!((1<<UDRE0)&&(UCSR0A))); //wait until the transmit register is ready
@@ -57,31 +56,32 @@ void UART_Transmit(uint8_t myValue){
 
 
 
-//only changes dutycycle 
-//void UART_InterpretPumpingEffort(){
-	//uint32_t voltageEquivalentValue;
+//only changes dutycycle
+//void uart_interpretpumpingeffort(){
+	//uint32_t voltageEquivalentvalue;
 	//pumpingEffort = 179; //mock pumping effort
-	//if(pumpingEffort==0){ //turn off mode 
-		//power_all_disable(); //disables all modules on the microcontroller 
+	//if(pumpingEffort==0){ //turn off mode
+		//power_all_disable(); //disables all modules on the microcontroller
 		////power_usart_enable();
 	//}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
-		////70% of values - care about efficiency and meeting pumpingEffort
+		////70% of values - care about efficiency and meeting pumpingeffort
 		////efficiency actions turn two switches off
 		////disable all unused modules
-		//
 		//lowPowerMode = true; //turn off two switches push from one direction
+		//
 	//}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
 		////30% of values - go ham fam
 		//lowPowerMode = false;
-		//voltageEquivalentValue = pumpingEffort/30; //30 is a constant used to make this relationship work 
-		//dutyCycle = (917*voltageEquivalentValue + 456)/100;
+		//voltageEquivalentvalue = pumpingEffort/30; //30 is a constant used to make this relationship work
+		//dutyCycle = (917*voltageEquivalentvalue + 456)/100;
 	//}else{ //255 lose your mind
 		////change duty cycle and pwm to max out the motors
 		//lowPowerMode = false;
 		//dutyCycle = 99;
 	//}
-	//changePumpingEffort = false;
+	//changePumpingEffort	 = false;
 //}
+
 
 void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current, bool errorClear,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
 	MFCmodulator(requiredValue,currentValue);
