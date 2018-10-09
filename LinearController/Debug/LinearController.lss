@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000148  00000000  00000000  00000fb4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00002531  00000000  00000000  000010fc  2**0
+  6 .debug_info   00002558  00000000  00000000  000010fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000b2c  00000000  00000000  0000362d  2**0
+  7 .debug_abbrev 00000b65  00000000  00000000  00003654  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000feb  00000000  00000000  00004159  2**0
+  8 .debug_line   00001035  00000000  00000000  000041b9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000390  00000000  00000000  00005144  2**2
+  9 .debug_frame  00000390  00000000  00000000  000051f0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000947  00000000  00000000  000054d4  2**0
+ 10 .debug_str    00000958  00000000  00000000  00005580  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000c81  00000000  00000000  00005e1b  2**0
+ 11 .debug_loc    00000cc3  00000000  00000000  00005ed8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000140  00000000  00000000  00006a9c  2**0
+ 12 .debug_ranges 00000140  00000000  00000000  00006b9b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -2044,7 +2044,6 @@ bool checkForError(unsigned char a, unsigned char b){
  dd6:	01 97       	sbiw	r24, 0x01	; 1
 			powerArray[j] = (voltageAcrossTheCoil[j] * current[j]);
 		}
-		uint32_t powerTT = 0;
 		uint32_t powerTotal = 0;
 		uint32_t rmsPower = 0;
 		for (int i = 0; i < NUMBER_OF_SAMPLES-1; i++) {
