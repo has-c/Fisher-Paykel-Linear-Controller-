@@ -73,7 +73,7 @@ volatile uint32_t tempParam = 0;
 
 //error detection
 volatile bool cmprJammed = false;
-
+volatile bool cmprCollide = false;
 
 
 //adc arrays
@@ -169,7 +169,7 @@ ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
 
 void jamDetection(int i){
 	if(i>1){
-		if(voltageAcrossTheCoil[i]==voltageAcrossTheCoil[i-1] && voltageAcrossTheCoil[i-1]==voltageAcrossTheCoil[i-2]){
+		if(voltageAcrossTheCoil[i]==voltageAcrossTheCoil[i-1] && voltageAcrossTheCoil[i-1]==voltageAcrossTheCoil[i-2] && voltageAcrossTheCoil[i-2]==voltageAcrossTheCoil[i-3] && voltageAcrossTheCoil[i-4]==voltageAcrossTheCoil[i-5]){
 			cmprJammed = true;
 		}else{
 			cmprJammed = false;
@@ -301,19 +301,16 @@ int main(void)
 		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
 			powerArray[j] = (voltageAcrossTheCoil[j] * current[j]);
 		}
-		uint32_t powerTT = 0;
 		uint32_t powerTotal = 0;
 		uint32_t rmsPower = 0;
 		for (int i = 0; i < NUMBER_OF_SAMPLES-1; i++) {
 			powerTotal += (powerArray[i] + powerArray[i+1])/2;	//trapezoidal approx
 		}
 		
-		
-		
 		rmsPower = powerTotal / (NUMBER_OF_SAMPLES-1);
 		//printf("%d\t",rmsPower/1000);
 		//printf("%d\n",rmsPower%1000);
-		//
+		
 			
     }
 	
