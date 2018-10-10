@@ -292,7 +292,30 @@ int main(void)
 			messageReceived = false;
 			numberOfCharactersReceived = 0;
 		}
-		UART_InterpretPumpingEffort();														
+		UART_InterpretPumpingEffort();	
+		
+		/*******************Jam Code*******************/
+		//uint8_t hallSamples = 5;
+		//uint32_t hallArray[hallSamples] = {0};
+		//uint32_t hallTotal = 0;
+		//uint32_t hallCurrentAverage = 0;
+		//uint32_t hallPreviousAverage = 0;
+		//if(!lowPowerMode){
+		//for(int i = 0; i < hallSamples; i++){
+			//hallArray[i] = ADC_Hall();	
+			//hallTotal += hallArray[i];
+		//}
+		//hallCurrentAverage = hallTotal / hallSamples;
+		//
+		//if((hallCurrentAverage < ((hallPreviousAverage * 11)/10)) & (hallCurrentAverage > (hallPreviousAverage * 9)/10)){
+			//hallPreviousAverage = 0;
+			//hallCurrentAverage = 0;
+			//safetyShutdown();	
+		//}else{
+			//hallPreviousAverage = hallCurrentAverage;
+			//hallCurrentAverage = 0;
+			//hallArray = {0};
+		//}
     }
 	
 	
