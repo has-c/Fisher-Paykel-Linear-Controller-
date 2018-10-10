@@ -279,74 +279,73 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t a
 	fourthDigit = appliedVoltage -(firstDigit*1000) - (secondDigit*100) - (thirdDigit*10);
 	UART_Transmit(UART_ASCIIConversion(firstDigit));
 	UART_Transmit(UART_ASCIIConversion(secondDigit));
-	UART_Transmit(46); //decimal point
+	UART_Transmit(46); 																						//decimal point
 	UART_Transmit(UART_ASCIIConversion(thirdDigit));
 	UART_Transmit(UART_ASCIIConversion(fourthDigit));
-	UART_Transmit(86); //V
-	UART_Transmit(34); //"
+	UART_Transmit(86); 																						//V
+	UART_Transmit(34); 																						//"
 	
 	 
-	UART_Transmit(125); //}
-	UART_Transmit(44);//,
-	UART_Transmit(10); //line feed
-	UART_Transmit(13); //carriage return
+	UART_Transmit(125); 																					//}
+	UART_Transmit(44);																						//,
+	UART_Transmit(10); 																						//line feed
+	UART_Transmit(13); 																						//carriage return
 	 
 }
 
 /**************************************************************Error Modulator**************************************************************/
 void ERRORmodulator(bool jamErrorFlag, bool collisionErrorFlag){  
-	//error clear tells us whether we need to clear the error array
-	if(clearErrorFlag){
-		UART_Transmit(34); //"
-		UART_Transmit(99); //c
-		UART_Transmit(108); //l
-		UART_Transmit(114); //r
-		UART_Transmit(34); //"
-		UART_Transmit(58); //:
-		UART_Transmit(34); //"
-		UART_Transmit(101); //e
-		UART_Transmit(119); //w
-		UART_Transmit(34); //"
-		UART_Transmit(44); //,
-		UART_Transmit(10); //line feed
-		UART_Transmit(13); //carriage return
+	if(clearErrorFlag){																						//acknowledge that the 'clear error' command was received from the user and obeyed by the controller
+		UART_Transmit(34); 																					//"
+		UART_Transmit(99); 																					//c
+		UART_Transmit(108); 																				//l
+		UART_Transmit(114); 																				//r
+		UART_Transmit(34); 																					//"
+		UART_Transmit(58); 																					//:
+		UART_Transmit(34); 																					//"
+		UART_Transmit(101); 																				//e
+		UART_Transmit(119); 																				//w
+		UART_Transmit(34); 																					//"
+		UART_Transmit(44); 																					//,
+		UART_Transmit(10); 																					//line feed
+		UART_Transmit(13); 																					//carriage return
 		clearErrorFlag = false;
 	}else{
-		UART_Transmit(10); //line feed
-		UART_Transmit(13); //carriage return
+		UART_Transmit(10); 																					//line feed
+		UART_Transmit(13); 																					//carriage return
 		
-		if(collisionErrorFlag || jamErrorFlag) {
-			UART_Transmit(34); //'
-			UART_Transmit(101); //e
-			UART_Transmit(119); //w
-			UART_Transmit(34); // "
-			UART_Transmit(58); //:
-			UART_Transmit(91); //[
-			//print errors
-			
-			if(jamErrorFlag){ //compressor jammed
-				UART_Transmit(34); //"
-				UART_Transmit(106); //j
-				UART_Transmit(97); //a
-				UART_Transmit(109); //m
-				UART_Transmit(34); //"
+		if(collisionErrorFlag || jamErrorFlag) {															//if either error occurs then send 
+			UART_Transmit(34); 																				//'
+			UART_Transmit(101); 																			//e
+			UART_Transmit(119); 																			//w
+			UART_Transmit(34); 																				// "
+			UART_Transmit(58); 																				//:
+			UART_Transmit(91); 																				//[
+																											
+																											//Print the various errors
+			if(jamErrorFlag){ 																				//Compressor Jammed 
+				UART_Transmit(34); 																			//"
+				UART_Transmit(106); 																		//j
+				UART_Transmit(97); 																			//a
+				UART_Transmit(109); 																		//m
+				UART_Transmit(34); 																			//"
 				if(jamErrorFlag && collisionErrorFlag){
-					UART_Transmit(44); //,
+					UART_Transmit(44); 																		//,
 				}
 			}
 
-			if(collisionErrorFlag){ //compressor colliding
-				UART_Transmit(34); //"
-				UART_Transmit(99); //c
-				UART_Transmit(111); //o
-				UART_Transmit(108); //l
-				UART_Transmit(108); //l
-				UART_Transmit(105); //i
-				UART_Transmit(115); //s
-				UART_Transmit(105); //i
-				UART_Transmit(111); //o
-				UART_Transmit(110); //n
-				UART_Transmit(34); //"
+			if(collisionErrorFlag){ 																		//Compressor Colliding
+				UART_Transmit(34); 																			//"
+				UART_Transmit(99); 																			//c
+				UART_Transmit(111); 																		//o
+				UART_Transmit(108); 																		//l
+				UART_Transmit(108); 																		//l
+				UART_Transmit(105); 																		//i
+				UART_Transmit(115); 																		//s
+				UART_Transmit(105); 																		//i
+				UART_Transmit(111); 																		//o
+				UART_Transmit(110); 																		//n
+				UART_Transmit(34); 																			//"
 			}
 			
 			
