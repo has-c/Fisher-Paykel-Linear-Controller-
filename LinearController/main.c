@@ -30,6 +30,7 @@
 #define PWM_FREQUENCY 1000
 #define NUMBER_OF_SAMPLES 120
 #define BACKEMF
+#define COIL_INDUCTANCE 5080																//This value is in micro Henries (uH)
 
 /**************************************************************Global Variables**************************************************************/
 /*******************PWM Global Variables*******************/
@@ -216,7 +217,8 @@ int main(void)
 	DDRD |= (1<<PD5)|(1<<PD6);
 	
 	/*******************Coil Impedence*******************/
-	uint32_t coilImpedence;
+	//Impedance was considered, but the inductance makes negligible impact on calculations
+	//uint32_t coilImpedence = sqrt((4.2*4.2)+(((2*pi*operatingFrequency*COIL_INDUCTANCE)/1000000)**2));
 
     while (1) 
     {	
@@ -260,13 +262,14 @@ int main(void)
 		}
 				
 		/*******************Power Calculation*******************/	
-		uint32_t powerTotal = 0;												
-		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){											//This for-loop calculates the average power dissipated over the coil
-			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
-			powerTotal += powerArray[j];
-		}
-		
-		averagePower = powerTotal / NUMBER_OF_SAMPLES;										
+		//uint32_t powerTotal = 0;												
+		//for(int j = 0; j < NUMBER_OF_SAMPLES; j++){											//This for-loop calculates the average power dissipated over the coil
+			//powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
+			//powerTotal += powerArray[j];
+		//}
+		//
+		//averagePower = powerTotal / NUMBER_OF_SAMPLES;		
+		averagePower = (voltageAverageFinal*currentAverageFinal)/1000;						
 					
 		/*******************Receive Message Protocol*******************/
 		if(messageReceived){

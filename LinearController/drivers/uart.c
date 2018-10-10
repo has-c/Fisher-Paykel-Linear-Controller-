@@ -28,7 +28,6 @@ void UART_Init(unsigned int BAUD_RATE){
 }
 
 /**************************************************************UART Transmit**************************************************************/
-
 void UART_Transmit(uint8_t myValue){
 	//disable receive
 	UCSR0B &= ~(1 << RXEN0);
@@ -86,7 +85,7 @@ void UART_InterpretPumpingEffort(){
 /**************************************************************JSON Structure**************************************************************/
 
 /**************************************************************Send JSON Structure**************************************************************/
-/*The functions encapsulated within UART_SendJSON create the JSON Structure that is send to the master from the controller*/
+/*Note:The functions encapsulated within UART_SendJSON create the JSON Structure that is send to the master from the controller*/
 void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
 	MFCmodulator(requiredValue,currentValue);
 	VERmodulator();
@@ -263,6 +262,7 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t a
 	UART_Transmit(58); 																						//:
 	UART_Transmit(34);																						//"
 	firstDigit = current/100;																				//The dividing and multiplying by powers of 10 below is necessary to extract a digit from a number 
+	secondDigit = (current-(firstDigit*100))/10;										
 	thirdDigit = current - (firstDigit*100) - (secondDigit*10);
 	UART_Transmit(UART_ASCIIConversion(firstDigit));
 	UART_Transmit(46); 																						//decimal point												
@@ -358,25 +358,23 @@ void ERRORmodulator(bool jamErrorFlag, bool collisionErrorFlag){
 			}
 			
 			
-			UART_Transmit(93); //[
+			UART_Transmit(93); 																				//[
 			
-			}else{ //no errors present
-			UART_Transmit(10); //line feed
-			UART_Transmit(13); //carriage return
+			}else{ 																							//No errors present
+			UART_Transmit(10); 																				//line feed
+			UART_Transmit(13); 																				//carriage return
 		}
 	}
 	
 	
-	//print final curly brackets
-	
-	UART_Transmit(10); //line feed
-	UART_Transmit(13); //carriage return
-	UART_Transmit(125); // }
-	UART_Transmit(10); //line feed
-	UART_Transmit(13); //carriage return
-	UART_Transmit(125); // }
-	UART_Transmit(10); //line feed
-	UART_Transmit(13); //carriage return
+	UART_Transmit(10); 																						//line feed
+	UART_Transmit(13); 																						//carriage return
+	UART_Transmit(125); 																					// }
+	UART_Transmit(10); 																						//line feed
+	UART_Transmit(13);																						//carriage return
+	UART_Transmit(125); 																					// }
+	UART_Transmit(10); 																						//line feed
+	UART_Transmit(13); 																						//carriage return
 
 
 }
