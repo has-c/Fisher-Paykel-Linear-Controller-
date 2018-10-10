@@ -12,7 +12,7 @@
 #ifndef PWM_H_
 #define PWM_H_
 
- 
+ /**************************************************************PWM Declarations**************************************************************/
 void PWM_Init();
 void PWM_Change(uint16_t topValue, uint16_t bottomValue);
 extern uint16_t PWM_CalculateDeadTime();

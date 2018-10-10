@@ -38,7 +38,6 @@ volatile bool isDead = false;																//Gives indication of whether we ar
 volatile bool isLHS = true;																	//Checks whether we are using the left-hand side MOSFET pair
 volatile bool lowPowerMode = true;															//Indicates whether we are in the low-power mode
 volatile uint8_t pumpingEffort = 0;															//Mass-Flow Control Number 
-volatile bool changePumpingEffort = false; 
 volatile uint16_t frequency = 65;															//Operating Frequency. Note: Must be halved when in the low power mode to adjust for dead-time 
 volatile uint8_t noOfWaves = 32;															//Number of PWM waves being pulsed
 volatile uint16_t dutyCycle = 0; 
@@ -215,7 +214,8 @@ int main(void)
 	DDRB |= (1<<PB1)|(1<<PB2);
 	DDRD |= (1<<PD5)|(1<<PD6);
 	
-
+	/*******************Coil Impedence*******************/
+	uint32_t coilImpedence;
 
     while (1) 
     {	
@@ -233,39 +233,39 @@ int main(void)
 				measurementIndex++;											
 			}
 		
-		for(int i = 0;i<NUMBER_OF_SAMPLES;i++){												//Calculate the voltage across the coil
+		for(int i = 0;i<NUMBER_OF_SAMPLES;i++){												//This for-loop calculates the voltage across the coil
 			if(voltageLHS[i]>voltageRHS[i]){												
 				voltageAcrossTheCoil[i] = voltageLHS[i]-voltageRHS[i];
 				}else{
 				voltageAcrossTheCoil[i] = voltageRHS[i]-voltageLHS[i];
 			}		
-			voltageSum += voltageAcrossTheCoil[i];
+			voltageSum += voltageAcrossTheCoil[i];											
 			
 		}
 		
-		averageVoltage = voltageSum / NUMBER_OF_SAMPLES;							
+		averageVoltage = voltageSum / NUMBER_OF_SAMPLES;									//This is the average voltage per sample					
 
-		voltageAverageArray[voltageAverageIndex] = averageVoltage;
+		voltageAverageArray[voltageAverageIndex] = averageVoltage;							
 		voltageAverageIndex++;
 				
 		/*******************Calculate Average Voltage and Current*******************/		
-		if(voltageAverageIndex==NUMBER_OF_SAMPLES){
+		if(voltageAverageIndex==NUMBER_OF_SAMPLES){											//The averageVoltage per sample is then averaged across multiple samples to get a a more accurate result	
 			for(int k = 0;k < NUMBER_OF_SAMPLES;k++){
 				voltageAverageFinal += voltageAverageArray[k];
 			}
-			voltageAverageFinal /= NUMBER_OF_SAMPLES;
-			currentAverageFinal = (voltageAverageFinal*100)/415;
+			voltageAverageFinal /= NUMBER_OF_SAMPLES;										//This the average voltage across multiple samples taken 
+			currentAverageFinal = (voltageAverageFinal*100)/415;							//From average voltage, average current through the coil is calculated using Ohms law			
 			voltageAverageIndex = 0;
 		}
 				
 		/*******************Power Calculation*******************/	
-		uint32_t powerTotal = 0;
-		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
+		uint32_t powerTotal = 0;												
+		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){											//This for-loop calculates the average power dissipated over the coil
 			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
 			powerTotal += powerArray[j];
 		}
 		
-		averagePower = powerTotal / NUMBER_OF_SAMPLES;
+		averagePower = powerTotal / NUMBER_OF_SAMPLES;										
 					
 		/*******************Receive Message Protocol*******************/
 		if(messageReceived){
@@ -279,11 +279,16 @@ int main(void)
 				cmprCollide = false;
 				cmprJammed = false;;
 			}
+			if(lowPowerMode){
+				frequency = frequency*2/10;
+			}else{
+				frequency = frequency/10;
+			}
 			UART_SendJson(averagePower,frequency,voltageAverageFinal,currentAverageFinal,cmprJammed,cmprCollide, pumpingEffort,pumpingEffort);
 			messageReceived = false;
 			numberOfCharactersReceived = 0;
 		}
-		UART_InterpretPumpingEffort();													//Interpret pumping effort 	
+		UART_InterpretPumpingEffort();														
     }
 	
 	

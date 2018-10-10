@@ -13,9 +13,10 @@
 
 
 /**************************************************************Macros**************************************************************/
-#define MAX_LOW_POWER 37885
-#define PROPORTIONALITY_CONSTANT 21983
-#define MAX_VOLTAGE 13
+#define LOW_POWER_PROPORTIONALITY_CONSTANT 30
+#define LOW_POWER_INTERCEPT 1300
+#define HIGH_POWER_PROPORTIONALITY_CONSTANT 37
+#define 
 
 /**************************************************************UART Intialisation**************************************************************/
 void UART_Init(unsigned int BAUD_RATE){
@@ -37,41 +38,46 @@ void UART_Transmit(uint8_t myValue){
 	UDR0 = myValue;//once ready, store next value for transmission
 }
 
+/**************************************************************Decimal to ASCII Conversion**************************************************************/
 uint8_t UART_ASCIIConversion(uint8_t value){
 	uint8_t asciiValue = value + 48;
 	return asciiValue;
 }
 
 
-//only changes dutycycle
+/**************************************************************Mass-Flow Control Value Interpretation**************************************************************/
+/*Puropose: This function allows the controller to interpret the mass-flow control (MFC) value sent by the master. This function changes duty cyle in an effort 
+to adjust stroke length which is proportionally related to exerted pumping effort*/
 void UART_InterpretPumpingEffort(){
-	if(pumpingEffort==255){
+	if(pumpingEffort==255){																					//MFC at maximum
 		power_all_enable();
 		dutyCycle = 99;
 		lowPowerMode = false;
-	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
+	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){														
 		power_all_enable();
 		if(!lowPowerMode){
-			frequency /= 2;
+			frequency /= 2;																					//Frequency is halved to maintain the current operating frequency
 		}
-		lowPowerMode = true; //turn off two switches push from one direction
-		dutyCycle = (30*pumpingEffort + 1300)/100;
-	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
+		lowPowerMode = true; 																				//Turns on low power mode meaning we are only using one pair of drivers
+		dutyCycle = (LOW_POWER_PROPORTIONALITY_CONSTANT*pumpingEffort + LOW_POWER_INTERCEPT)/100;			//Low power relationship between duty cycle and pumping effort - found through analysis
+	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){													//Higher MFC range, 
 		power_all_enable();
 		if(lowPowerMode){
-			frequency *= 2;
+			frequency *= 2;																					//Frequency is doubled to maintain the current operating frequency
 		}
 		lowPowerMode = false;
-		dutyCycle = 37*pumpingEffort/100;
-	}else{ 
-		power_all_disable(); //disables all modules on the microcontroller
-		power_usart0_enable();
-		dutyCycle = 0;
+		dutyCycle = HIGH_POWER_PROPORTIONALITY_CONSTANT*pumpingEffort/100;									//High power relationship between duty cycle and pumping effort - again found through analysis
+	}else{ 																									//When a zero or other undefined character is received through the master turn off the coil
+		power_all_disable(); 																				//Disable all units																			
+		power_usart0_enable();																				//Enable UART so that communication can still occur
+		dutyCycle = 0;																						
 	}
-	changePumpingEffort	 = false;
 }
 
+/**************************************************************JSON Structure**************************************************************/
 
+/**************************************************************Send JSON Structure**************************************************************/
+/*The functions encapsulated within UART_SendJSON create the JSON Structure that is send to the master from the controller*/
 void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
 	MFCmodulator(requiredValue,currentValue);
 	VERmodulator();
@@ -80,185 +86,185 @@ void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t ap
 
 }
 
+/**************************************************************Mass Flow Control**************************************************************/
 
 void MFCmodulator(uint8_t requiredValue, uint8_t currentValue){
-	//temp conversion variables. Used to split 3 digit numbers as only one digit can be sent at a time
 	uint8_t firstDigit = 0;
 	uint8_t secondDigit = 0;
 	uint8_t thirdDigit = 0;
+																											//Shown below are the ASCII conversions
+	UART_Transmit(13); 																						//carriage return
+	UART_Transmit(123); 																					//{
+	UART_Transmit(10); 																						//line feed 
+	UART_Transmit(13); 																						//carriage return
 	
-	UART_Transmit(13); //carriage return
-	UART_Transmit(123); //{
-	UART_Transmit(10); //line feed 
-	UART_Transmit(13); //carriage return
-	
-	//LCC Identifier 
-	UART_Transmit(34); //"
-	UART_Transmit(51);//3
-	UART_Transmit(34);//"
-	UART_Transmit(58);//:
+																											//LCC Identifier 
+	UART_Transmit(34); 																						//"
+	UART_Transmit(51);																						//3
+	UART_Transmit(34);																						//"
+	UART_Transmit(58);																						//:
 
-	//MFC 
-	UART_Transmit(10); //Line feed
-	UART_Transmit(13); //carriage return
-	UART_Transmit(123); //{
-	UART_Transmit(10); //Line feed
-	UART_Transmit(13); //carriage return
+																											//MFC 
+	UART_Transmit(10); 																						//Line feed
+	UART_Transmit(13); 																						//carriage return
+	UART_Transmit(123);																						//{
+	UART_Transmit(10);																						//Line feed
+	UART_Transmit(13); 																						//carriage return
 	
-	
-	//MFC letter setup
-	UART_Transmit(34); //'
-	UART_Transmit(109);//m
-	UART_Transmit(102);//f
-	UART_Transmit(99);//c
-	UART_Transmit(34);//"
-	UART_Transmit(58);//:
+																											//MFC letter setup
+	UART_Transmit(34); 																						//'
+	UART_Transmit(109);																						//m
+	UART_Transmit(102);																						//f
+	UART_Transmit(99);																						//c
+	UART_Transmit(34);																						//"
+	UART_Transmit(58);																						//:
 	 
-
-	//MFC Values 
-	UART_Transmit(123); //{
-	UART_Transmit(34); //"
-	UART_Transmit(114);//r
-	UART_Transmit(101);//e
-	UART_Transmit(113);//q
-	UART_Transmit(34);//"
-	UART_Transmit(58);//:
-	UART_Transmit(34);//"
+																											//MFC Values 
+	UART_Transmit(123); 																					//{
+	UART_Transmit(34); 																						//"
+	UART_Transmit(114);																						//r
+	UART_Transmit(101);																						//e
+	UART_Transmit(113);																						//q
+	UART_Transmit(34);																						//"
+	UART_Transmit(58);																						//:
+	UART_Transmit(34);																						//"
 	
-	//required value transmission
-	firstDigit = requiredValue/100;
+																											//Transmit the required MFC value 
+	firstDigit = requiredValue/100;																			//The dividing by powers of 10 and multiplying by powers of 10 is necessary to extract a digit from a number 
 	secondDigit = (requiredValue-(firstDigit*100))/10;
 	thirdDigit = requiredValue - (firstDigit*100) - (secondDigit*10);
 	UART_Transmit(UART_ASCIIConversion(firstDigit));
 	UART_Transmit(UART_ASCIIConversion(secondDigit)); 
 	UART_Transmit(UART_ASCIIConversion(thirdDigit));
-	UART_Transmit(34);//"
-	UART_Transmit(44);//,
+	UART_Transmit(34);																						//"
+	UART_Transmit(44);																						//,
 	
 
-	UART_Transmit(34);//"
-	UART_Transmit(99);//c
-	UART_Transmit(117);//u
-	UART_Transmit(114);//r
-	UART_Transmit(34);//"
-	UART_Transmit(58);//:
-	UART_Transmit(34);//"
-	//current value transmission
-	firstDigit = currentValue/100;
+	UART_Transmit(34);																						//"
+	UART_Transmit(99);																						//c
+	UART_Transmit(117);																						//u
+	UART_Transmit(114);																						//r
+	UART_Transmit(34);																						//"
+	UART_Transmit(58);																						//:
+	UART_Transmit(34);																						//"
+	
+																											//Transmit current MFC value
+	firstDigit = currentValue/100;																			//The dividing by powers of 10 and multiplying by powers of 10 is necessary to extract a digit from a number 
 	secondDigit = (currentValue-(firstDigit*100))/10;
 	thirdDigit = currentValue - (firstDigit*100) - (secondDigit*10);
 	UART_Transmit(UART_ASCIIConversion(firstDigit));
 	UART_Transmit(UART_ASCIIConversion(secondDigit));
 	UART_Transmit(UART_ASCIIConversion(thirdDigit));
 	
-	UART_Transmit(34);//"
-	UART_Transmit(125);//}
-	UART_Transmit(44);//,
-	UART_Transmit(10); //Line feed
-	UART_Transmit(13); //carriage return
+	UART_Transmit(34);																						//"
+	UART_Transmit(125);																						//}
+	UART_Transmit(44);																						//,
+	UART_Transmit(10); 																						//Line feed
+	UART_Transmit(13); 																						//carriage return
 	 
 	
 }
 
+/**************************************************************Version Number**************************************************************/
 void VERmodulator(){
-	UART_Transmit(34); //"
-	UART_Transmit(118);//v
-	UART_Transmit(101);//e
-	UART_Transmit(114);//r
-	UART_Transmit(34);//"
-	UART_Transmit(58);//:
-	UART_Transmit(34);//"
-	UART_Transmit(49); //1
-	UART_Transmit(46);//.
-	UART_Transmit(50);//2
-	UART_Transmit(46);//.
-	UART_Transmit(51);//3
-	UART_Transmit(34);//"
-	UART_Transmit(44); //,
-	UART_Transmit(10); //Line feed 
-	UART_Transmit(13); //carriage return
+	UART_Transmit(34); 																						//"
+	UART_Transmit(118);																						//v
+	UART_Transmit(101);																						//e
+	UART_Transmit(114);																						//r
+	UART_Transmit(34);																						//"
+	UART_Transmit(58);																						//:
+	UART_Transmit(34);																						//"
+	UART_Transmit(49);																						//1
+	UART_Transmit(46);																						//.
+	UART_Transmit(50);																						//2
+	UART_Transmit(46);																						//.
+	UART_Transmit(51);																						//3
+	UART_Transmit(34);																						//"
+	UART_Transmit(44);																						//,
+	UART_Transmit(10); 																						//Line feed 
+	UART_Transmit(13); 																						//carriage return
 	 
 }
 
+/**************************************************************Parameter Modulator**************************************************************/
 void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current){
 	uint8_t firstDigit; 
 	uint8_t secondDigit;
 	uint8_t thirdDigit;
 	uint8_t fourthDigit;
-	UART_Transmit(34);//"
-	UART_Transmit(112);//p
-	UART_Transmit(97);//a
-	UART_Transmit(114);//r
-	UART_Transmit(97);//a
-	UART_Transmit(109);//m
-	UART_Transmit(34);//"
-	UART_Transmit(58);//:
-	UART_Transmit(123);//{
+
+	UART_Transmit(34);																						//"
+	UART_Transmit(112);																						//p
+	UART_Transmit(97);																						//a
+	UART_Transmit(114);																						//r
+	UART_Transmit(97);																						//a
+	UART_Transmit(109);																						//m
+	UART_Transmit(34);																						//"
+	UART_Transmit(58);																						//:
+	UART_Transmit(123);																						//{
+
+																											//Transmit Parameters
+	UART_Transmit(34); 																						//"
+	UART_Transmit(112); 																					//p
+	UART_Transmit(119); 																					//w
+	UART_Transmit(114);																						//r 
+	UART_Transmit(34); 																						//"
+	UART_Transmit(58); 																						//:
+	UART_Transmit(34);																						//"
 	
-	//parameters
-	
-	UART_Transmit(34); //"
-	UART_Transmit(112); //p
-	UART_Transmit(119); //w
-	UART_Transmit(114);//r 
-	UART_Transmit(34); //"
-	UART_Transmit(58); //:
-	UART_Transmit(34);//"
-	
-	//power parameters 
-	firstDigit = averagePower/100;
+																											//Transmit Power 
+	firstDigit = averagePower/100;																			//The dividing by powers of 10 and multiplying by powers of 10 is necessary to extract a digit from a number 
 	secondDigit = (averagePower-(firstDigit*100))/10;
 	thirdDigit = averagePower - (firstDigit*100) - (secondDigit*10);
 	UART_Transmit(UART_ASCIIConversion(firstDigit));
 	UART_Transmit(UART_ASCIIConversion(secondDigit));
-	UART_Transmit(46); //decimal point
+	UART_Transmit(46); 																						//Decimal point
 	UART_Transmit(UART_ASCIIConversion(thirdDigit));
-	UART_Transmit(87); //W
-	UART_Transmit(34); //"
-	UART_Transmit(44); //,
+	UART_Transmit(87); 																						//W
+	UART_Transmit(34); 																						//"
+	UART_Transmit(44); 																						//,
 	 
 	 
 	
-	//frequency
-	UART_Transmit(34); //"
-	UART_Transmit(102);//f
-	UART_Transmit(114);//r
-	UART_Transmit(101);//e
-	UART_Transmit(113);//q
-	UART_Transmit(34);//"
-	UART_Transmit(58);//:
-	UART_Transmit(34);//"
-	firstDigit = operatingFrequency/10;
+																											//Transmit Frequency
+	UART_Transmit(34); 																						//"
+	UART_Transmit(102);																						//f
+	UART_Transmit(114);																						//r
+	UART_Transmit(101);																						//e
+	UART_Transmit(113);																						//q
+	UART_Transmit(34);																						//"
+	UART_Transmit(58);																						//:
+	UART_Transmit(34);																						//"
+	firstDigit = operatingFrequency/10;																		//The dividing by powers of 10 and multiplying by powers of 10 is necessary to extract a digit from a number 
 	secondDigit = operatingFrequency-(firstDigit*10);
 	UART_Transmit(UART_ASCIIConversion(firstDigit));
 	UART_Transmit(UART_ASCIIConversion(secondDigit));
-	UART_Transmit(72); //H
-	UART_Transmit(122);//z
-	UART_Transmit(34);//"
-	UART_Transmit(44);//,
+	UART_Transmit(72);																						//H
+	UART_Transmit(122);																						//z
+	UART_Transmit(34);																						//"
+	UART_Transmit(44);																						//,
 	
-	//current 
-
-	UART_Transmit(34); //"
-	UART_Transmit(99); //c
-	UART_Transmit(117); //u
-	UART_Transmit(114);//r
-	UART_Transmit(114);//r
-	UART_Transmit(34); //"
-	UART_Transmit(58); //:
-	UART_Transmit(34);//"
-	firstDigit = current/100;
+																											//Transmit Current
+	UART_Transmit(34); 																						//"
+	UART_Transmit(99); 																						//c
+	UART_Transmit(117); 																					//u
+	UART_Transmit(114);																						//r
+	UART_Transmit(114);																						//r
+	UART_Transmit(34); 																						//"
+	UART_Transmit(58); 																						//:
+	UART_Transmit(34);																						//"
+	firstDigit = current/100;																				//The dividing by powers of 10 and multiplying by powers of 10 is necessary to extract a digit from a number 
 	secondDigit = (current-(firstDigit*100))/10;
 	thirdDigit = current - (firstDigit*100) - (secondDigit*10);
-	UART_Transmit(UART_ASCIIConversion(firstDigit));
+	UART_Transmit(UART_ASCIIConversion(firstDigit));														
 	UART_Transmit(UART_ASCIIConversion(secondDigit));
 	UART_Transmit(UART_ASCIIConversion(thirdDigit));
-	UART_Transmit(109); //m
-	UART_Transmit(65); //A
-	UART_Transmit(34); //"
-	UART_Transmit(44); //,
+	UART_Transmit(109); 																					//m
+	UART_Transmit(65); 																						//A
+	UART_Transmit(34); 																						//"
+	UART_Transmit(44); 																						//,
 	
-	//applied voltage
+																											//Transmit average voltage across the coil
 	 
 	UART_Transmit(34); //"
 	UART_Transmit(118); //v
@@ -288,6 +294,7 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t a
 	 
 }
 
+/**************************************************************Error Modulator**************************************************************/
 void ERRORmodulator(bool jamErrorFlag, bool collisionErrorFlag){  
 	//error clear tells us whether we need to clear the error array
 	if(clearErrorFlag){

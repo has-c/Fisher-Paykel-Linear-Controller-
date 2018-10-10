@@ -12,13 +12,12 @@
 #ifndef ADC_H_
 #define ADC_H_
 
+/**************************************************************ADC Declarations**************************************************************/
 void ADC_Init();
 uint32_t ADC_Read();
 uint32_t ADC_Calculate();
 uint32_t ADC_LHSVoltage();
 uint32_t ADC_RHSVoltage();
-uint32_t ADC_Current();
-void ADC_ChannelSwitching();
 
 
 
