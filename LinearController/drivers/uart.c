@@ -41,10 +41,12 @@ void UART_Transmit(uint8_t myValue){
 void UART_InterpretPumpingEffort(){
 	uint32_t voltageEquivalentValue;
 	//pumpingEffort = 179; //mock pumping effort
-	if(pumpingEffort==0){ //turn off mode
-		//power_all_disable(); //disables all modules on the microcontroller
-		//power_usart0_enable();
-		dutyCycle = 0;
+	if(pumpingEffort==255){ //255 lose your mind
+		//power_all_enable();
+		//change duty cycle and pwm to max out the motors
+		
+		dutyCycle = 99;
+		lowPowerMode = false;
 	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
 		//power_all_enable();
 		//70% of values - care about efficiency and meeting pumpingEffort
@@ -54,14 +56,7 @@ void UART_InterpretPumpingEffort(){
 			frequency /= 2;
 		}
 		lowPowerMode = true; //turn off two switches push from one direction
-		if(pumpingEffort < 10){
-			voltageEquivalentValue = (75*pumpingEffort+2000)/1000;
-		}else if(pumpingEffort>=10 && pumpingEffort<100){
-			voltageEquivalentValue = (5*dutyCycle+250)/100;
-		}else{
-			voltageEquivalentValue = (3*pumpingEffort+700)/100;
-		}
-		dutyCycle = (8.55*voltageEquivalentValue + 3.78);
+		dutyCycle = (30*pumpingEffort + 1300)/100;
 	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
 		//power_all_enable();
 		//30% of values - go ham fam
@@ -69,13 +64,12 @@ void UART_InterpretPumpingEffort(){
 			frequency *= 2;
 		}
 		lowPowerMode = false;
-		voltageEquivalentValue = pumpingEffort/30; //30 is a constant used to make this relationship work
-		dutyCycle = (917*voltageEquivalentValue + 456)/100;
-	}else{ //255 lose your mind
-		//power_all_enable();
-		//change duty cycle and pwm to max out the motors
-		lowPowerMode = false;
-		dutyCycle = 99;
+		dutyCycle = 37*pumpingEffort/100;
+	}else{ 
+		//turn off mode
+		//power_all_disable(); //disables all modules on the microcontroller
+		//power_usart0_enable();
+		dutyCycle = 0;
 	}
 	changePumpingEffort	 = false;
 }

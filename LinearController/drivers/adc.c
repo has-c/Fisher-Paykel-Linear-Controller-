@@ -13,7 +13,7 @@ void ADC_Init(){
 	ADMUX &= ~(1<<REFS0);
 	//Turns on the ADC and sets prescaler to 32
 	//enable ADC
-	ADCSRA |= (1<<ADEN)|(1<<ADPS2)|(1<<ADPS0);	
+	ADCSRA |= (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);	
 }
 
 //polling ADC 
