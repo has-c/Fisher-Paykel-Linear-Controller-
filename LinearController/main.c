@@ -217,8 +217,8 @@ int main(void)
 	DDRD |= (1<<PD5)|(1<<PD6);
 	
 	/*******************Coil Impedence*******************/
-	//Impedance was considered, but the inductance makes negligible impact on calculations
-	//uint32_t coilImpedence = sqrt((4.2*4.2)+(((2*pi*operatingFrequency*COIL_INDUCTANCE)/1000000)**2));
+
+	uint32_t coilImpedence = sqrt((42*42)+(((2*pi*operatingFrequency*COIL_INDUCTANCE)/1000)**2)); 
 
     while (1) 
     {	
@@ -227,7 +227,6 @@ int main(void)
 		measurementIndex = 0;
 		uint32_t averageVoltage = 0;
 		uint32_t voltageSum = 0;
-		uint32_t powerArray[NUMBER_OF_SAMPLES];
 
 		/*******************Voltage Measurement*******************/
 			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples
@@ -257,7 +256,7 @@ int main(void)
 				voltageAverageFinal += voltageAverageArray[k];
 			}
 			voltageAverageFinal /= NUMBER_OF_SAMPLES;										//This the average voltage across multiple samples taken 
-			currentAverageFinal = (voltageAverageFinal*100)/415;							//From average voltage, average current through the coil is calculated using Ohms law			
+			currentAverageFinal = (voltageAverageFinal*100)/coilImpedence;							//From average voltage, average current through the coil is calculated using Ohms law			
 			voltageAverageIndex = 0;
 		}
 				
@@ -271,7 +270,7 @@ int main(void)
 		//averagePower = powerTotal / NUMBER_OF_SAMPLES;		
 		averagePower = (voltageAverageFinal*currentAverageFinal)/1000;						
 					
-		/*******************Receive Message Protocol*******************/
+		n 
 		if(messageReceived){
 			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
 				
