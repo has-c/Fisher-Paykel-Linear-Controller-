@@ -15,6 +15,8 @@
  
 void PWM_Init();
 void PWM_Change(uint16_t topValue, uint16_t bottomValue);
+extern uint16_t PWM_CalculateDeadTime();
+extern uint8_t PWM_ConvertTimerValueToDutyCycle();
 
 
 

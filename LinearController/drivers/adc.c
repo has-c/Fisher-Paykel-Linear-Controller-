@@ -2,7 +2,7 @@
  * adc.c
  *
  * Created: 15/09/2018 5:24:17 PM
- *  Author: hasna
+ *  Author: hasnain
  */ 
   
 #include "adc.h"

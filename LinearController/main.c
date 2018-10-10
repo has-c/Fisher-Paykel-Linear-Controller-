@@ -14,7 +14,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-#include "delay.h"
+
 
 
 #include "main.h"
@@ -27,64 +27,162 @@
 #define UBRR_VALUE F_CPU/16/BAUDRATE - 1
 
 #define PWM_FREQUENCY 1000
-#define NUMBER_OF_POSSIBLE_ERRORS 2 //jam, collision
 #define NUMBER_OF_SAMPLES 120
+#define BACKEMF
 
-//global variables
+/**************************************************************Global Variables**************************************************************/
+/*******************PWM Global Variables*******************/
 volatile uint8_t count = 0;
-volatile bool isDead = false; //indication of whether you are in the deadzone
-volatile bool isLHS = true; //true = uses the LHS driver, false = uses the RHS driver
-volatile bool lowPowerMode = true; //false = high power mode, bidirectional and true = low power mode which is single sided movement 
-volatile uint8_t pumpingEffort = 0;
-volatile uint16_t timerDutyCycle; 
-volatile bool changePumpingEffort = false;
-volatile bool pumpingIsOccurring = false;
-volatile uint16_t frequency = 65; //note need to divide the freq by half when using the low power mode, also divide everything by 10
-volatile uint8_t noOfWaves = 32;
-volatile uint16_t dutyCycle = 0;
-volatile bool transmitParameters = true;
-volatile unsigned char value = 0;
+volatile bool isDead = false;																//Gives indication of whether we are in the dead-zone
+volatile bool isLHS = true;																	//Checks whether we are using the left-hand side MOSFET pair
+volatile bool lowPowerMode = true;															//Indicates whether we are in the low-power mode
+volatile uint8_t pumpingEffort = 0;															//Mass-Flow Control Number 
+volatile bool changePumpingEffort = false; 
+volatile uint16_t frequency = 65;															//Operating Frequency. Note: Must be halved when in the low power mode to adjust for dead-time 
+volatile uint8_t noOfWaves = 32;															//Number of PWM waves being pulsed
+volatile uint16_t dutyCycle = 0; 
 
-
-//receive global variable
-volatile bool finished = false;
-volatile unsigned char received;
-volatile int rx_count = 0;
-volatile unsigned char pumpingEffortArray[40] = {0};
-volatile int pumpParam = 0;
-
-
-volatile uint32_t voltageLHS[NUMBER_OF_SAMPLES];
-volatile uint8_t voltageLHSIndex = 0;
-
-volatile uint32_t voltageRHS[NUMBER_OF_SAMPLES];
-volatile uint32_t voltageRMSArray[NUMBER_OF_SAMPLES];
-volatile uint8_t voltageRHSIndex = 0;
-
-volatile uint32_t voltageAcrossTheCoil[NUMBER_OF_SAMPLES];
+/*******************UART Receive Global Variables*******************/
+volatile bool messageReceived = false;														//Indicates whether the entire message has been characterReceived or not
+volatile unsigned char characterReceived;													//
+volatile int numberOfCharactersReceived = 0;												//
+volatile unsigned char pumpingEffortArray[40] = {0};										//
+	
+/*******************Power Measurement Global Variables*******************/
+volatile uint32_t voltageLHS[NUMBER_OF_SAMPLES];											//Holds left-hand side voltage values
+volatile uint8_t measurementIndex = 0;														//Indexing value for power measurement arrays
+volatile uint32_t voltageRHS[NUMBER_OF_SAMPLES];											//Holds right-hand side voltage values
+volatile uint32_t voltageAverageArray[NUMBER_OF_SAMPLES];									//Holds average voltage values 
+volatile uint32_t voltageAcrossTheCoil[NUMBER_OF_SAMPLES];								 
 
 volatile uint8_t operatingFrequency = 0;
 volatile uint8_t appliedVoltage = 0;
 volatile uint8_t averagePower = 0;
 
-volatile uint32_t tempParam = 0;
-
-//error detection
-volatile bool cmprJammed = true;
-volatile bool clearErrorFlag = false;
-volatile unsigned char clearErrorArray[20] = {0};
-volatile bool cmprCollide = true;
+/*******************Error Detection Global Variables*******************/
+volatile bool cmprJammed = true;															//Compressor Jammed Flag, True = the compressor is jammed and False = compressor is not jammed
+volatile bool clearErrorFlag = false;														//True = clear the errors within the system, False = errors persist
+volatile unsigned char clearErrorArray[20] = {0};					
+volatile bool cmprCollide = true;															//Compressor Collide Flag, True = the compressor is piston is colliding with the cylinder, False = compressor is not colliding
 
 
-//adc arrays
-int usart_putchar_printf(char var, FILE *stream){
-	if(var== '\n') UART_Transmit('\r');
-	UART_Transmit(var);
-	return 0;
+
+
+
+/**************************************************************Interrupt Service Routines (ISR)**************************************************************/
+
+/*******************UART Receive Complete ISR*******************/
+/*Purpose: Provides functionality for the controller to receive commands from the master*/
+ISR(USART_RX_vect){ 
+	characterReceived = UDR0;															//Collect the character received from the master
+	numberOfCharactersReceived++;
+	if(numberOfCharactersReceived > 20){
+		pumpingEffortArray[numberOfCharactersReceived - 21] = characterReceived;		//
+	}
+	if(numberOfCharactersReceived > 33){
+		clearErrorArray[numberOfCharactersReceived - 34] = characterReceived;
+	}
+	if(numberOfCharactersReceived>37){
+		UCSR0B &= ~(1<<RXCIE0);															//Turn off the receiver
+		UCSR0B &= ~(1<<RXEN0);
+		messageReceived = true;
+		numberOfCharactersReceived = 0;
+	}
 }
 
-static FILE mystdout = FDEV_SETUP_STREAM(usart_putchar_printf, NULL, _FDEV_SETUP_WRITE);
+/*******************UART Transmit Complete ISR*******************/
+/*Purpose: Receiving commands is disabled during transmission from the controller. After 
+transmission is completed, re-enable the receive functionality*/
+ISR(USART_TX_vect){ //wait till tx flag is set before ready to receive
+	UCSR0B |= (1<<RXEN0);
+	UCSR0B |= (1<<RXCIE0);
+}
 
+/*******************Timer 1 ISR COMPA*******************/
+/*Purpose: Provides functionality to create the PWM wave to control the motor*/
+ISR(TIMER1_COMPA_vect){
+	if(isLHS || lowPowerMode){															//This conditional block ensures that if the controller is in low power mode or the isLHS flag is True, then use the left-hand side (LHS) motor driver pair to drive the motor
+		if((count <= noOfWaves) && (!isDead)){											//Produce a certain number of PWM waves 
+			PORTB |= (1<< PB2);															//Turn on LHS PMOS
+			PORTD |= (1<<PD5);															//Turn on LHS NMOS
+			count++;
+		}
+		else if(count > noOfWaves){														//Once the correct number of PWM waves have been generated, initiate a dead-zone
+			PORTB &= ~(1<<PB2);															//Turn PMOS off
+			PORTD &= ~(1<<PD5);															//Turn NMOS off
+			PWM_Change(PWM_CalculateDeadTime(),65535);									//Set appropriate Dead-zone depending on frequency of operation 
+			if(!lowPowerMode){															//If the controller is not in low power mode then set the isLHS flag to false so that next cycle the right-hand side driver wil be used 
+				isLHS = false;
+			}
+			count = 0;
+			isDead = true;																//Activate dead-zone flag
+		}
+		else{																			//End of Dead-zone, set the PWM operating frequency back to normal operation (1khz)
+			isDead = false;
+			PWM_Change(125,PWM_ConvertTimerValueToDutyCycle());
+		}
+	}
+	else{																				//This conditional block ensures that if the isLHS is False, then use the right-hand side (RHS) driver to  drive the motor
+		if((count <= noOfWaves) && (!isDead)){											//Produce a certain number of PWM waves 
+			PORTD |= (1<< PD6);															//Turn RHS NMOS on
+			PORTB |= (1<<PB1);															//Turn RHS PMOS on
+			count++;
+		}
+		else if(count > noOfWaves){														//Once the correct number of PWM waves have been generated, initiate a dead-zone
+			PORTB &= ~(1<<PB1);															//Turn RHS PMOS off
+			PORTD &= ~(1<< PD6);														//Turn RHS NMOS off
+			PWM_Change(PWM_CalculateDeadTime(),65535);									//Set appropriate Dead-zone depending on frequency of operation 
+			isLHS = true;																//Set the isLHS flag to true, to ensure that next round the LHS drivers are used
+			count = 0;
+			isDead = true;																//Activate dead-zone flag
+		}
+		else{																			//End of Dead-zone, set the PWM operating frequency back to normal operation (1khz)
+			isDead = false;
+			PWM_Change(125,PWM_ConvertTimerValueToDutyCycle());
+		}
+		
+	}
+}
+
+/*******************Timer 1 ISR COMPB*******************/
+/*Purpose: Provides functionality to create the PWM wave for the PMOS to control the motor movement*/
+ISR(TIMER1_COMPB_vect){																	
+	if(isLHS || lowPowerMode){																									
+		if((!isDead) && (count <=noOfWaves)){
+			PORTB &= ~(1 << PB2);
+		}
+	}
+	else{
+		if((!isDead) && (count <=noOfWaves)){
+			PORTB &= ~(1 << PB1);
+		}
+	}
+}
+
+/**************************************************************Error Detection Helper Functions**************************************************************/
+
+/*******************Jam Detection*******************/
+
+//void jamDetection(int i){
+	//if(i>1){
+		//if(BACKEMF == 0){
+			//cmprJammed = true;
+			//safetyShutdown();
+		//}else{
+			//cmprJammed = false;
+		//}
+	//}
+//}
+
+/*******************Safety Shutdown*******************/
+/*Purpose: Turn the coil off if any errors have occurred*/
+void safetyShutdown(){
+	if(cmprJammed){
+		pumpingEffort = 0; 
+	}
+}
+
+/**************************************************************UART Receive Helper Functions**************************************************************/
 int concatenate(int a, int b, int c){
 	return ((a-48)*100 + (b-48)*10 + (c-48));
 }
@@ -92,217 +190,85 @@ int concatenate(int a, int b, int c){
 bool checkForError(unsigned char a, unsigned char b){
 	if((a == 101) && (b == 119)){ //101 = e, 119 = w
 		return true;
-	}else{
+		}else{
 		return false;
 	}
 }
-
-ISR(USART_RX_vect){ //USART receiver ISR
-	received = UDR0;
-	rx_count++;
-	if(rx_count > 20){
-		pumpingEffortArray[rx_count - 21] = received;
-	}
-	if(rx_count > 33){
-		clearErrorArray[rx_count - 34] = received;
-	}
-	if(rx_count>37){
-		UCSR0B &= ~(1<<RXCIE0); //turn of receiver after having received
-		UCSR0B &= ~(1<<RXEN0);
-		finished = true;
-		rx_count = 0;
-	}
-}
-
-//disable recieve during transmission
-ISR(USART_TX_vect){ //wait till tx flag is set before ready to receive
-	UCSR0B |= (1<<RXEN0);
-	UCSR0B |= (1<<RXCIE0);
-}
-
-
-ISR(TIMER1_COMPA_vect){
-	if(isLHS || lowPowerMode){	//LHS MOTION
-		if((count <= noOfWaves) && (!isDead)){//PRODUCING X NUMBER OF PWM OSCILLATIONS
-			pumpingIsOccurring = true;
-			PORTB |= (1<< PB2); //turn RHS ON
-			PORTD |= (1<<PD5);
-			count++;
-		}
-		else if(count > noOfWaves){//DEADZONE: leave the port off for 14ms in total
-			pumpingIsOccurring = false;
-			PORTD &= ~(1<<PD5); //turn pmos off
-			PORTB &= ~(1<<PB2);//turn nmos off
-			PWM_Change(CalculateDeadTime(),65535);
-			if(!lowPowerMode){
-				isLHS = false;
-			}
-			count = 0;
-			isDead = true; //deadzone begins
-		}
-		else{	//end of deadzone, set the pwm frequency back to normal
-			isDead = false;
-			PWM_Change(125,ConvertTimerValueToDutyCycle());
-		}
-	}
-	else{//RHS MOTION
-		if((count <= noOfWaves) && (!isDead)){
-			pumpingIsOccurring = true;
-			PORTD |= (1<< PD6); //NMOS and PMOS on
-			PORTB |= (1<<PB1);
-			count++;
-		}
-		else if(count > noOfWaves){//DEADZONE: leave the port off for 14ms in total
-			pumpingIsOccurring = false;
-			PORTD &= ~(1<< PD6);
-			PORTB &= ~(1<<PB1);
-			PWM_Change(CalculateDeadTime(),65535); //apply deadzone
-			isLHS = true;
-			count = 0;
-			isDead = true; //deadzone begins
-		}
-		else{	//end of deadzone, set the pwm frequency back to normal
-			isDead = false;
-			PWM_Change(125,ConvertTimerValueToDutyCycle());
-		}
-		
-	}
-}
-
-ISR(TIMER1_COMPB_vect){//TRIGGERS ON MATCH WITH OCRB REGISTER (OFF TIME)
-	if(isLHS || lowPowerMode){//LHS MOTION
-		if((~isDead) && (count <=noOfWaves)){
-			PORTB &= ~(1 << PB2);
-		}
-	}
-	else{//RHS MOTION
-		if((~isDead) && (count <=noOfWaves)){
-			PORTB &= ~(1 << PB1);
-		}
-	}
-}
-
-void jamDetection(int i){
-	if(i>1){
-		if(voltageAcrossTheCoil[i]==voltageAcrossTheCoil[i-1] && voltageAcrossTheCoil[i-1]==voltageAcrossTheCoil[i-2] && voltageAcrossTheCoil[i-2]==voltageAcrossTheCoil[i-3] && voltageAcrossTheCoil[i-4]==voltageAcrossTheCoil[i-5]){
-			cmprJammed = true;
-		}else{
-			cmprJammed = false;
-		}
-	}
-}
-
-void safetyShutdown(){
-	if(cmprJammed){
-		pumpingEffort = 0; //stop the coil if an error has occurred
-	}
-}
-
-uint8_t ConvertTimerValueToDutyCycle(){
-	return ((dutyCycle*125)/100);
-}
-
-uint16_t CalculateDeadTime(){
-	return (((5000/frequency) - (noOfWaves*(1000/PWM_FREQUENCY))))*125; //in ms
-}
-
-uint8_t ASCIIConversion(uint8_t value){
-	uint8_t asciiValue = value + 48;
-	return asciiValue;
-}
-
+/**************************************************************Main Function**************************************************************/
 int main(void)
 {	
-	stdout= &mystdout;//printf
 
+	/*******************Intialisations*******************/
     sei();
 	UART_Init(UBRR_VALUE);
 	ADC_Init();
 	PWM_Init();
 	
-	//output pin setup
+	/*******************Local Variable Declaration*******************/
+	uint8_t voltageAverageIndex = 0;
+	uint16_t voltageAverageFinal = 0;
+	uint16_t currentAverageFinal = 0;
+	uint32_t averagePower = 0;
+	
+	/*******************Output Pin Setup*******************/
 	DDRB |= (1<<PB1)|(1<<PB2);
 	DDRD |= (1<<PD5)|(1<<PD6);
-	uint8_t voltageRMSArrayIndex = 0;
-	uint16_t voltageRMSFinal = 0;
-	uint32_t currentRMSFinal = 0;
-	uint16_t currentRMSAggregate = 0;
-	uint32_t rmsPower = 0;
+	
+
 
     while (1) 
     {	
 		
-		/********Declare Local Variables**********/
-		voltageLHSIndex = 0;
-		uint32_t rmsVoltage = 0;
-		uint32_t currentSum = 0;
-		uint32_t rmsCurrent = 0;
+		/*******************Local Variable Declaration*******************/
+		measurementIndex = 0;
+		uint32_t averageVoltage = 0;
 		uint32_t voltageSum = 0;
 		uint32_t powerArray[NUMBER_OF_SAMPLES] = {0};
 
-		/****************Voltage and Current****************/
-		//get voltage and current values
-		//if(pumpingIsOccurring){
-			while(voltageLHSIndex < NUMBER_OF_SAMPLES){
-				voltageLHS[voltageLHSIndex] = ADC_LHSVoltage();
-				voltageRHS[voltageLHSIndex] = ADC_RHSVoltage();
-				//current[voltageLHSIndex] = ADC_Current();
-				voltageLHSIndex++;
+		/*******************Voltage Measurement*******************/
+			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples
+				voltageLHS[measurementIndex] = ADC_LHSVoltage();							//Sample LHS voltage
+				voltageRHS[measurementIndex] = ADC_RHSVoltage();							//Sample RHS voltage
+				measurementIndex++;											
 			}
-		//}
-				
-		////get voltage across the coil
-		for(int i = 0;i<NUMBER_OF_SAMPLES;i++){
-			if(lowPowerMode){
-				voltageAcrossTheCoil[i] = voltageRHS[i];
-			}else{
-				if(voltageLHS[i]>voltageRHS[i]){
-					voltageAcrossTheCoil[i] = voltageLHS[i]-voltageRHS[i];
-					}else{
-					voltageAcrossTheCoil[i] = voltageRHS[i]-voltageLHS[i];
-				}
-			}
-					
-			//voltageSum += voltageAcrossTheCoil[i]*voltageAcrossTheCoil[i];
+		
+		for(int i = 0;i<NUMBER_OF_SAMPLES;i++){												//Calculate the voltage across the coil
+			if(voltageLHS[i]>voltageRHS[i]){												
+				voltageAcrossTheCoil[i] = voltageLHS[i]-voltageRHS[i];
+				}else{
+				voltageAcrossTheCoil[i] = voltageRHS[i]-voltageLHS[i];
+			}		
 			voltageSum += voltageAcrossTheCoil[i];
 			
 		}
-				
-		//calculate rms voltage and current
-		rmsVoltage = voltageSum / NUMBER_OF_SAMPLES;
 		
-				
-		//rmsVoltage = sqrt(rmsVoltage);
-	
+		averageVoltage = voltageSum / NUMBER_OF_SAMPLES;							
 
+		voltageAverageArray[voltageAverageIndex] = averageVoltage;
+		voltageAverageIndex++;
 				
-		
-		voltageRMSArray[voltageRMSArrayIndex] = rmsVoltage;
-		voltageRMSArrayIndex++;
-				
-				
-		if(voltageRMSArrayIndex==NUMBER_OF_SAMPLES){
+		/*******************Calculate Average Voltage and Current*******************/		
+		if(voltageAverageIndex==NUMBER_OF_SAMPLES){
 			for(int k = 0;k < NUMBER_OF_SAMPLES;k++){
-				voltageRMSFinal += voltageRMSArray[k];
-				
+				voltageAverageFinal += voltageAverageArray[k];
 			}
-			voltageRMSFinal /= NUMBER_OF_SAMPLES;
-			currentRMSAggregate = (voltageRMSFinal*100)/415;
-			voltageRMSArrayIndex = 0;
+			voltageAverageFinal /= NUMBER_OF_SAMPLES;
+			currentAverageFinal = (voltageAverageFinal*100)/415;
+			voltageAverageIndex = 0;
 		}
 				
-		/*******************Power*******************/
-		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
-			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
-		}
+		/*******************Power Calculation*******************/	
 		uint32_t powerTotal = 0;
-		for (int i = 0; i < NUMBER_OF_SAMPLES-1; i++) {
-			powerTotal += (powerArray[i] + powerArray[i+1])/2;	//trapezoidal approx
+		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
+			uint16_t 
+			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
+			powerTotal += powerArray[j];
 		}
-				
-		rmsPower = powerTotal / (NUMBER_OF_SAMPLES-1);
-		//receive message code
-		if(finished){
+		
+		averagePower = powerTotal / NUMBER_OF_SAMPLES;
+					
+		/*******************Receive Message Protocol*******************/
+		if(messageReceived){
 			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
 				
 			for(int i = 0; i < 38; i++){
@@ -313,14 +279,11 @@ int main(void)
 				cmprCollide = false;
 				cmprJammed = false;;
 			}
-			UART_SendJson(rmsPower,frequency,voltageRMSFinal,currentRMSAggregate,cmprJammed,cmprCollide, pumpingEffort,pumpingEffort);
-			finished = false;
-			rx_count = 0;
+			UART_SendJson(averagePower,frequency,voltageAverageFinal,currentAverageFinal,cmprJammed,cmprCollide, pumpingEffort,pumpingEffort);
+			messageReceived = false;
+			numberOfCharactersReceived = 0;
 		}
-	
-		//change the pumping effort
-		UART_InterpretPumpingEffort();
-			
+		UART_InterpretPumpingEffort();													//Interpret pumping effort 	
     }
 	
 	
@@ -328,82 +291,3 @@ int main(void)
 }
 
 
-////reset index positions
-//voltageLHSIndex = 0;
-//voltageRHSIndex = 0;
-//currentIndex = 0;
-//uint32_t rmsVoltage = 0;
-//uint32_t currentSum = 0;
-//uint32_t rmsCurrent = 0;
-//uint32_t voltageSum = 0;
-//uint32_t powerArray[NUMBER_OF_SAMPLES] = {0};
-
-
-
-
-///****Voltage and Current*****/
-////get voltage and current values
-////while(voltageLHSIndex < NUMBER_OF_SAMPLES){
-////voltageLHS[voltageLHSIndex] = ADC_LHSVoltage();
-////voltageRHS[voltageLHSIndex] = ADC_RHSVoltage();
-//////current[voltageLHSIndex] = ADC_Current();
-////printf("%d\t",voltageRHS[voltageLHSIndex]);
-////printf("%d\n",voltageLHS[voltageLHSIndex]);
-////voltageLHSIndex++;
-////}
-//
-////mock arrays
-//for(int i = 0; i < NUMBER_OF_SAMPLES;i++){
-//voltageRHS[i] = 1132;
-//voltageLHS[i] = 40;
-//current[i] = 930;
-//
-//}
-//
-//
-////get voltage across the coil
-//for(int i = 0;i<NUMBER_OF_SAMPLES;i++){
-//if(voltageLHS[i]>voltageRHS[i]){
-//voltageAcrossTheCoil[i] = voltageLHS[i]-voltageRHS[i];
-//}else{
-//voltageAcrossTheCoil[i] = voltageRHS[i]-voltageLHS[i];
-//}
-//voltageSum += voltageAcrossTheCoil[i]*voltageAcrossTheCoil[i];
-//currentSum += current[i]*current[i];
-////printf("%d\n", current[i]/10);
-////printf("%d\n",i);
-//}
-//
-//
-//
-//
-////printf limitations example
-////uint32_t voltageSum = 23849280;
-////printf("%d\n",voltageSum);
-////UART_Transmit((voltageSum/10000000)+48);
-//
-//
-//
-////calculate rms voltage and current
-//rmsVoltage = voltageSum / NUMBER_OF_SAMPLES;
-//rmsCurrent = currentSum/NUMBER_OF_SAMPLES;
-//
-//
-//rmsVoltage = sqrt(rmsVoltage);
-//rmsCurrent = sqrt(rmsCurrent);
-////printf("%d\n",rmsVoltage);
-////printf("%d\n",rmsCurrent);
-//
-////calculate average power
-//for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
-//powerArray[j] = (voltageAcrossTheCoil[j] * current[j]);
-//}
-//uint32_t powerTotal = 0;
-//uint32_t rmsPower = 0;
-//for (int i = 0; i < NUMBER_OF_SAMPLES-1; i++) {
-//powerTotal += (powerArray[i] + powerArray[i+1])/2;	//trapezoidal approx
-//}
-//
-//rmsPower = powerTotal / (NUMBER_OF_SAMPLES-1);
-////printf("%d\t",rmsPower/1000);
-////printf("%d\n",rmsPower%1000);

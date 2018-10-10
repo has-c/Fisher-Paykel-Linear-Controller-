@@ -6,6 +6,9 @@
  */ 
 
 #include "pwm.h"
+#include "../main.h"
+
+#define PWM_FREQUENCY 1000
 
 //to do setup in the Fast PWM mode
 void PWM_Init(){
@@ -20,4 +23,11 @@ void PWM_Change(uint16_t topValue, uint16_t bottomValue){
 	
 }
 
+uint8_t PWM_ConvertTimerValueToDutyCycle(){
+	return ((dutyCycle*125)/100);
+}
+
+uint16_t PWM_CalculateDeadTime(){
+	return (((5000/frequency) - (noOfWaves*(1000/PWM_FREQUENCY))))*125; //in ms
+}
 

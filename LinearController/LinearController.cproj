@@ -120,9 +120,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="delay.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="drivers\adc.c">
       <SubType>compile</SubType>
     </Compile>

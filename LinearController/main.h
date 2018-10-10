@@ -16,17 +16,13 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-uint8_t ConvertTimerValueToDutyCycle();
-uint16_t CalculateDeadTime();
-uint8_t ASCIIConversion(uint8_t value);
-void jamDetection(int i);
-void safetyShutdown();
 
 extern volatile uint8_t pumpingEffort;
 extern volatile uint16_t dutyCycle;
 extern volatile bool lowPowerMode;
 extern volatile bool changePumpingEffort;
 extern volatile uint16_t frequency;
+extern volatile uint8_t noOfWaves;
 
 extern volatile uint8_t operatingFrequency;
 extern volatile uint8_t appliedVoltage;

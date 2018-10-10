@@ -3,31 +3,31 @@ LinearController.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000016  00800100  000011fc  00001290  2**0
+  0 .data         00000008  00800100  00001106  0000119a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000011fc  00000000  00000000  00000094  2**1
+  1 .text         00001106  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          000007d1  00800116  00800116  000012a6  2**0
+  2 .bss          000007c8  00800108  00800108  000011a2  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000012a6  2**0
+  3 .comment      00000030  00000000  00000000  000011a2  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000012d8  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000011d4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000148  00000000  00000000  00001318  2**0
+  5 .debug_aranges 00000138  00000000  00000000  00001214  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000259b  00000000  00000000  00001460  2**0
+  6 .debug_info   00002342  00000000  00000000  0000134c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000b16  00000000  00000000  000039fb  2**0
+  7 .debug_abbrev 00000ab0  00000000  00000000  0000368e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001018  00000000  00000000  00004511  2**0
+  8 .debug_line   00000fef  00000000  00000000  0000413e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000003a4  00000000  00000000  0000552c  2**2
+  9 .debug_frame  00000364  00000000  00000000  00005130  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000008ef  00000000  00000000  000058d0  2**0
+ 10 .debug_str    0000080e  00000000  00000000  00005494  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000dca  00000000  00000000  000061bf  2**0
+ 11 .debug_loc    00000e5f  00000000  00000000  00005ca2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000120  00000000  00000000  00006f89  2**0
+ 12 .debug_ranges 00000118  00000000  00000000  00006b01  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -44,16 +44,16 @@ Disassembly of section .text:
       20:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
       24:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
       28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-      2c:	0c 94 f3 05 	jmp	0xbe6	; 0xbe6 <__vector_11>
-      30:	0c 94 a1 05 	jmp	0xb42	; 0xb42 <__vector_12>
+      2c:	0c 94 a8 05 	jmp	0xb50	; 0xb50 <__vector_11>
+      30:	0c 94 3b 06 	jmp	0xc76	; 0xc76 <__vector_12>
       34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
       38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
       3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
       40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
       44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-      48:	0c 94 37 05 	jmp	0xa6e	; 0xa6e <__vector_18>
+      48:	0c 94 3e 05 	jmp	0xa7c	; 0xa7c <__vector_18>
       4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-      50:	0c 94 89 05 	jmp	0xb12	; 0xb12 <__vector_20>
+      50:	0c 94 90 05 	jmp	0xb20	; 0xb20 <__vector_20>
       54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
       58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
       5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
@@ -72,18 +72,18 @@ Disassembly of section .text:
       74:	11 e0       	ldi	r17, 0x01	; 1
       76:	a0 e0       	ldi	r26, 0x00	; 0
       78:	b1 e0       	ldi	r27, 0x01	; 1
-      7a:	ec ef       	ldi	r30, 0xFC	; 252
+      7a:	e6 e0       	ldi	r30, 0x06	; 6
       7c:	f1 e1       	ldi	r31, 0x11	; 17
       7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
       80:	05 90       	lpm	r0, Z+
       82:	0d 92       	st	X+, r0
-      84:	a6 31       	cpi	r26, 0x16	; 22
+      84:	a8 30       	cpi	r26, 0x08	; 8
       86:	b1 07       	cpc	r27, r17
       88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
 
 0000008a <__do_clear_bss>:
       8a:	28 e0       	ldi	r18, 0x08	; 8
-      8c:	a6 e1       	ldi	r26, 0x16	; 22
+      8c:	a8 e0       	ldi	r26, 0x08	; 8
       8e:	b1 e0       	ldi	r27, 0x01	; 1
       90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
 
@@ -91,11 +91,11 @@ Disassembly of section .text:
       92:	1d 92       	st	X+, r1
 
 00000094 <.do_clear_bss_start>:
-      94:	a7 3e       	cpi	r26, 0xE7	; 231
+      94:	a0 3d       	cpi	r26, 0xD0	; 208
       96:	b2 07       	cpc	r27, r18
       98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
-      9a:	0e 94 92 06 	call	0xd24	; 0xd24 <main>
-      9e:	0c 94 fc 08 	jmp	0x11f8	; 0x11f8 <_exit>
+      9a:	0e 94 83 06 	call	0xd06	; 0xd06 <main>
+      9e:	0c 94 81 08 	jmp	0x1102	; 0x1102 <_exit>
 
 000000a2 <__bad_interrupt>:
       a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -160,7 +160,7 @@ uint32_t ADC_Calculate(){
 	return measuredVoltage;
       e6:	a8 ee       	ldi	r26, 0xE8	; 232
       e8:	b3 e0       	ldi	r27, 0x03	; 3
-      ea:	0e 94 f1 08 	call	0x11e2	; 0x11e2 <__muluhisi3>
+      ea:	0e 94 76 08 	call	0x10ec	; 0x10ec <__muluhisi3>
       ee:	dc 01       	movw	r26, r24
       f0:	cb 01       	movw	r24, r22
       f2:	07 2e       	mov	r0, r23
@@ -215,12 +215,12 @@ uint32_t ADC_LHSVoltage(){
 	return (lhsVoltage*27/100); //return a 4 digit number that is the LHS voltage
      146:	ab e1       	ldi	r26, 0x1B	; 27
      148:	b0 e0       	ldi	r27, 0x00	; 0
-     14a:	0e 94 f1 08 	call	0x11e2	; 0x11e2 <__muluhisi3>
+     14a:	0e 94 76 08 	call	0x10ec	; 0x10ec <__muluhisi3>
      14e:	24 e6       	ldi	r18, 0x64	; 100
      150:	30 e0       	ldi	r19, 0x00	; 0
      152:	40 e0       	ldi	r20, 0x00	; 0
      154:	50 e0       	ldi	r21, 0x00	; 0
-     156:	0e 94 c0 08 	call	0x1180	; 0x1180 <__udivmodsi4>
+     156:	0e 94 45 08 	call	0x108a	; 0x108a <__udivmodsi4>
 }
      15a:	ca 01       	movw	r24, r20
      15c:	b9 01       	movw	r22, r18
@@ -252,12 +252,12 @@ uint32_t ADC_RHSVoltage(){
 	return (rhsVoltage*27/100);
      182:	ab e1       	ldi	r26, 0x1B	; 27
      184:	b0 e0       	ldi	r27, 0x00	; 0
-     186:	0e 94 f1 08 	call	0x11e2	; 0x11e2 <__muluhisi3>
+     186:	0e 94 76 08 	call	0x10ec	; 0x10ec <__muluhisi3>
      18a:	24 e6       	ldi	r18, 0x64	; 100
      18c:	30 e0       	ldi	r19, 0x00	; 0
      18e:	40 e0       	ldi	r20, 0x00	; 0
      190:	50 e0       	ldi	r21, 0x00	; 0
-     192:	0e 94 c0 08 	call	0x1180	; 0x1180 <__udivmodsi4>
+     192:	0e 94 45 08 	call	0x108a	; 0x108a <__udivmodsi4>
 }
      196:	ca 01       	movw	r24, r20
      198:	b9 01       	movw	r22, r18
@@ -265,7 +265,7 @@ uint32_t ADC_RHSVoltage(){
 
 0000019c <PWM_Init>:
 
-#include "pwm.h"
+#define PWM_FREQUENCY 1000
 
 //to do setup in the Fast PWM mode
 void PWM_Init(){
@@ -296,2423 +296,2234 @@ void PWM_Change(uint16_t topValue, uint16_t bottomValue){
      1be:	60 93 8a 00 	sts	0x008A, r22	; 0x80008a <__TEXT_REGION_LENGTH__+0x7e008a>
      1c2:	08 95       	ret
 
-000001c4 <UART_Init>:
-#define MAX_VOLTAGE 13
-
-//uart intializer
-void UART_Init(unsigned int BAUD_RATE){
+000001c4 <PWM_ConvertTimerValueToDutyCycle>:
 	
-	UBRR0H = BAUD_RATE >>8;
-     1c4:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7e00c5>
-	UBRR0L = BAUD_RATE;
-     1c8:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7e00c4>
-	UCSR0B = (1<<RXEN0)|(1<<RXCIE0);
-     1cc:	e1 ec       	ldi	r30, 0xC1	; 193
-     1ce:	f0 e0       	ldi	r31, 0x00	; 0
-     1d0:	80 e9       	ldi	r24, 0x90	; 144
-     1d2:	80 83       	st	Z, r24
-	UCSR0B |= (1<<TXEN0)|(1<<TXCIE0);
-     1d4:	80 81       	ld	r24, Z
-     1d6:	88 64       	ori	r24, 0x48	; 72
-     1d8:	80 83       	st	Z, r24
-	UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);
-     1da:	86 e0       	ldi	r24, 0x06	; 6
-     1dc:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7e00c2>
-     1e0:	08 95       	ret
-
-000001e2 <UART_Transmit>:
 }
 
-//
-void UART_Transmit(uint8_t myValue){
-	//disable receive
-	UCSR0B &= ~(1 << RXEN0);
-     1e2:	e1 ec       	ldi	r30, 0xC1	; 193
-     1e4:	f0 e0       	ldi	r31, 0x00	; 0
-     1e6:	90 81       	ld	r25, Z
-     1e8:	9f 7e       	andi	r25, 0xEF	; 239
-     1ea:	90 83       	st	Z, r25
-	UCSR0B &= ~(1 << RXCIE0);
-     1ec:	90 81       	ld	r25, Z
-     1ee:	9f 77       	andi	r25, 0x7F	; 127
-     1f0:	90 83       	st	Z, r25
-	while (!((1<<UDRE0)&&(UCSR0A))); //wait until the transmit register is ready
-     1f2:	e0 ec       	ldi	r30, 0xC0	; 192
-     1f4:	f0 e0       	ldi	r31, 0x00	; 0
-     1f6:	90 81       	ld	r25, Z
-     1f8:	99 23       	and	r25, r25
-     1fa:	e9 f3       	breq	.-6      	; 0x1f6 <UART_Transmit+0x14>
-	UDR0 = myValue;//once ready, store next value for transmission
-     1fc:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
-     200:	08 95       	ret
+uint8_t PWM_ConvertTimerValueToDutyCycle(){
+	return ((dutyCycle*125)/100);
+     1c4:	80 91 49 01 	lds	r24, 0x0149	; 0x800149 <dutyCycle>
+     1c8:	90 91 4a 01 	lds	r25, 0x014A	; 0x80014a <dutyCycle+0x1>
+     1cc:	4d e7       	ldi	r20, 0x7D	; 125
+     1ce:	48 9f       	mul	r20, r24
+     1d0:	90 01       	movw	r18, r0
+     1d2:	49 9f       	mul	r20, r25
+     1d4:	30 0d       	add	r19, r0
+     1d6:	11 24       	eor	r1, r1
+     1d8:	36 95       	lsr	r19
+     1da:	27 95       	ror	r18
+     1dc:	36 95       	lsr	r19
+     1de:	27 95       	ror	r18
+     1e0:	ab e7       	ldi	r26, 0x7B	; 123
+     1e2:	b4 e1       	ldi	r27, 0x14	; 20
+     1e4:	0e 94 67 08 	call	0x10ce	; 0x10ce <__umulhisi3>
+     1e8:	96 95       	lsr	r25
+     1ea:	87 95       	ror	r24
+}
+     1ec:	08 95       	ret
 
-00000202 <UART_InterpretPumpingEffort>:
+000001ee <PWM_CalculateDeadTime>:
+
+uint16_t PWM_CalculateDeadTime(){
+	return (((5000/frequency) - (noOfWaves*(1000/PWM_FREQUENCY))))*125; //in ms
+     1ee:	60 91 03 01 	lds	r22, 0x0103	; 0x800103 <frequency>
+     1f2:	70 91 04 01 	lds	r23, 0x0104	; 0x800104 <frequency+0x1>
+     1f6:	20 91 02 01 	lds	r18, 0x0102	; 0x800102 <noOfWaves>
+     1fa:	88 e8       	ldi	r24, 0x88	; 136
+     1fc:	93 e1       	ldi	r25, 0x13	; 19
+     1fe:	0e 94 1d 08 	call	0x103a	; 0x103a <__udivmodhi4>
+     202:	62 1b       	sub	r22, r18
+     204:	71 09       	sbc	r23, r1
+}
+     206:	8d e7       	ldi	r24, 0x7D	; 125
+     208:	28 2f       	mov	r18, r24
+     20a:	26 9f       	mul	r18, r22
+     20c:	c0 01       	movw	r24, r0
+     20e:	27 9f       	mul	r18, r23
+     210:	90 0d       	add	r25, r0
+     212:	11 24       	eor	r1, r1
+     214:	08 95       	ret
+
+00000216 <UART_Init>:
+}
+
+uint8_t UART_ASCIIConversion(uint8_t value){
+	uint8_t asciiValue = value + 48;
+	return asciiValue;
+}
+     216:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7e00c5>
+     21a:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7e00c4>
+     21e:	e1 ec       	ldi	r30, 0xC1	; 193
+     220:	f0 e0       	ldi	r31, 0x00	; 0
+     222:	80 e9       	ldi	r24, 0x90	; 144
+     224:	80 83       	st	Z, r24
+     226:	80 81       	ld	r24, Z
+     228:	88 64       	ori	r24, 0x48	; 72
+     22a:	80 83       	st	Z, r24
+     22c:	86 e0       	ldi	r24, 0x06	; 6
+     22e:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7e00c2>
+     232:	08 95       	ret
+
+00000234 <UART_Transmit>:
+     234:	e1 ec       	ldi	r30, 0xC1	; 193
+     236:	f0 e0       	ldi	r31, 0x00	; 0
+     238:	90 81       	ld	r25, Z
+     23a:	9f 7e       	andi	r25, 0xEF	; 239
+     23c:	90 83       	st	Z, r25
+     23e:	90 81       	ld	r25, Z
+     240:	9f 77       	andi	r25, 0x7F	; 127
+     242:	90 83       	st	Z, r25
+     244:	e0 ec       	ldi	r30, 0xC0	; 192
+     246:	f0 e0       	ldi	r31, 0x00	; 0
+     248:	90 81       	ld	r25, Z
+     24a:	99 23       	and	r25, r25
+     24c:	e9 f3       	breq	.-6      	; 0x248 <UART_Transmit+0x14>
+     24e:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+     252:	08 95       	ret
+
+00000254 <UART_InterpretPumpingEffort>:
+
 
 //only changes dutycycle
 void UART_InterpretPumpingEffort(){
-	uint32_t voltageEquivalentValue;
-	//pumpingEffort = 179; //mock pumping effort
-	if(pumpingEffort==255){ //255 lose your mind
-     202:	80 91 5b 01 	lds	r24, 0x015B	; 0x80015b <pumpingEffort>
-     206:	8f 3f       	cpi	r24, 0xFF	; 255
-     208:	49 f4       	brne	.+18     	; 0x21c <UART_InterpretPumpingEffort+0x1a>
-		//power_all_enable();
-		//change duty cycle and pwm to max out the motors
-		
+	if(pumpingEffort==255){
+     254:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <pumpingEffort>
+     258:	8f 3f       	cpi	r24, 0xFF	; 255
+     25a:	71 f4       	brne	.+28     	; 0x278 <UART_InterpretPumpingEffort+0x24>
+static __inline void
+__attribute__ ((__always_inline__))
+__power_all_enable()
+{
+#ifdef __AVR_HAVE_PRR
+    PRR &= (uint8_t)~(__AVR_HAVE_PRR);
+     25c:	e4 e6       	ldi	r30, 0x64	; 100
+     25e:	f0 e0       	ldi	r31, 0x00	; 0
+     260:	80 81       	ld	r24, Z
+     262:	80 71       	andi	r24, 0x10	; 16
+     264:	80 83       	st	Z, r24
+		power_all_enable();
 		dutyCycle = 99;
-     20a:	83 e6       	ldi	r24, 0x63	; 99
-     20c:	90 e0       	ldi	r25, 0x00	; 0
-     20e:	90 93 58 01 	sts	0x0158, r25	; 0x800158 <dutyCycle+0x1>
-     212:	80 93 57 01 	sts	0x0157, r24	; 0x800157 <dutyCycle>
+     266:	83 e6       	ldi	r24, 0x63	; 99
+     268:	90 e0       	ldi	r25, 0x00	; 0
+     26a:	90 93 4a 01 	sts	0x014A, r25	; 0x80014a <dutyCycle+0x1>
+     26e:	80 93 49 01 	sts	0x0149, r24	; 0x800149 <dutyCycle>
 		lowPowerMode = false;
-     216:	10 92 13 01 	sts	0x0113, r1	; 0x800113 <lowPowerMode>
-     21a:	55 c0       	rjmp	.+170    	; 0x2c6 <UART_InterpretPumpingEffort+0xc4>
+     272:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <lowPowerMode>
+     276:	67 c0       	rjmp	.+206    	; 0x346 <UART_InterpretPumpingEffort+0xf2>
 	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
-     21c:	80 91 5b 01 	lds	r24, 0x015B	; 0x80015b <pumpingEffort>
-     220:	88 23       	and	r24, r24
-     222:	31 f1       	breq	.+76     	; 0x270 <UART_InterpretPumpingEffort+0x6e>
-     224:	80 91 5b 01 	lds	r24, 0x015B	; 0x80015b <pumpingEffort>
-     228:	83 3b       	cpi	r24, 0xB3	; 179
-     22a:	10 f5       	brcc	.+68     	; 0x270 <UART_InterpretPumpingEffort+0x6e>
-		//power_all_enable();
-		//70% of values - care about efficiency and meeting pumpingEffort
-		//efficiency actions turn two switches off
-		//disable all unused modules
+     278:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <pumpingEffort>
+     27c:	88 23       	and	r24, r24
+     27e:	59 f1       	breq	.+86     	; 0x2d6 <UART_InterpretPumpingEffort+0x82>
+     280:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <pumpingEffort>
+     284:	83 3b       	cpi	r24, 0xB3	; 179
+     286:	38 f5       	brcc	.+78     	; 0x2d6 <UART_InterpretPumpingEffort+0x82>
+     288:	e4 e6       	ldi	r30, 0x64	; 100
+     28a:	f0 e0       	ldi	r31, 0x00	; 0
+     28c:	80 81       	ld	r24, Z
+     28e:	80 71       	andi	r24, 0x10	; 16
+     290:	80 83       	st	Z, r24
+		power_all_enable();
 		if(!lowPowerMode){
-     22c:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <lowPowerMode>
-     230:	81 11       	cpse	r24, r1
-     232:	0a c0       	rjmp	.+20     	; 0x248 <UART_InterpretPumpingEffort+0x46>
+     292:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <lowPowerMode>
+     296:	81 11       	cpse	r24, r1
+     298:	0a c0       	rjmp	.+20     	; 0x2ae <UART_InterpretPumpingEffort+0x5a>
 			frequency /= 2;
-     234:	80 91 11 01 	lds	r24, 0x0111	; 0x800111 <frequency>
-     238:	90 91 12 01 	lds	r25, 0x0112	; 0x800112 <frequency+0x1>
-     23c:	96 95       	lsr	r25
-     23e:	87 95       	ror	r24
-     240:	90 93 12 01 	sts	0x0112, r25	; 0x800112 <frequency+0x1>
-     244:	80 93 11 01 	sts	0x0111, r24	; 0x800111 <frequency>
+     29a:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <frequency>
+     29e:	90 91 04 01 	lds	r25, 0x0104	; 0x800104 <frequency+0x1>
+     2a2:	96 95       	lsr	r25
+     2a4:	87 95       	ror	r24
+     2a6:	90 93 04 01 	sts	0x0104, r25	; 0x800104 <frequency+0x1>
+     2aa:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <frequency>
 		}
 		lowPowerMode = true; //turn off two switches push from one direction
-     248:	81 e0       	ldi	r24, 0x01	; 1
-     24a:	80 93 13 01 	sts	0x0113, r24	; 0x800113 <lowPowerMode>
+     2ae:	81 e0       	ldi	r24, 0x01	; 1
+     2b0:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <lowPowerMode>
 		dutyCycle = (30*pumpingEffort + 1300)/100;
-     24e:	80 91 5b 01 	lds	r24, 0x015B	; 0x80015b <pumpingEffort>
-     252:	2e e1       	ldi	r18, 0x1E	; 30
-     254:	82 9f       	mul	r24, r18
-     256:	c0 01       	movw	r24, r0
-     258:	11 24       	eor	r1, r1
-     25a:	8c 5e       	subi	r24, 0xEC	; 236
-     25c:	9a 4f       	sbci	r25, 0xFA	; 250
-     25e:	64 e6       	ldi	r22, 0x64	; 100
-     260:	70 e0       	ldi	r23, 0x00	; 0
-     262:	0e 94 ac 08 	call	0x1158	; 0x1158 <__divmodhi4>
-     266:	70 93 58 01 	sts	0x0158, r23	; 0x800158 <dutyCycle+0x1>
-     26a:	60 93 57 01 	sts	0x0157, r22	; 0x800157 <dutyCycle>
-     26e:	2b c0       	rjmp	.+86     	; 0x2c6 <UART_InterpretPumpingEffort+0xc4>
+     2b4:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <pumpingEffort>
+     2b8:	2e e1       	ldi	r18, 0x1E	; 30
+     2ba:	82 9f       	mul	r24, r18
+     2bc:	c0 01       	movw	r24, r0
+     2be:	11 24       	eor	r1, r1
+     2c0:	8c 5e       	subi	r24, 0xEC	; 236
+     2c2:	9a 4f       	sbci	r25, 0xFA	; 250
+     2c4:	64 e6       	ldi	r22, 0x64	; 100
+     2c6:	70 e0       	ldi	r23, 0x00	; 0
+     2c8:	0e 94 31 08 	call	0x1062	; 0x1062 <__divmodhi4>
+     2cc:	70 93 4a 01 	sts	0x014A, r23	; 0x80014a <dutyCycle+0x1>
+     2d0:	60 93 49 01 	sts	0x0149, r22	; 0x800149 <dutyCycle>
+     2d4:	38 c0       	rjmp	.+112    	; 0x346 <UART_InterpretPumpingEffort+0xf2>
 	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
-     270:	80 91 5b 01 	lds	r24, 0x015B	; 0x80015b <pumpingEffort>
-     274:	83 3b       	cpi	r24, 0xB3	; 179
-     276:	18 f1       	brcs	.+70     	; 0x2be <UART_InterpretPumpingEffort+0xbc>
-     278:	80 91 5b 01 	lds	r24, 0x015B	; 0x80015b <pumpingEffort>
-     27c:	8f 3f       	cpi	r24, 0xFF	; 255
-     27e:	f9 f0       	breq	.+62     	; 0x2be <UART_InterpretPumpingEffort+0xbc>
-		//power_all_enable();
-		//30% of values - go ham fam
+     2d6:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <pumpingEffort>
+     2da:	83 3b       	cpi	r24, 0xB3	; 179
+     2dc:	40 f1       	brcs	.+80     	; 0x32e <UART_InterpretPumpingEffort+0xda>
+     2de:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <pumpingEffort>
+     2e2:	8f 3f       	cpi	r24, 0xFF	; 255
+     2e4:	21 f1       	breq	.+72     	; 0x32e <UART_InterpretPumpingEffort+0xda>
+     2e6:	e4 e6       	ldi	r30, 0x64	; 100
+     2e8:	f0 e0       	ldi	r31, 0x00	; 0
+     2ea:	80 81       	ld	r24, Z
+     2ec:	80 71       	andi	r24, 0x10	; 16
+     2ee:	80 83       	st	Z, r24
+		power_all_enable();
 		if(lowPowerMode){
-     280:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <lowPowerMode>
-     284:	88 23       	and	r24, r24
-     286:	51 f0       	breq	.+20     	; 0x29c <UART_InterpretPumpingEffort+0x9a>
+     2f0:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <lowPowerMode>
+     2f4:	88 23       	and	r24, r24
+     2f6:	51 f0       	breq	.+20     	; 0x30c <UART_InterpretPumpingEffort+0xb8>
 			frequency *= 2;
-     288:	80 91 11 01 	lds	r24, 0x0111	; 0x800111 <frequency>
-     28c:	90 91 12 01 	lds	r25, 0x0112	; 0x800112 <frequency+0x1>
-     290:	88 0f       	add	r24, r24
-     292:	99 1f       	adc	r25, r25
-     294:	90 93 12 01 	sts	0x0112, r25	; 0x800112 <frequency+0x1>
-     298:	80 93 11 01 	sts	0x0111, r24	; 0x800111 <frequency>
+     2f8:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <frequency>
+     2fc:	90 91 04 01 	lds	r25, 0x0104	; 0x800104 <frequency+0x1>
+     300:	88 0f       	add	r24, r24
+     302:	99 1f       	adc	r25, r25
+     304:	90 93 04 01 	sts	0x0104, r25	; 0x800104 <frequency+0x1>
+     308:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <frequency>
 		}
 		lowPowerMode = false;
-     29c:	10 92 13 01 	sts	0x0113, r1	; 0x800113 <lowPowerMode>
+     30c:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <lowPowerMode>
 		dutyCycle = 37*pumpingEffort/100;
-     2a0:	80 91 5b 01 	lds	r24, 0x015B	; 0x80015b <pumpingEffort>
-     2a4:	25 e2       	ldi	r18, 0x25	; 37
-     2a6:	82 9f       	mul	r24, r18
-     2a8:	c0 01       	movw	r24, r0
-     2aa:	11 24       	eor	r1, r1
-     2ac:	64 e6       	ldi	r22, 0x64	; 100
-     2ae:	70 e0       	ldi	r23, 0x00	; 0
-     2b0:	0e 94 ac 08 	call	0x1158	; 0x1158 <__divmodhi4>
-     2b4:	70 93 58 01 	sts	0x0158, r23	; 0x800158 <dutyCycle+0x1>
-     2b8:	60 93 57 01 	sts	0x0157, r22	; 0x800157 <dutyCycle>
-     2bc:	04 c0       	rjmp	.+8      	; 0x2c6 <UART_InterpretPumpingEffort+0xc4>
+     310:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <pumpingEffort>
+     314:	25 e2       	ldi	r18, 0x25	; 37
+     316:	82 9f       	mul	r24, r18
+     318:	c0 01       	movw	r24, r0
+     31a:	11 24       	eor	r1, r1
+     31c:	64 e6       	ldi	r22, 0x64	; 100
+     31e:	70 e0       	ldi	r23, 0x00	; 0
+     320:	0e 94 31 08 	call	0x1062	; 0x1062 <__divmodhi4>
+     324:	70 93 4a 01 	sts	0x014A, r23	; 0x80014a <dutyCycle+0x1>
+     328:	60 93 49 01 	sts	0x0149, r22	; 0x800149 <dutyCycle>
+     32c:	0c c0       	rjmp	.+24     	; 0x346 <UART_InterpretPumpingEffort+0xf2>
+static __inline void
+__attribute__ ((__always_inline__))
+__power_all_disable()
+{
+#ifdef __AVR_HAVE_PRR
+    PRR |= (uint8_t)(__AVR_HAVE_PRR);
+     32e:	e4 e6       	ldi	r30, 0x64	; 100
+     330:	f0 e0       	ldi	r31, 0x00	; 0
+     332:	80 81       	ld	r24, Z
+     334:	8f 6e       	ori	r24, 0xEF	; 239
+     336:	80 83       	st	Z, r24
 	}else{ 
-		//turn off mode
-		//power_all_disable(); //disables all modules on the microcontroller
-		//power_usart0_enable();
+		power_all_disable(); //disables all modules on the microcontroller
+		power_usart0_enable();
+     338:	80 81       	ld	r24, Z
+     33a:	8d 7f       	andi	r24, 0xFD	; 253
+     33c:	80 83       	st	Z, r24
 		dutyCycle = 0;
-     2be:	10 92 58 01 	sts	0x0158, r1	; 0x800158 <dutyCycle+0x1>
-     2c2:	10 92 57 01 	sts	0x0157, r1	; 0x800157 <dutyCycle>
+     33e:	10 92 4a 01 	sts	0x014A, r1	; 0x80014a <dutyCycle+0x1>
+     342:	10 92 49 01 	sts	0x0149, r1	; 0x800149 <dutyCycle>
 	}
 	changePumpingEffort	 = false;
-     2c6:	10 92 5a 01 	sts	0x015A, r1	; 0x80015a <changePumpingEffort>
-     2ca:	08 95       	ret
+     346:	10 92 4b 01 	sts	0x014B, r1	; 0x80014b <changePumpingEffort>
+     34a:	08 95       	ret
 
-000002cc <MFCmodulator>:
+0000034c <MFCmodulator>:
 	ERRORmodulator(jamErrorFlag, collisionErrorFlag);
 
 }
 
 
 void MFCmodulator(uint8_t requiredValue, uint8_t currentValue){
-     2cc:	df 92       	push	r13
-     2ce:	ef 92       	push	r14
-     2d0:	ff 92       	push	r15
-     2d2:	0f 93       	push	r16
-     2d4:	1f 93       	push	r17
-     2d6:	cf 93       	push	r28
-     2d8:	df 93       	push	r29
-     2da:	18 2f       	mov	r17, r24
-     2dc:	d6 2f       	mov	r29, r22
+     34c:	df 92       	push	r13
+     34e:	ef 92       	push	r14
+     350:	ff 92       	push	r15
+     352:	0f 93       	push	r16
+     354:	1f 93       	push	r17
+     356:	cf 93       	push	r28
+     358:	df 93       	push	r29
+     35a:	18 2f       	mov	r17, r24
+     35c:	d6 2f       	mov	r29, r22
 	//temp conversion variables. Used to split 3 digit numbers as only one digit can be sent at a time
 	uint8_t firstDigit = 0;
 	uint8_t secondDigit = 0;
 	uint8_t thirdDigit = 0;
 	
 	UART_Transmit(13); //carriage return
-     2de:	8d e0       	ldi	r24, 0x0D	; 13
-     2e0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     35e:	8d e0       	ldi	r24, 0x0D	; 13
+     360:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(123); //{
-     2e4:	8b e7       	ldi	r24, 0x7B	; 123
-     2e6:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     364:	8b e7       	ldi	r24, 0x7B	; 123
+     366:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(10); //line feed 
-     2ea:	8a e0       	ldi	r24, 0x0A	; 10
-     2ec:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     36a:	8a e0       	ldi	r24, 0x0A	; 10
+     36c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(13); //carriage return
-     2f0:	8d e0       	ldi	r24, 0x0D	; 13
-     2f2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     370:	8d e0       	ldi	r24, 0x0D	; 13
+     372:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 	//LCC Identifier 
 	UART_Transmit(34); //"
-     2f6:	82 e2       	ldi	r24, 0x22	; 34
-     2f8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     376:	82 e2       	ldi	r24, 0x22	; 34
+     378:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(51);//3
-     2fc:	83 e3       	ldi	r24, 0x33	; 51
-     2fe:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     37c:	83 e3       	ldi	r24, 0x33	; 51
+     37e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     302:	82 e2       	ldi	r24, 0x22	; 34
-     304:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     382:	82 e2       	ldi	r24, 0x22	; 34
+     384:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58);//:
-     308:	8a e3       	ldi	r24, 0x3A	; 58
-     30a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     388:	8a e3       	ldi	r24, 0x3A	; 58
+     38a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 
 	//MFC 
 	UART_Transmit(10); //Line feed
-     30e:	8a e0       	ldi	r24, 0x0A	; 10
-     310:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     38e:	8a e0       	ldi	r24, 0x0A	; 10
+     390:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(13); //carriage return
-     314:	8d e0       	ldi	r24, 0x0D	; 13
-     316:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     394:	8d e0       	ldi	r24, 0x0D	; 13
+     396:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(123); //{
-     31a:	8b e7       	ldi	r24, 0x7B	; 123
-     31c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     39a:	8b e7       	ldi	r24, 0x7B	; 123
+     39c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(10); //Line feed
-     320:	8a e0       	ldi	r24, 0x0A	; 10
-     322:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3a0:	8a e0       	ldi	r24, 0x0A	; 10
+     3a2:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(13); //carriage return
-     326:	8d e0       	ldi	r24, 0x0D	; 13
-     328:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3a6:	8d e0       	ldi	r24, 0x0D	; 13
+     3a8:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 	
 	//MFC letter setup
 	UART_Transmit(34); //'
-     32c:	82 e2       	ldi	r24, 0x22	; 34
-     32e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3ac:	82 e2       	ldi	r24, 0x22	; 34
+     3ae:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(109);//m
-     332:	8d e6       	ldi	r24, 0x6D	; 109
-     334:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3b2:	8d e6       	ldi	r24, 0x6D	; 109
+     3b4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(102);//f
-     338:	86 e6       	ldi	r24, 0x66	; 102
-     33a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3b8:	86 e6       	ldi	r24, 0x66	; 102
+     3ba:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(99);//c
-     33e:	83 e6       	ldi	r24, 0x63	; 99
-     340:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3be:	83 e6       	ldi	r24, 0x63	; 99
+     3c0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     344:	82 e2       	ldi	r24, 0x22	; 34
-     346:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3c4:	82 e2       	ldi	r24, 0x22	; 34
+     3c6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58);//:
-     34a:	8a e3       	ldi	r24, 0x3A	; 58
-     34c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3ca:	8a e3       	ldi	r24, 0x3A	; 58
+     3cc:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	 
 
 	//MFC Values 
 	UART_Transmit(123); //{
-     350:	8b e7       	ldi	r24, 0x7B	; 123
-     352:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3d0:	8b e7       	ldi	r24, 0x7B	; 123
+     3d2:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34); //"
-     356:	82 e2       	ldi	r24, 0x22	; 34
-     358:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3d6:	82 e2       	ldi	r24, 0x22	; 34
+     3d8:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(114);//r
-     35c:	82 e7       	ldi	r24, 0x72	; 114
-     35e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3dc:	82 e7       	ldi	r24, 0x72	; 114
+     3de:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(101);//e
-     362:	85 e6       	ldi	r24, 0x65	; 101
-     364:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3e2:	85 e6       	ldi	r24, 0x65	; 101
+     3e4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(113);//q
-     368:	81 e7       	ldi	r24, 0x71	; 113
-     36a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3e8:	81 e7       	ldi	r24, 0x71	; 113
+     3ea:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     36e:	82 e2       	ldi	r24, 0x22	; 34
-     370:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3ee:	82 e2       	ldi	r24, 0x22	; 34
+     3f0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58);//:
-     374:	8a e3       	ldi	r24, 0x3A	; 58
-     376:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3f4:	8a e3       	ldi	r24, 0x3A	; 58
+     3f6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     37a:	82 e2       	ldi	r24, 0x22	; 34
-     37c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     3fa:	82 e2       	ldi	r24, 0x22	; 34
+     3fc:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 	//required value transmission
 	firstDigit = requiredValue/100;
-     380:	c9 e2       	ldi	r28, 0x29	; 41
-     382:	1c 9f       	mul	r17, r28
-     384:	21 2d       	mov	r18, r1
-     386:	11 24       	eor	r1, r1
-     388:	22 95       	swap	r18
-     38a:	2f 70       	andi	r18, 0x0F	; 15
+     400:	c9 e2       	ldi	r28, 0x29	; 41
+     402:	1c 9f       	mul	r17, r28
+     404:	21 2d       	mov	r18, r1
+     406:	11 24       	eor	r1, r1
+     408:	22 95       	swap	r18
+     40a:	2f 70       	andi	r18, 0x0F	; 15
 	secondDigit = (requiredValue-(firstDigit*100))/10;
-     38c:	0c e9       	ldi	r16, 0x9C	; 156
-     38e:	02 03       	mulsu	r16, r18
-     390:	c0 01       	movw	r24, r0
-     392:	11 24       	eor	r1, r1
-     394:	81 0f       	add	r24, r17
-     396:	91 1d       	adc	r25, r1
-     398:	0f 2e       	mov	r0, r31
-     39a:	fa e0       	ldi	r31, 0x0A	; 10
-     39c:	ef 2e       	mov	r14, r31
-     39e:	f1 2c       	mov	r15, r1
-     3a0:	f0 2d       	mov	r31, r0
-     3a2:	b7 01       	movw	r22, r14
-     3a4:	0e 94 ac 08 	call	0x1158	; 0x1158 <__divmodhi4>
-     3a8:	d6 2e       	mov	r13, r22
+     40c:	0f 2e       	mov	r0, r31
+     40e:	fc e9       	ldi	r31, 0x9C	; 156
+     410:	df 2e       	mov	r13, r31
+     412:	f0 2d       	mov	r31, r0
+     414:	3d 2d       	mov	r19, r13
+     416:	32 03       	mulsu	r19, r18
+     418:	c0 01       	movw	r24, r0
+     41a:	11 24       	eor	r1, r1
+     41c:	81 0f       	add	r24, r17
+     41e:	91 1d       	adc	r25, r1
+     420:	0f 2e       	mov	r0, r31
+     422:	fa e0       	ldi	r31, 0x0A	; 10
+     424:	ef 2e       	mov	r14, r31
+     426:	f1 2c       	mov	r15, r1
+     428:	f0 2d       	mov	r31, r0
+     42a:	b7 01       	movw	r22, r14
+     42c:	0e 94 31 08 	call	0x1062	; 0x1062 <__divmodhi4>
+     430:	06 2f       	mov	r16, r22
+     432:	10 5d       	subi	r17, 0xD0	; 208
+     434:	2d 9d       	mul	r18, r13
+     436:	10 0d       	add	r17, r0
+     438:	11 24       	eor	r1, r1
 	thirdDigit = requiredValue - (firstDigit*100) - (secondDigit*10);
-     3aa:	20 9f       	mul	r18, r16
-     3ac:	10 0d       	add	r17, r0
-     3ae:	11 24       	eor	r1, r1
-     3b0:	96 2f       	mov	r25, r22
-     3b2:	99 0f       	add	r25, r25
-     3b4:	89 2f       	mov	r24, r25
-     3b6:	88 0f       	add	r24, r24
-     3b8:	88 0f       	add	r24, r24
-     3ba:	89 0f       	add	r24, r25
-     3bc:	18 1b       	sub	r17, r24
-	UART_Transmit(ASCIIConversion(firstDigit));
-     3be:	82 2f       	mov	r24, r18
-     3c0:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     3c4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(secondDigit)); 
-     3c8:	8d 2d       	mov	r24, r13
-     3ca:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     3ce:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(thirdDigit));
-     3d2:	81 2f       	mov	r24, r17
-     3d4:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     3d8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+     43a:	80 e3       	ldi	r24, 0x30	; 48
+     43c:	82 0f       	add	r24, r18
+     43e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(secondDigit)); 
+     442:	80 e3       	ldi	r24, 0x30	; 48
+     444:	80 0f       	add	r24, r16
+     446:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
+     44a:	00 0f       	add	r16, r16
+     44c:	80 2f       	mov	r24, r16
+     44e:	88 0f       	add	r24, r24
+     450:	88 0f       	add	r24, r24
+     452:	08 0f       	add	r16, r24
+     454:	81 2f       	mov	r24, r17
+     456:	80 1b       	sub	r24, r16
+     458:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     3dc:	82 e2       	ldi	r24, 0x22	; 34
-     3de:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     45c:	82 e2       	ldi	r24, 0x22	; 34
+     45e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(44);//,
-     3e2:	8c e2       	ldi	r24, 0x2C	; 44
-     3e4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     462:	8c e2       	ldi	r24, 0x2C	; 44
+     464:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 
 	UART_Transmit(34);//"
-     3e8:	82 e2       	ldi	r24, 0x22	; 34
-     3ea:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     468:	82 e2       	ldi	r24, 0x22	; 34
+     46a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(99);//c
-     3ee:	83 e6       	ldi	r24, 0x63	; 99
-     3f0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     46e:	83 e6       	ldi	r24, 0x63	; 99
+     470:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(117);//u
-     3f4:	85 e7       	ldi	r24, 0x75	; 117
-     3f6:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     474:	85 e7       	ldi	r24, 0x75	; 117
+     476:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(114);//r
-     3fa:	82 e7       	ldi	r24, 0x72	; 114
-     3fc:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     47a:	82 e7       	ldi	r24, 0x72	; 114
+     47c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     400:	82 e2       	ldi	r24, 0x22	; 34
-     402:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     480:	82 e2       	ldi	r24, 0x22	; 34
+     482:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58);//:
-     406:	8a e3       	ldi	r24, 0x3A	; 58
-     408:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     486:	8a e3       	ldi	r24, 0x3A	; 58
+     488:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     40c:	82 e2       	ldi	r24, 0x22	; 34
-     40e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     48c:	82 e2       	ldi	r24, 0x22	; 34
+     48e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	//current value transmission
 	firstDigit = currentValue/100;
-     412:	dc 9f       	mul	r29, r28
-     414:	21 2d       	mov	r18, r1
-     416:	11 24       	eor	r1, r1
-     418:	22 95       	swap	r18
-     41a:	2f 70       	andi	r18, 0x0F	; 15
+     492:	dc 9f       	mul	r29, r28
+     494:	21 2d       	mov	r18, r1
+     496:	11 24       	eor	r1, r1
+     498:	22 95       	swap	r18
+     49a:	2f 70       	andi	r18, 0x0F	; 15
 	secondDigit = (currentValue-(firstDigit*100))/10;
-     41c:	02 03       	mulsu	r16, r18
-     41e:	c0 01       	movw	r24, r0
-     420:	11 24       	eor	r1, r1
-     422:	8d 0f       	add	r24, r29
-     424:	91 1d       	adc	r25, r1
-     426:	b7 01       	movw	r22, r14
-     428:	0e 94 ac 08 	call	0x1158	; 0x1158 <__divmodhi4>
-     42c:	c6 2f       	mov	r28, r22
+     49c:	3d 2d       	mov	r19, r13
+     49e:	32 03       	mulsu	r19, r18
+     4a0:	c0 01       	movw	r24, r0
+     4a2:	11 24       	eor	r1, r1
+     4a4:	8d 0f       	add	r24, r29
+     4a6:	91 1d       	adc	r25, r1
+     4a8:	b7 01       	movw	r22, r14
+     4aa:	0e 94 31 08 	call	0x1062	; 0x1062 <__divmodhi4>
+     4ae:	c6 2f       	mov	r28, r22
+     4b0:	d0 5d       	subi	r29, 0xD0	; 208
+     4b2:	2d 9d       	mul	r18, r13
+     4b4:	d0 0d       	add	r29, r0
+     4b6:	11 24       	eor	r1, r1
 	thirdDigit = currentValue - (firstDigit*100) - (secondDigit*10);
-     42e:	20 9f       	mul	r18, r16
-     430:	d0 0d       	add	r29, r0
-     432:	11 24       	eor	r1, r1
-     434:	96 2f       	mov	r25, r22
-     436:	99 0f       	add	r25, r25
-     438:	89 2f       	mov	r24, r25
-     43a:	88 0f       	add	r24, r24
-     43c:	88 0f       	add	r24, r24
-     43e:	89 0f       	add	r24, r25
-     440:	d8 1b       	sub	r29, r24
-	UART_Transmit(ASCIIConversion(firstDigit));
-     442:	82 2f       	mov	r24, r18
-     444:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     448:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(secondDigit));
-     44c:	8c 2f       	mov	r24, r28
-     44e:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     452:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(thirdDigit));
-     456:	8d 2f       	mov	r24, r29
-     458:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     45c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+     4b8:	80 e3       	ldi	r24, 0x30	; 48
+     4ba:	82 0f       	add	r24, r18
+     4bc:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
+     4c0:	80 e3       	ldi	r24, 0x30	; 48
+     4c2:	8c 0f       	add	r24, r28
+     4c4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
+     4c8:	cc 0f       	add	r28, r28
+     4ca:	8c 2f       	mov	r24, r28
+     4cc:	88 0f       	add	r24, r24
+     4ce:	88 0f       	add	r24, r24
+     4d0:	c8 0f       	add	r28, r24
+     4d2:	8d 2f       	mov	r24, r29
+     4d4:	8c 1b       	sub	r24, r28
+     4d6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 	UART_Transmit(34);//"
-     460:	82 e2       	ldi	r24, 0x22	; 34
-     462:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     4da:	82 e2       	ldi	r24, 0x22	; 34
+     4dc:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(125);//}
-     466:	8d e7       	ldi	r24, 0x7D	; 125
-     468:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     4e0:	8d e7       	ldi	r24, 0x7D	; 125
+     4e2:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(44);//,
-     46c:	8c e2       	ldi	r24, 0x2C	; 44
-     46e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     4e6:	8c e2       	ldi	r24, 0x2C	; 44
+     4e8:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(10); //Line feed
-     472:	8a e0       	ldi	r24, 0x0A	; 10
-     474:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     4ec:	8a e0       	ldi	r24, 0x0A	; 10
+     4ee:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(13); //carriage return
-     478:	8d e0       	ldi	r24, 0x0D	; 13
-     47a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     4f2:	8d e0       	ldi	r24, 0x0D	; 13
+     4f4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	 
 	
 }
-     47e:	df 91       	pop	r29
-     480:	cf 91       	pop	r28
-     482:	1f 91       	pop	r17
-     484:	0f 91       	pop	r16
-     486:	ff 90       	pop	r15
-     488:	ef 90       	pop	r14
-     48a:	df 90       	pop	r13
-     48c:	08 95       	ret
+     4f8:	df 91       	pop	r29
+     4fa:	cf 91       	pop	r28
+     4fc:	1f 91       	pop	r17
+     4fe:	0f 91       	pop	r16
+     500:	ff 90       	pop	r15
+     502:	ef 90       	pop	r14
+     504:	df 90       	pop	r13
+     506:	08 95       	ret
 
-0000048e <VERmodulator>:
+00000508 <VERmodulator>:
 
 void VERmodulator(){
 	UART_Transmit(34); //"
-     48e:	82 e2       	ldi	r24, 0x22	; 34
-     490:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     508:	82 e2       	ldi	r24, 0x22	; 34
+     50a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(118);//v
-     494:	86 e7       	ldi	r24, 0x76	; 118
-     496:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     50e:	86 e7       	ldi	r24, 0x76	; 118
+     510:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(101);//e
-     49a:	85 e6       	ldi	r24, 0x65	; 101
-     49c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     514:	85 e6       	ldi	r24, 0x65	; 101
+     516:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(114);//r
-     4a0:	82 e7       	ldi	r24, 0x72	; 114
-     4a2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     51a:	82 e7       	ldi	r24, 0x72	; 114
+     51c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     4a6:	82 e2       	ldi	r24, 0x22	; 34
-     4a8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     520:	82 e2       	ldi	r24, 0x22	; 34
+     522:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58);//:
-     4ac:	8a e3       	ldi	r24, 0x3A	; 58
-     4ae:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     526:	8a e3       	ldi	r24, 0x3A	; 58
+     528:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     4b2:	82 e2       	ldi	r24, 0x22	; 34
-     4b4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     52c:	82 e2       	ldi	r24, 0x22	; 34
+     52e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(49); //1
-     4b8:	81 e3       	ldi	r24, 0x31	; 49
-     4ba:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     532:	81 e3       	ldi	r24, 0x31	; 49
+     534:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(46);//.
-     4be:	8e e2       	ldi	r24, 0x2E	; 46
-     4c0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     538:	8e e2       	ldi	r24, 0x2E	; 46
+     53a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(50);//2
-     4c4:	82 e3       	ldi	r24, 0x32	; 50
-     4c6:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     53e:	82 e3       	ldi	r24, 0x32	; 50
+     540:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(46);//.
-     4ca:	8e e2       	ldi	r24, 0x2E	; 46
-     4cc:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     544:	8e e2       	ldi	r24, 0x2E	; 46
+     546:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(51);//3
-     4d0:	83 e3       	ldi	r24, 0x33	; 51
-     4d2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     54a:	83 e3       	ldi	r24, 0x33	; 51
+     54c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     4d6:	82 e2       	ldi	r24, 0x22	; 34
-     4d8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     550:	82 e2       	ldi	r24, 0x22	; 34
+     552:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(44); //,
-     4dc:	8c e2       	ldi	r24, 0x2C	; 44
-     4de:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     556:	8c e2       	ldi	r24, 0x2C	; 44
+     558:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(10); //Line feed 
-     4e2:	8a e0       	ldi	r24, 0x0A	; 10
-     4e4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     55c:	8a e0       	ldi	r24, 0x0A	; 10
+     55e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(13); //carriage return
-     4e8:	8d e0       	ldi	r24, 0x0D	; 13
-     4ea:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-     4ee:	08 95       	ret
+     562:	8d e0       	ldi	r24, 0x0D	; 13
+     564:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+     568:	08 95       	ret
 
-000004f0 <PARAMmodulator>:
+0000056a <PARAMmodulator>:
 	 
 }
 
 void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current){
-     4f0:	8f 92       	push	r8
-     4f2:	9f 92       	push	r9
-     4f4:	af 92       	push	r10
-     4f6:	bf 92       	push	r11
-     4f8:	cf 92       	push	r12
-     4fa:	df 92       	push	r13
-     4fc:	ef 92       	push	r14
-     4fe:	ff 92       	push	r15
-     500:	0f 93       	push	r16
-     502:	1f 93       	push	r17
-     504:	cf 93       	push	r28
-     506:	df 93       	push	r29
-     508:	d8 2f       	mov	r29, r24
-     50a:	96 2e       	mov	r9, r22
-     50c:	69 01       	movw	r12, r18
-     50e:	7a 01       	movw	r14, r20
+     56a:	8f 92       	push	r8
+     56c:	9f 92       	push	r9
+     56e:	af 92       	push	r10
+     570:	bf 92       	push	r11
+     572:	cf 92       	push	r12
+     574:	df 92       	push	r13
+     576:	ef 92       	push	r14
+     578:	ff 92       	push	r15
+     57a:	0f 93       	push	r16
+     57c:	1f 93       	push	r17
+     57e:	cf 93       	push	r28
+     580:	df 93       	push	r29
+     582:	c8 2f       	mov	r28, r24
+     584:	96 2e       	mov	r9, r22
+     586:	69 01       	movw	r12, r18
+     588:	7a 01       	movw	r14, r20
 	uint8_t firstDigit; 
 	uint8_t secondDigit;
 	uint8_t thirdDigit;
 	uint8_t fourthDigit;
 	UART_Transmit(34);//"
-     510:	82 e2       	ldi	r24, 0x22	; 34
-     512:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     58a:	82 e2       	ldi	r24, 0x22	; 34
+     58c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(112);//p
-     516:	80 e7       	ldi	r24, 0x70	; 112
-     518:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     590:	80 e7       	ldi	r24, 0x70	; 112
+     592:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(97);//a
-     51c:	81 e6       	ldi	r24, 0x61	; 97
-     51e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     596:	81 e6       	ldi	r24, 0x61	; 97
+     598:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(114);//r
-     522:	82 e7       	ldi	r24, 0x72	; 114
-     524:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     59c:	82 e7       	ldi	r24, 0x72	; 114
+     59e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(97);//a
-     528:	81 e6       	ldi	r24, 0x61	; 97
-     52a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5a2:	81 e6       	ldi	r24, 0x61	; 97
+     5a4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(109);//m
-     52e:	8d e6       	ldi	r24, 0x6D	; 109
-     530:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5a8:	8d e6       	ldi	r24, 0x6D	; 109
+     5aa:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     534:	82 e2       	ldi	r24, 0x22	; 34
-     536:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5ae:	82 e2       	ldi	r24, 0x22	; 34
+     5b0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58);//:
-     53a:	8a e3       	ldi	r24, 0x3A	; 58
-     53c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5b4:	8a e3       	ldi	r24, 0x3A	; 58
+     5b6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(123);//{
-     540:	8b e7       	ldi	r24, 0x7B	; 123
-     542:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5ba:	8b e7       	ldi	r24, 0x7B	; 123
+     5bc:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 	//parameters
 	
 	UART_Transmit(34); //"
-     546:	82 e2       	ldi	r24, 0x22	; 34
-     548:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5c0:	82 e2       	ldi	r24, 0x22	; 34
+     5c2:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(112); //p
-     54c:	80 e7       	ldi	r24, 0x70	; 112
-     54e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5c6:	80 e7       	ldi	r24, 0x70	; 112
+     5c8:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(119); //w
-     552:	87 e7       	ldi	r24, 0x77	; 119
-     554:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5cc:	87 e7       	ldi	r24, 0x77	; 119
+     5ce:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(114);//r 
-     558:	82 e7       	ldi	r24, 0x72	; 114
-     55a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5d2:	82 e7       	ldi	r24, 0x72	; 114
+     5d4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34); //"
-     55e:	82 e2       	ldi	r24, 0x22	; 34
-     560:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5d8:	82 e2       	ldi	r24, 0x22	; 34
+     5da:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58); //:
-     564:	8a e3       	ldi	r24, 0x3A	; 58
-     566:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5de:	8a e3       	ldi	r24, 0x3A	; 58
+     5e0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     56a:	82 e2       	ldi	r24, 0x22	; 34
-     56c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     5e4:	82 e2       	ldi	r24, 0x22	; 34
+     5e6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 	//power parameters 
 	firstDigit = averagePower/100;
-     570:	c9 e2       	ldi	r28, 0x29	; 41
-     572:	dc 9f       	mul	r29, r28
-     574:	21 2d       	mov	r18, r1
-     576:	11 24       	eor	r1, r1
-     578:	22 95       	swap	r18
-     57a:	2f 70       	andi	r18, 0x0F	; 15
+     5ea:	d9 e2       	ldi	r29, 0x29	; 41
+     5ec:	cd 9f       	mul	r28, r29
+     5ee:	21 2d       	mov	r18, r1
+     5f0:	11 24       	eor	r1, r1
+     5f2:	22 95       	swap	r18
+     5f4:	2f 70       	andi	r18, 0x0F	; 15
 	secondDigit = (averagePower-(firstDigit*100))/10;
-     57c:	1c e9       	ldi	r17, 0x9C	; 156
-     57e:	12 03       	mulsu	r17, r18
-     580:	c0 01       	movw	r24, r0
-     582:	11 24       	eor	r1, r1
-     584:	8d 0f       	add	r24, r29
-     586:	91 1d       	adc	r25, r1
-     588:	0f 2e       	mov	r0, r31
-     58a:	fa e0       	ldi	r31, 0x0A	; 10
-     58c:	af 2e       	mov	r10, r31
-     58e:	b1 2c       	mov	r11, r1
-     590:	f0 2d       	mov	r31, r0
-     592:	b5 01       	movw	r22, r10
-     594:	0e 94 ac 08 	call	0x1158	; 0x1158 <__divmodhi4>
-     598:	86 2e       	mov	r8, r22
+     5f6:	1c e9       	ldi	r17, 0x9C	; 156
+     5f8:	12 03       	mulsu	r17, r18
+     5fa:	c0 01       	movw	r24, r0
+     5fc:	11 24       	eor	r1, r1
+     5fe:	8c 0f       	add	r24, r28
+     600:	91 1d       	adc	r25, r1
+     602:	0f 2e       	mov	r0, r31
+     604:	fa e0       	ldi	r31, 0x0A	; 10
+     606:	af 2e       	mov	r10, r31
+     608:	b1 2c       	mov	r11, r1
+     60a:	f0 2d       	mov	r31, r0
+     60c:	b5 01       	movw	r22, r10
+     60e:	0e 94 31 08 	call	0x1062	; 0x1062 <__divmodhi4>
+     612:	86 2e       	mov	r8, r22
+     614:	c0 5d       	subi	r28, 0xD0	; 208
+     616:	21 9f       	mul	r18, r17
+     618:	c0 0d       	add	r28, r0
+     61a:	11 24       	eor	r1, r1
 	thirdDigit = averagePower - (firstDigit*100) - (secondDigit*10);
-     59a:	21 9f       	mul	r18, r17
-     59c:	d0 0d       	add	r29, r0
-     59e:	11 24       	eor	r1, r1
-     5a0:	96 2f       	mov	r25, r22
-     5a2:	99 0f       	add	r25, r25
-     5a4:	89 2f       	mov	r24, r25
-     5a6:	88 0f       	add	r24, r24
-     5a8:	88 0f       	add	r24, r24
-     5aa:	89 0f       	add	r24, r25
-     5ac:	d8 1b       	sub	r29, r24
-	UART_Transmit(ASCIIConversion(firstDigit));
-     5ae:	82 2f       	mov	r24, r18
-     5b0:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     5b4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(secondDigit));
-     5b8:	88 2d       	mov	r24, r8
-     5ba:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     5be:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+     61c:	80 e3       	ldi	r24, 0x30	; 48
+     61e:	82 0f       	add	r24, r18
+     620:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
+     624:	80 e3       	ldi	r24, 0x30	; 48
+     626:	88 0d       	add	r24, r8
+     628:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(46); //decimal point
-     5c2:	8e e2       	ldi	r24, 0x2E	; 46
-     5c4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(thirdDigit));
-     5c8:	8d 2f       	mov	r24, r29
-     5ca:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     5ce:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     62c:	8e e2       	ldi	r24, 0x2E	; 46
+     62e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
+     632:	88 0c       	add	r8, r8
+     634:	88 2d       	mov	r24, r8
+     636:	88 0f       	add	r24, r24
+     638:	88 0f       	add	r24, r24
+     63a:	88 0e       	add	r8, r24
+     63c:	8c 2f       	mov	r24, r28
+     63e:	88 19       	sub	r24, r8
+     640:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(87); //W
-     5d2:	87 e5       	ldi	r24, 0x57	; 87
-     5d4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     644:	87 e5       	ldi	r24, 0x57	; 87
+     646:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34); //"
-     5d8:	82 e2       	ldi	r24, 0x22	; 34
-     5da:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     64a:	82 e2       	ldi	r24, 0x22	; 34
+     64c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(44); //,
-     5de:	8c e2       	ldi	r24, 0x2C	; 44
-     5e0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     650:	8c e2       	ldi	r24, 0x2C	; 44
+     652:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	 
 	 
 	
 	//frequency
 	UART_Transmit(34); //"
-     5e4:	82 e2       	ldi	r24, 0x22	; 34
-     5e6:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     656:	82 e2       	ldi	r24, 0x22	; 34
+     658:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(102);//f
-     5ea:	86 e6       	ldi	r24, 0x66	; 102
-     5ec:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     65c:	86 e6       	ldi	r24, 0x66	; 102
+     65e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(114);//r
-     5f0:	82 e7       	ldi	r24, 0x72	; 114
-     5f2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     662:	82 e7       	ldi	r24, 0x72	; 114
+     664:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(101);//e
-     5f6:	85 e6       	ldi	r24, 0x65	; 101
-     5f8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     668:	85 e6       	ldi	r24, 0x65	; 101
+     66a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(113);//q
-     5fc:	81 e7       	ldi	r24, 0x71	; 113
-     5fe:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     66e:	81 e7       	ldi	r24, 0x71	; 113
+     670:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     602:	82 e2       	ldi	r24, 0x22	; 34
-     604:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     674:	82 e2       	ldi	r24, 0x22	; 34
+     676:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58);//:
-     608:	8a e3       	ldi	r24, 0x3A	; 58
-     60a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     67a:	8a e3       	ldi	r24, 0x3A	; 58
+     67c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     60e:	82 e2       	ldi	r24, 0x22	; 34
-     610:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     680:	82 e2       	ldi	r24, 0x22	; 34
+     682:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	firstDigit = operatingFrequency/10;
-     614:	8d ec       	ldi	r24, 0xCD	; 205
-     616:	98 9e       	mul	r9, r24
-     618:	81 2d       	mov	r24, r1
-     61a:	11 24       	eor	r1, r1
-     61c:	86 95       	lsr	r24
-     61e:	86 95       	lsr	r24
-     620:	86 95       	lsr	r24
+     686:	cd ec       	ldi	r28, 0xCD	; 205
+     688:	9c 9e       	mul	r9, r28
+     68a:	c1 2d       	mov	r28, r1
+     68c:	11 24       	eor	r1, r1
+     68e:	c6 95       	lsr	r28
+     690:	c6 95       	lsr	r28
+     692:	c6 95       	lsr	r28
 	secondDigit = operatingFrequency-(firstDigit*10);
-     622:	28 2f       	mov	r18, r24
-     624:	22 0f       	add	r18, r18
-     626:	92 2f       	mov	r25, r18
-     628:	99 0f       	add	r25, r25
-     62a:	99 0f       	add	r25, r25
-     62c:	92 0f       	add	r25, r18
-     62e:	99 1a       	sub	r9, r25
-	UART_Transmit(ASCIIConversion(firstDigit));
-     630:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     634:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(secondDigit));
-     638:	89 2d       	mov	r24, r9
-     63a:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     63e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+     694:	80 e3       	ldi	r24, 0x30	; 48
+     696:	8c 0f       	add	r24, r28
+     698:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
+     69c:	cc 0f       	add	r28, r28
+     69e:	8c 2f       	mov	r24, r28
+     6a0:	88 0f       	add	r24, r24
+     6a2:	88 0f       	add	r24, r24
+     6a4:	c8 0f       	add	r28, r24
+     6a6:	80 e3       	ldi	r24, 0x30	; 48
+     6a8:	89 0d       	add	r24, r9
+     6aa:	8c 1b       	sub	r24, r28
+     6ac:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(72); //H
-     642:	88 e4       	ldi	r24, 0x48	; 72
-     644:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6b0:	88 e4       	ldi	r24, 0x48	; 72
+     6b2:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(122);//z
-     648:	8a e7       	ldi	r24, 0x7A	; 122
-     64a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6b6:	8a e7       	ldi	r24, 0x7A	; 122
+     6b8:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     64e:	82 e2       	ldi	r24, 0x22	; 34
-     650:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6bc:	82 e2       	ldi	r24, 0x22	; 34
+     6be:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(44);//,
-     654:	8c e2       	ldi	r24, 0x2C	; 44
-     656:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6c2:	8c e2       	ldi	r24, 0x2C	; 44
+     6c4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 	//current 
 
 	UART_Transmit(34); //"
-     65a:	82 e2       	ldi	r24, 0x22	; 34
-     65c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6c8:	82 e2       	ldi	r24, 0x22	; 34
+     6ca:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(99); //c
-     660:	83 e6       	ldi	r24, 0x63	; 99
-     662:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6ce:	83 e6       	ldi	r24, 0x63	; 99
+     6d0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(117); //u
-     666:	85 e7       	ldi	r24, 0x75	; 117
-     668:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6d4:	85 e7       	ldi	r24, 0x75	; 117
+     6d6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(114);//r
-     66c:	82 e7       	ldi	r24, 0x72	; 114
-     66e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6da:	82 e7       	ldi	r24, 0x72	; 114
+     6dc:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(114);//r
-     672:	82 e7       	ldi	r24, 0x72	; 114
-     674:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6e0:	82 e7       	ldi	r24, 0x72	; 114
+     6e2:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34); //"
-     678:	82 e2       	ldi	r24, 0x22	; 34
-     67a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6e6:	82 e2       	ldi	r24, 0x22	; 34
+     6e8:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58); //:
-     67e:	8a e3       	ldi	r24, 0x3A	; 58
-     680:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6ec:	8a e3       	ldi	r24, 0x3A	; 58
+     6ee:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34);//"
-     684:	82 e2       	ldi	r24, 0x22	; 34
-     686:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     6f2:	82 e2       	ldi	r24, 0x22	; 34
+     6f4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	firstDigit = current/100;
-     68a:	0c 9f       	mul	r16, r28
-     68c:	21 2d       	mov	r18, r1
-     68e:	11 24       	eor	r1, r1
-     690:	22 95       	swap	r18
-     692:	2f 70       	andi	r18, 0x0F	; 15
+     6f8:	0d 9f       	mul	r16, r29
+     6fa:	21 2d       	mov	r18, r1
+     6fc:	11 24       	eor	r1, r1
+     6fe:	22 95       	swap	r18
+     700:	2f 70       	andi	r18, 0x0F	; 15
 	secondDigit = (current-(firstDigit*100))/10;
-     694:	12 03       	mulsu	r17, r18
-     696:	c0 01       	movw	r24, r0
-     698:	11 24       	eor	r1, r1
-     69a:	80 0f       	add	r24, r16
-     69c:	91 1d       	adc	r25, r1
-     69e:	b5 01       	movw	r22, r10
-     6a0:	0e 94 ac 08 	call	0x1158	; 0x1158 <__divmodhi4>
-     6a4:	c6 2f       	mov	r28, r22
+     702:	12 03       	mulsu	r17, r18
+     704:	c0 01       	movw	r24, r0
+     706:	11 24       	eor	r1, r1
+     708:	80 0f       	add	r24, r16
+     70a:	91 1d       	adc	r25, r1
+     70c:	b5 01       	movw	r22, r10
+     70e:	0e 94 31 08 	call	0x1062	; 0x1062 <__divmodhi4>
+     712:	c6 2f       	mov	r28, r22
+     714:	00 5d       	subi	r16, 0xD0	; 208
+     716:	21 9f       	mul	r18, r17
+     718:	00 0d       	add	r16, r0
+     71a:	11 24       	eor	r1, r1
 	thirdDigit = current - (firstDigit*100) - (secondDigit*10);
-     6a6:	21 9f       	mul	r18, r17
-     6a8:	00 0d       	add	r16, r0
-     6aa:	11 24       	eor	r1, r1
-     6ac:	96 2f       	mov	r25, r22
-     6ae:	99 0f       	add	r25, r25
-     6b0:	89 2f       	mov	r24, r25
-     6b2:	88 0f       	add	r24, r24
-     6b4:	88 0f       	add	r24, r24
-     6b6:	89 0f       	add	r24, r25
-     6b8:	08 1b       	sub	r16, r24
-	UART_Transmit(ASCIIConversion(firstDigit));
-     6ba:	82 2f       	mov	r24, r18
-     6bc:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     6c0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(secondDigit));
-     6c4:	8c 2f       	mov	r24, r28
-     6c6:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     6ca:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(thirdDigit));
-     6ce:	80 2f       	mov	r24, r16
-     6d0:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     6d4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+     71c:	80 e3       	ldi	r24, 0x30	; 48
+     71e:	82 0f       	add	r24, r18
+     720:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
+     724:	80 e3       	ldi	r24, 0x30	; 48
+     726:	8c 0f       	add	r24, r28
+     728:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
+     72c:	cc 0f       	add	r28, r28
+     72e:	8c 2f       	mov	r24, r28
+     730:	88 0f       	add	r24, r24
+     732:	88 0f       	add	r24, r24
+     734:	c8 0f       	add	r28, r24
+     736:	80 2f       	mov	r24, r16
+     738:	8c 1b       	sub	r24, r28
+     73a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(109); //m
-     6d8:	8d e6       	ldi	r24, 0x6D	; 109
-     6da:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     73e:	8d e6       	ldi	r24, 0x6D	; 109
+     740:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(65); //A
-     6de:	81 e4       	ldi	r24, 0x41	; 65
-     6e0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     744:	81 e4       	ldi	r24, 0x41	; 65
+     746:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34); //"
-     6e4:	82 e2       	ldi	r24, 0x22	; 34
-     6e6:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     74a:	82 e2       	ldi	r24, 0x22	; 34
+     74c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(44); //,
-     6ea:	8c e2       	ldi	r24, 0x2C	; 44
-     6ec:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     750:	8c e2       	ldi	r24, 0x2C	; 44
+     752:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 	//applied voltage
 	 
 	UART_Transmit(34); //"
-     6f0:	82 e2       	ldi	r24, 0x22	; 34
-     6f2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     756:	82 e2       	ldi	r24, 0x22	; 34
+     758:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(118); //v
-     6f6:	86 e7       	ldi	r24, 0x76	; 118
-     6f8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     75c:	86 e7       	ldi	r24, 0x76	; 118
+     75e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(111); //o
-     6fc:	8f e6       	ldi	r24, 0x6F	; 111
-     6fe:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     762:	8f e6       	ldi	r24, 0x6F	; 111
+     764:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(108); //l
-     702:	8c e6       	ldi	r24, 0x6C	; 108
-     704:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     768:	8c e6       	ldi	r24, 0x6C	; 108
+     76a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(116); //t
-     708:	84 e7       	ldi	r24, 0x74	; 116
-     70a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     76e:	84 e7       	ldi	r24, 0x74	; 116
+     770:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34); //"
-     70e:	82 e2       	ldi	r24, 0x22	; 34
-     710:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     774:	82 e2       	ldi	r24, 0x22	; 34
+     776:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(58); //:
-     714:	8a e3       	ldi	r24, 0x3A	; 58
-     716:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     77a:	8a e3       	ldi	r24, 0x3A	; 58
+     77c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34); //"
-     71a:	82 e2       	ldi	r24, 0x22	; 34
-     71c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     780:	82 e2       	ldi	r24, 0x22	; 34
+     782:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	firstDigit = appliedVoltage/1000;
-     720:	c7 01       	movw	r24, r14
-     722:	b6 01       	movw	r22, r12
-     724:	28 ee       	ldi	r18, 0xE8	; 232
-     726:	33 e0       	ldi	r19, 0x03	; 3
-     728:	40 e0       	ldi	r20, 0x00	; 0
-     72a:	50 e0       	ldi	r21, 0x00	; 0
-     72c:	0e 94 c0 08 	call	0x1180	; 0x1180 <__udivmodsi4>
-     730:	d2 2f       	mov	r29, r18
+     786:	c7 01       	movw	r24, r14
+     788:	b6 01       	movw	r22, r12
+     78a:	28 ee       	ldi	r18, 0xE8	; 232
+     78c:	33 e0       	ldi	r19, 0x03	; 3
+     78e:	40 e0       	ldi	r20, 0x00	; 0
+     790:	50 e0       	ldi	r21, 0x00	; 0
+     792:	0e 94 45 08 	call	0x108a	; 0x108a <__udivmodsi4>
+     796:	12 2f       	mov	r17, r18
 	secondDigit = (appliedVoltage-(firstDigit*1000))/100;
-     732:	28 ee       	ldi	r18, 0xE8	; 232
-     734:	33 e0       	ldi	r19, 0x03	; 3
-     736:	d2 9f       	mul	r29, r18
-     738:	c0 01       	movw	r24, r0
-     73a:	d3 9f       	mul	r29, r19
-     73c:	90 0d       	add	r25, r0
-     73e:	11 24       	eor	r1, r1
-     740:	09 2e       	mov	r0, r25
-     742:	00 0c       	add	r0, r0
-     744:	aa 0b       	sbc	r26, r26
-     746:	bb 0b       	sbc	r27, r27
-     748:	46 01       	movw	r8, r12
-     74a:	57 01       	movw	r10, r14
-     74c:	88 1a       	sub	r8, r24
-     74e:	99 0a       	sbc	r9, r25
-     750:	aa 0a       	sbc	r10, r26
-     752:	bb 0a       	sbc	r11, r27
-     754:	c5 01       	movw	r24, r10
-     756:	b4 01       	movw	r22, r8
-     758:	24 e6       	ldi	r18, 0x64	; 100
-     75a:	30 e0       	ldi	r19, 0x00	; 0
-     75c:	40 e0       	ldi	r20, 0x00	; 0
-     75e:	50 e0       	ldi	r21, 0x00	; 0
-     760:	0e 94 c0 08 	call	0x1180	; 0x1180 <__udivmodsi4>
-     764:	c2 2f       	mov	r28, r18
+     798:	28 ee       	ldi	r18, 0xE8	; 232
+     79a:	33 e0       	ldi	r19, 0x03	; 3
+     79c:	12 9f       	mul	r17, r18
+     79e:	c0 01       	movw	r24, r0
+     7a0:	13 9f       	mul	r17, r19
+     7a2:	90 0d       	add	r25, r0
+     7a4:	11 24       	eor	r1, r1
+     7a6:	09 2e       	mov	r0, r25
+     7a8:	00 0c       	add	r0, r0
+     7aa:	aa 0b       	sbc	r26, r26
+     7ac:	bb 0b       	sbc	r27, r27
+     7ae:	46 01       	movw	r8, r12
+     7b0:	57 01       	movw	r10, r14
+     7b2:	88 1a       	sub	r8, r24
+     7b4:	99 0a       	sbc	r9, r25
+     7b6:	aa 0a       	sbc	r10, r26
+     7b8:	bb 0a       	sbc	r11, r27
+     7ba:	c5 01       	movw	r24, r10
+     7bc:	b4 01       	movw	r22, r8
+     7be:	24 e6       	ldi	r18, 0x64	; 100
+     7c0:	30 e0       	ldi	r19, 0x00	; 0
+     7c2:	40 e0       	ldi	r20, 0x00	; 0
+     7c4:	50 e0       	ldi	r21, 0x00	; 0
+     7c6:	0e 94 45 08 	call	0x108a	; 0x108a <__udivmodsi4>
+     7ca:	d2 2f       	mov	r29, r18
 	thirdDigit = (appliedVoltage - (firstDigit*1000) - (secondDigit*100))/10;
-     766:	14 e6       	ldi	r17, 0x64	; 100
-     768:	12 9f       	mul	r17, r18
-     76a:	c0 01       	movw	r24, r0
-     76c:	11 24       	eor	r1, r1
-     76e:	09 2e       	mov	r0, r25
-     770:	00 0c       	add	r0, r0
-     772:	aa 0b       	sbc	r26, r26
-     774:	bb 0b       	sbc	r27, r27
-     776:	a5 01       	movw	r20, r10
-     778:	94 01       	movw	r18, r8
-     77a:	28 1b       	sub	r18, r24
-     77c:	39 0b       	sbc	r19, r25
-     77e:	4a 0b       	sbc	r20, r26
-     780:	5b 0b       	sbc	r21, r27
-     782:	ca 01       	movw	r24, r20
-     784:	b9 01       	movw	r22, r18
-     786:	2a e0       	ldi	r18, 0x0A	; 10
-     788:	30 e0       	ldi	r19, 0x00	; 0
-     78a:	40 e0       	ldi	r20, 0x00	; 0
-     78c:	50 e0       	ldi	r21, 0x00	; 0
-     78e:	0e 94 c0 08 	call	0x1180	; 0x1180 <__udivmodsi4>
-     792:	02 2f       	mov	r16, r18
+     7cc:	04 e6       	ldi	r16, 0x64	; 100
+     7ce:	02 9f       	mul	r16, r18
+     7d0:	c0 01       	movw	r24, r0
+     7d2:	11 24       	eor	r1, r1
+     7d4:	09 2e       	mov	r0, r25
+     7d6:	00 0c       	add	r0, r0
+     7d8:	aa 0b       	sbc	r26, r26
+     7da:	bb 0b       	sbc	r27, r27
+     7dc:	a5 01       	movw	r20, r10
+     7de:	94 01       	movw	r18, r8
+     7e0:	28 1b       	sub	r18, r24
+     7e2:	39 0b       	sbc	r19, r25
+     7e4:	4a 0b       	sbc	r20, r26
+     7e6:	5b 0b       	sbc	r21, r27
+     7e8:	ca 01       	movw	r24, r20
+     7ea:	b9 01       	movw	r22, r18
+     7ec:	2a e0       	ldi	r18, 0x0A	; 10
+     7ee:	30 e0       	ldi	r19, 0x00	; 0
+     7f0:	40 e0       	ldi	r20, 0x00	; 0
+     7f2:	50 e0       	ldi	r21, 0x00	; 0
+     7f4:	0e 94 45 08 	call	0x108a	; 0x108a <__udivmodsi4>
+     7f8:	c2 2f       	mov	r28, r18
+     7fa:	8c 2d       	mov	r24, r12
+     7fc:	38 e1       	ldi	r19, 0x18	; 24
+     7fe:	13 9f       	mul	r17, r19
+     800:	80 0d       	add	r24, r0
+     802:	11 24       	eor	r1, r1
+     804:	80 5d       	subi	r24, 0xD0	; 208
+     806:	c8 2e       	mov	r12, r24
+     808:	0d 9f       	mul	r16, r29
+     80a:	c0 18       	sub	r12, r0
+     80c:	11 24       	eor	r1, r1
 	fourthDigit = appliedVoltage -(firstDigit*1000) - (secondDigit*100) - (thirdDigit*10);
-     794:	38 e1       	ldi	r19, 0x18	; 24
-     796:	d3 9f       	mul	r29, r19
-     798:	c0 0c       	add	r12, r0
-     79a:	11 24       	eor	r1, r1
-     79c:	1c 9f       	mul	r17, r28
-     79e:	c0 18       	sub	r12, r0
-     7a0:	11 24       	eor	r1, r1
-     7a2:	90 2f       	mov	r25, r16
-     7a4:	99 0f       	add	r25, r25
-     7a6:	89 2f       	mov	r24, r25
-     7a8:	88 0f       	add	r24, r24
-     7aa:	88 0f       	add	r24, r24
-     7ac:	89 0f       	add	r24, r25
-     7ae:	c8 1a       	sub	r12, r24
-	UART_Transmit(ASCIIConversion(firstDigit));
-     7b0:	8d 2f       	mov	r24, r29
-     7b2:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     7b6:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(secondDigit));
-     7ba:	8c 2f       	mov	r24, r28
-     7bc:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     7c0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+     80e:	80 e3       	ldi	r24, 0x30	; 48
+     810:	81 0f       	add	r24, r17
+     812:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
+     816:	80 e3       	ldi	r24, 0x30	; 48
+     818:	8d 0f       	add	r24, r29
+     81a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(46); //decimal point
-     7c4:	8e e2       	ldi	r24, 0x2E	; 46
-     7c6:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(thirdDigit));
-     7ca:	80 2f       	mov	r24, r16
-     7cc:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     7d0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-	UART_Transmit(ASCIIConversion(fourthDigit));
-     7d4:	8c 2d       	mov	r24, r12
-     7d6:	0e 94 90 06 	call	0xd20	; 0xd20 <ASCIIConversion>
-     7da:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     81e:	8e e2       	ldi	r24, 0x2E	; 46
+     820:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
+     824:	80 e3       	ldi	r24, 0x30	; 48
+     826:	8c 0f       	add	r24, r28
+     828:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+	UART_Transmit(UART_ASCIIConversion(fourthDigit));
+     82c:	cc 0f       	add	r28, r28
+     82e:	8c 2f       	mov	r24, r28
+     830:	88 0f       	add	r24, r24
+     832:	88 0f       	add	r24, r24
+     834:	c8 0f       	add	r28, r24
+     836:	8c 2d       	mov	r24, r12
+     838:	8c 1b       	sub	r24, r28
+     83a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(86); //V
-     7de:	86 e5       	ldi	r24, 0x56	; 86
-     7e0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     83e:	86 e5       	ldi	r24, 0x56	; 86
+     840:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(34); //"
-     7e4:	82 e2       	ldi	r24, 0x22	; 34
-     7e6:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     844:	82 e2       	ldi	r24, 0x22	; 34
+     846:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	
 	 
 	UART_Transmit(125); //}
-     7ea:	8d e7       	ldi	r24, 0x7D	; 125
-     7ec:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     84a:	8d e7       	ldi	r24, 0x7D	; 125
+     84c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(44);//,
-     7f0:	8c e2       	ldi	r24, 0x2C	; 44
-     7f2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     850:	8c e2       	ldi	r24, 0x2C	; 44
+     852:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(10); //line feed
-     7f6:	8a e0       	ldi	r24, 0x0A	; 10
-     7f8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     856:	8a e0       	ldi	r24, 0x0A	; 10
+     858:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(13); //carriage return
-     7fc:	8d e0       	ldi	r24, 0x0D	; 13
-     7fe:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     85c:	8d e0       	ldi	r24, 0x0D	; 13
+     85e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	 
 }
-     802:	df 91       	pop	r29
-     804:	cf 91       	pop	r28
-     806:	1f 91       	pop	r17
-     808:	0f 91       	pop	r16
-     80a:	ff 90       	pop	r15
-     80c:	ef 90       	pop	r14
-     80e:	df 90       	pop	r13
-     810:	cf 90       	pop	r12
-     812:	bf 90       	pop	r11
-     814:	af 90       	pop	r10
-     816:	9f 90       	pop	r9
-     818:	8f 90       	pop	r8
-     81a:	08 95       	ret
+     862:	df 91       	pop	r29
+     864:	cf 91       	pop	r28
+     866:	1f 91       	pop	r17
+     868:	0f 91       	pop	r16
+     86a:	ff 90       	pop	r15
+     86c:	ef 90       	pop	r14
+     86e:	df 90       	pop	r13
+     870:	cf 90       	pop	r12
+     872:	bf 90       	pop	r11
+     874:	af 90       	pop	r10
+     876:	9f 90       	pop	r9
+     878:	8f 90       	pop	r8
+     87a:	08 95       	ret
 
-0000081c <ERRORmodulator>:
+0000087c <ERRORmodulator>:
 
 void ERRORmodulator(bool jamErrorFlag, bool collisionErrorFlag){  
-     81c:	cf 93       	push	r28
-     81e:	df 93       	push	r29
-     820:	d8 2f       	mov	r29, r24
-     822:	c6 2f       	mov	r28, r22
+     87c:	cf 93       	push	r28
+     87e:	df 93       	push	r29
+     880:	d8 2f       	mov	r29, r24
+     882:	c6 2f       	mov	r28, r22
 	//error clear tells us whether we need to clear the error array
 	if(clearErrorFlag){
-     824:	80 91 2a 01 	lds	r24, 0x012A	; 0x80012a <clearErrorFlag>
-     828:	88 23       	and	r24, r24
-     82a:	51 f1       	breq	.+84     	; 0x880 <ERRORmodulator+0x64>
+     884:	80 91 1c 01 	lds	r24, 0x011C	; 0x80011c <clearErrorFlag>
+     888:	88 23       	and	r24, r24
+     88a:	51 f1       	breq	.+84     	; 0x8e0 <ERRORmodulator+0x64>
 		UART_Transmit(34); //"
-     82c:	82 e2       	ldi	r24, 0x22	; 34
-     82e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     88c:	82 e2       	ldi	r24, 0x22	; 34
+     88e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(99); //c
-     832:	83 e6       	ldi	r24, 0x63	; 99
-     834:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     892:	83 e6       	ldi	r24, 0x63	; 99
+     894:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(108); //l
-     838:	8c e6       	ldi	r24, 0x6C	; 108
-     83a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     898:	8c e6       	ldi	r24, 0x6C	; 108
+     89a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(114); //r
-     83e:	82 e7       	ldi	r24, 0x72	; 114
-     840:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     89e:	82 e7       	ldi	r24, 0x72	; 114
+     8a0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(34); //"
-     844:	82 e2       	ldi	r24, 0x22	; 34
-     846:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8a4:	82 e2       	ldi	r24, 0x22	; 34
+     8a6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(58); //:
-     84a:	8a e3       	ldi	r24, 0x3A	; 58
-     84c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8aa:	8a e3       	ldi	r24, 0x3A	; 58
+     8ac:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(34); //"
-     850:	82 e2       	ldi	r24, 0x22	; 34
-     852:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8b0:	82 e2       	ldi	r24, 0x22	; 34
+     8b2:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(101); //e
-     856:	85 e6       	ldi	r24, 0x65	; 101
-     858:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8b6:	85 e6       	ldi	r24, 0x65	; 101
+     8b8:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(119); //w
-     85c:	87 e7       	ldi	r24, 0x77	; 119
-     85e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8bc:	87 e7       	ldi	r24, 0x77	; 119
+     8be:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(34); //"
-     862:	82 e2       	ldi	r24, 0x22	; 34
-     864:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8c2:	82 e2       	ldi	r24, 0x22	; 34
+     8c4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(44); //,
-     868:	8c e2       	ldi	r24, 0x2C	; 44
-     86a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8c8:	8c e2       	ldi	r24, 0x2C	; 44
+     8ca:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(10); //line feed
-     86e:	8a e0       	ldi	r24, 0x0A	; 10
-     870:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8ce:	8a e0       	ldi	r24, 0x0A	; 10
+     8d0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(13); //carriage return
-     874:	8d e0       	ldi	r24, 0x0D	; 13
-     876:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8d4:	8d e0       	ldi	r24, 0x0D	; 13
+     8d6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		clearErrorFlag = false;
-     87a:	10 92 2a 01 	sts	0x012A, r1	; 0x80012a <clearErrorFlag>
-     87e:	36 c0       	rjmp	.+108    	; 0x8ec <ERRORmodulator+0xd0>
+     8da:	10 92 1c 01 	sts	0x011C, r1	; 0x80011c <clearErrorFlag>
+     8de:	36 c0       	rjmp	.+108    	; 0x94c <__stack+0x4d>
 	}else{
 		UART_Transmit(10); //line feed
-     880:	8a e0       	ldi	r24, 0x0A	; 10
-     882:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8e0:	8a e0       	ldi	r24, 0x0A	; 10
+     8e2:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		UART_Transmit(13); //carriage return
-     886:	8d e0       	ldi	r24, 0x0D	; 13
-     888:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8e6:	8d e0       	ldi	r24, 0x0D	; 13
+     8e8:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 		
 		if(collisionErrorFlag || jamErrorFlag) {
-     88c:	c1 11       	cpse	r28, r1
-     88e:	7c c0       	rjmp	.+248    	; 0x988 <__stack+0x89>
-     890:	d1 11       	cpse	r29, r1
-     892:	45 c0       	rjmp	.+138    	; 0x91e <__stack+0x1f>
-     894:	25 c0       	rjmp	.+74     	; 0x8e0 <ERRORmodulator+0xc4>
+     8ec:	c1 11       	cpse	r28, r1
+     8ee:	7c c0       	rjmp	.+248    	; 0x9e8 <__stack+0xe9>
+     8f0:	d1 11       	cpse	r29, r1
+     8f2:	45 c0       	rjmp	.+138    	; 0x97e <__stack+0x7f>
+     8f4:	25 c0       	rjmp	.+74     	; 0x940 <__stack+0x41>
 					UART_Transmit(44); //,
 				}
 			}
 
 			if(collisionErrorFlag){ //compressor colliding
 				UART_Transmit(34); //"
-     896:	82 e2       	ldi	r24, 0x22	; 34
-     898:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8f6:	82 e2       	ldi	r24, 0x22	; 34
+     8f8:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(99); //c
-     89c:	83 e6       	ldi	r24, 0x63	; 99
-     89e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     8fc:	83 e6       	ldi	r24, 0x63	; 99
+     8fe:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(111); //o
-     8a2:	8f e6       	ldi	r24, 0x6F	; 111
-     8a4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     902:	8f e6       	ldi	r24, 0x6F	; 111
+     904:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(108); //l
-     8a8:	8c e6       	ldi	r24, 0x6C	; 108
-     8aa:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     908:	8c e6       	ldi	r24, 0x6C	; 108
+     90a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(108); //l
-     8ae:	8c e6       	ldi	r24, 0x6C	; 108
-     8b0:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     90e:	8c e6       	ldi	r24, 0x6C	; 108
+     910:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(105); //i
-     8b4:	89 e6       	ldi	r24, 0x69	; 105
-     8b6:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     914:	89 e6       	ldi	r24, 0x69	; 105
+     916:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(115); //s
-     8ba:	83 e7       	ldi	r24, 0x73	; 115
-     8bc:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     91a:	83 e7       	ldi	r24, 0x73	; 115
+     91c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(105); //i
-     8c0:	89 e6       	ldi	r24, 0x69	; 105
-     8c2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     920:	89 e6       	ldi	r24, 0x69	; 105
+     922:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(111); //o
-     8c6:	8f e6       	ldi	r24, 0x6F	; 111
-     8c8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     926:	8f e6       	ldi	r24, 0x6F	; 111
+     928:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(110); //n
-     8cc:	8e e6       	ldi	r24, 0x6E	; 110
-     8ce:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     92c:	8e e6       	ldi	r24, 0x6E	; 110
+     92e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(34); //"
-     8d2:	82 e2       	ldi	r24, 0x22	; 34
-     8d4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     932:	82 e2       	ldi	r24, 0x22	; 34
+     934:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			}
 			
 			
 			UART_Transmit(93); //[
-     8d8:	8d e5       	ldi	r24, 0x5D	; 93
-     8da:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-     8de:	06 c0       	rjmp	.+12     	; 0x8ec <ERRORmodulator+0xd0>
+     938:	8d e5       	ldi	r24, 0x5D	; 93
+     93a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+     93e:	06 c0       	rjmp	.+12     	; 0x94c <__stack+0x4d>
 			
 			}else{ //no errors present
 			UART_Transmit(10); //line feed
-     8e0:	8a e0       	ldi	r24, 0x0A	; 10
-     8e2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     940:	8a e0       	ldi	r24, 0x0A	; 10
+     942:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(13); //carriage return
-     8e6:	8d e0       	ldi	r24, 0x0D	; 13
-     8e8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     946:	8d e0       	ldi	r24, 0x0D	; 13
+     948:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	}
 	
 	
 	//print final curly brackets
 	
 	UART_Transmit(10); //line feed
-     8ec:	8a e0       	ldi	r24, 0x0A	; 10
-     8ee:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     94c:	8a e0       	ldi	r24, 0x0A	; 10
+     94e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(13); //carriage return
-     8f2:	8d e0       	ldi	r24, 0x0D	; 13
-     8f4:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     952:	8d e0       	ldi	r24, 0x0D	; 13
+     954:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(125); // }
-     8f8:	8d e7       	ldi	r24, 0x7D	; 125
-     8fa:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     958:	8d e7       	ldi	r24, 0x7D	; 125
+     95a:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(10); //line feed
-     8fe:	8a e0       	ldi	r24, 0x0A	; 10
-     900:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     95e:	8a e0       	ldi	r24, 0x0A	; 10
+     960:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(13); //carriage return
-     904:	8d e0       	ldi	r24, 0x0D	; 13
-     906:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     964:	8d e0       	ldi	r24, 0x0D	; 13
+     966:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(125); // }
-     90a:	8d e7       	ldi	r24, 0x7D	; 125
-     90c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     96a:	8d e7       	ldi	r24, 0x7D	; 125
+     96c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(10); //line feed
-     910:	8a e0       	ldi	r24, 0x0A	; 10
-     912:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     970:	8a e0       	ldi	r24, 0x0A	; 10
+     972:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 	UART_Transmit(13); //carriage return
-     916:	8d e0       	ldi	r24, 0x0D	; 13
-     918:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     976:	8d e0       	ldi	r24, 0x0D	; 13
+     978:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 
 
-     91c:	4b c0       	rjmp	.+150    	; 0x9b4 <__stack+0xb5>
+     97c:	4b c0       	rjmp	.+150    	; 0xa14 <__stack+0x115>
 	}else{
 		UART_Transmit(10); //line feed
 		UART_Transmit(13); //carriage return
 		
 		if(collisionErrorFlag || jamErrorFlag) {
 			UART_Transmit(34); //'
-     91e:	82 e2       	ldi	r24, 0x22	; 34
-     920:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     97e:	82 e2       	ldi	r24, 0x22	; 34
+     980:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(101); //e
-     924:	85 e6       	ldi	r24, 0x65	; 101
-     926:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     984:	85 e6       	ldi	r24, 0x65	; 101
+     986:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(119); //w
-     92a:	87 e7       	ldi	r24, 0x77	; 119
-     92c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     98a:	87 e7       	ldi	r24, 0x77	; 119
+     98c:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(34); // "
-     930:	82 e2       	ldi	r24, 0x22	; 34
-     932:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     990:	82 e2       	ldi	r24, 0x22	; 34
+     992:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(58); //:
-     936:	8a e3       	ldi	r24, 0x3A	; 58
-     938:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     996:	8a e3       	ldi	r24, 0x3A	; 58
+     998:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(91); //[
-     93c:	8b e5       	ldi	r24, 0x5B	; 91
-     93e:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     99c:	8b e5       	ldi	r24, 0x5B	; 91
+     99e:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			//print errors
 			
 			if(jamErrorFlag){ //compressor jammed
 				UART_Transmit(34); //"
-     942:	82 e2       	ldi	r24, 0x22	; 34
-     944:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9a2:	82 e2       	ldi	r24, 0x22	; 34
+     9a4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(106); //j
-     948:	8a e6       	ldi	r24, 0x6A	; 106
-     94a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9a8:	8a e6       	ldi	r24, 0x6A	; 106
+     9aa:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(97); //a
-     94e:	81 e6       	ldi	r24, 0x61	; 97
-     950:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9ae:	81 e6       	ldi	r24, 0x61	; 97
+     9b0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(109); //m
-     954:	8d e6       	ldi	r24, 0x6D	; 109
-     956:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9b4:	8d e6       	ldi	r24, 0x6D	; 109
+     9b6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(34); //"
-     95a:	82 e2       	ldi	r24, 0x22	; 34
-     95c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-     960:	bb cf       	rjmp	.-138    	; 0x8d8 <ERRORmodulator+0xbc>
+     9ba:	82 e2       	ldi	r24, 0x22	; 34
+     9bc:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+     9c0:	bb cf       	rjmp	.-138    	; 0x938 <__stack+0x39>
 			UART_Transmit(58); //:
 			UART_Transmit(91); //[
 			//print errors
 			
 			if(jamErrorFlag){ //compressor jammed
 				UART_Transmit(34); //"
-     962:	82 e2       	ldi	r24, 0x22	; 34
-     964:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9c2:	82 e2       	ldi	r24, 0x22	; 34
+     9c4:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(106); //j
-     968:	8a e6       	ldi	r24, 0x6A	; 106
-     96a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9c8:	8a e6       	ldi	r24, 0x6A	; 106
+     9ca:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(97); //a
-     96e:	81 e6       	ldi	r24, 0x61	; 97
-     970:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9ce:	81 e6       	ldi	r24, 0x61	; 97
+     9d0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(109); //m
-     974:	8d e6       	ldi	r24, 0x6D	; 109
-     976:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9d4:	8d e6       	ldi	r24, 0x6D	; 109
+     9d6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				UART_Transmit(34); //"
-     97a:	82 e2       	ldi	r24, 0x22	; 34
-     97c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9da:	82 e2       	ldi	r24, 0x22	; 34
+     9dc:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 				if(jamErrorFlag && collisionErrorFlag){
 					UART_Transmit(44); //,
-     980:	8c e2       	ldi	r24, 0x2C	; 44
-     982:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-     986:	87 cf       	rjmp	.-242    	; 0x896 <ERRORmodulator+0x7a>
+     9e0:	8c e2       	ldi	r24, 0x2C	; 44
+     9e2:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
+     9e6:	87 cf       	rjmp	.-242    	; 0x8f6 <ERRORmodulator+0x7a>
 	}else{
 		UART_Transmit(10); //line feed
 		UART_Transmit(13); //carriage return
 		
 		if(collisionErrorFlag || jamErrorFlag) {
 			UART_Transmit(34); //'
-     988:	82 e2       	ldi	r24, 0x22	; 34
-     98a:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9e8:	82 e2       	ldi	r24, 0x22	; 34
+     9ea:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(101); //e
-     98e:	85 e6       	ldi	r24, 0x65	; 101
-     990:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9ee:	85 e6       	ldi	r24, 0x65	; 101
+     9f0:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(119); //w
-     994:	87 e7       	ldi	r24, 0x77	; 119
-     996:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9f4:	87 e7       	ldi	r24, 0x77	; 119
+     9f6:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(34); // "
-     99a:	82 e2       	ldi	r24, 0x22	; 34
-     99c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     9fa:	82 e2       	ldi	r24, 0x22	; 34
+     9fc:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(58); //:
-     9a0:	8a e3       	ldi	r24, 0x3A	; 58
-     9a2:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     a00:	8a e3       	ldi	r24, 0x3A	; 58
+     a02:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			UART_Transmit(91); //[
-     9a6:	8b e5       	ldi	r24, 0x5B	; 91
-     9a8:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
+     a06:	8b e5       	ldi	r24, 0x5B	; 91
+     a08:	0e 94 1a 01 	call	0x234	; 0x234 <UART_Transmit>
 			//print errors
 			
 			if(jamErrorFlag){ //compressor jammed
-     9ac:	dd 23       	and	r29, r29
-     9ae:	09 f4       	brne	.+2      	; 0x9b2 <__stack+0xb3>
-     9b0:	72 cf       	rjmp	.-284    	; 0x896 <ERRORmodulator+0x7a>
-     9b2:	d7 cf       	rjmp	.-82     	; 0x962 <__stack+0x63>
+     a0c:	dd 23       	and	r29, r29
+     a0e:	09 f4       	brne	.+2      	; 0xa12 <__stack+0x113>
+     a10:	72 cf       	rjmp	.-284    	; 0x8f6 <ERRORmodulator+0x7a>
+     a12:	d7 cf       	rjmp	.-82     	; 0x9c2 <__stack+0xc3>
 	UART_Transmit(125); // }
 	UART_Transmit(10); //line feed
 	UART_Transmit(13); //carriage return
 
 
-     9b4:	df 91       	pop	r29
-     9b6:	cf 91       	pop	r28
-     9b8:	08 95       	ret
+     a14:	df 91       	pop	r29
+     a16:	cf 91       	pop	r28
+     a18:	08 95       	ret
 
-000009ba <UART_SendJson>:
+00000a1a <UART_SendJson>:
 	}
 	changePumpingEffort	 = false;
 }
 
 
 void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
-     9ba:	4f 92       	push	r4
-     9bc:	5f 92       	push	r5
-     9be:	6f 92       	push	r6
-     9c0:	7f 92       	push	r7
-     9c2:	8f 92       	push	r8
-     9c4:	af 92       	push	r10
-     9c6:	cf 92       	push	r12
-     9c8:	ef 92       	push	r14
-     9ca:	ff 92       	push	r15
-     9cc:	0f 93       	push	r16
-     9ce:	1f 93       	push	r17
-     9d0:	cf 93       	push	r28
-     9d2:	df 93       	push	r29
-     9d4:	cd b7       	in	r28, 0x3d	; 61
-     9d6:	de b7       	in	r29, 0x3e	; 62
-     9d8:	18 2f       	mov	r17, r24
-     9da:	f6 2e       	mov	r15, r22
-     9dc:	29 01       	movw	r4, r18
-     9de:	3a 01       	movw	r6, r20
-     9e0:	8a 2d       	mov	r24, r10
-     9e2:	68 2d       	mov	r22, r8
+     a1a:	4f 92       	push	r4
+     a1c:	5f 92       	push	r5
+     a1e:	6f 92       	push	r6
+     a20:	7f 92       	push	r7
+     a22:	8f 92       	push	r8
+     a24:	af 92       	push	r10
+     a26:	cf 92       	push	r12
+     a28:	ef 92       	push	r14
+     a2a:	ff 92       	push	r15
+     a2c:	0f 93       	push	r16
+     a2e:	1f 93       	push	r17
+     a30:	cf 93       	push	r28
+     a32:	df 93       	push	r29
+     a34:	cd b7       	in	r28, 0x3d	; 61
+     a36:	de b7       	in	r29, 0x3e	; 62
+     a38:	18 2f       	mov	r17, r24
+     a3a:	f6 2e       	mov	r15, r22
+     a3c:	29 01       	movw	r4, r18
+     a3e:	3a 01       	movw	r6, r20
+     a40:	8a 2d       	mov	r24, r10
+     a42:	68 2d       	mov	r22, r8
 	MFCmodulator(requiredValue,currentValue);
-     9e4:	0e 94 66 01 	call	0x2cc	; 0x2cc <MFCmodulator>
+     a44:	0e 94 a6 01 	call	0x34c	; 0x34c <MFCmodulator>
 	VERmodulator();
-     9e8:	0e 94 47 02 	call	0x48e	; 0x48e <VERmodulator>
+     a48:	0e 94 84 02 	call	0x508	; 0x508 <VERmodulator>
 	PARAMmodulator(averagePower,operatingFrequency,appliedVoltage,current);
-     9ec:	a3 01       	movw	r20, r6
-     9ee:	92 01       	movw	r18, r4
-     9f0:	6f 2d       	mov	r22, r15
-     9f2:	81 2f       	mov	r24, r17
-     9f4:	0e 94 78 02 	call	0x4f0	; 0x4f0 <PARAMmodulator>
+     a4c:	a3 01       	movw	r20, r6
+     a4e:	92 01       	movw	r18, r4
+     a50:	6f 2d       	mov	r22, r15
+     a52:	81 2f       	mov	r24, r17
+     a54:	0e 94 b5 02 	call	0x56a	; 0x56a <PARAMmodulator>
 	ERRORmodulator(jamErrorFlag, collisionErrorFlag);
-     9f8:	6c 2d       	mov	r22, r12
-     9fa:	8e 2d       	mov	r24, r14
-     9fc:	0e 94 0e 04 	call	0x81c	; 0x81c <ERRORmodulator>
+     a58:	6c 2d       	mov	r22, r12
+     a5a:	8e 2d       	mov	r24, r14
+     a5c:	0e 94 3e 04 	call	0x87c	; 0x87c <ERRORmodulator>
 
 }
-     a00:	df 91       	pop	r29
-     a02:	cf 91       	pop	r28
-     a04:	1f 91       	pop	r17
-     a06:	0f 91       	pop	r16
-     a08:	ff 90       	pop	r15
-     a0a:	ef 90       	pop	r14
-     a0c:	cf 90       	pop	r12
-     a0e:	af 90       	pop	r10
-     a10:	8f 90       	pop	r8
-     a12:	7f 90       	pop	r7
-     a14:	6f 90       	pop	r6
-     a16:	5f 90       	pop	r5
-     a18:	4f 90       	pop	r4
-     a1a:	08 95       	ret
+     a60:	df 91       	pop	r29
+     a62:	cf 91       	pop	r28
+     a64:	1f 91       	pop	r17
+     a66:	0f 91       	pop	r16
+     a68:	ff 90       	pop	r15
+     a6a:	ef 90       	pop	r14
+     a6c:	cf 90       	pop	r12
+     a6e:	af 90       	pop	r10
+     a70:	8f 90       	pop	r8
+     a72:	7f 90       	pop	r7
+     a74:	6f 90       	pop	r6
+     a76:	5f 90       	pop	r5
+     a78:	4f 90       	pop	r4
+     a7a:	08 95       	ret
 
-00000a1c <usart_putchar_printf>:
+00000a7c <__vector_18>:
+	if((a == 101) && (b == 119)){ //101 = e, 119 = w
+		return true;
+		}else{
+		return false;
 	}
 }
+     a7c:	1f 92       	push	r1
+     a7e:	0f 92       	push	r0
+     a80:	0f b6       	in	r0, 0x3f	; 63
+     a82:	0f 92       	push	r0
+     a84:	11 24       	eor	r1, r1
+     a86:	8f 93       	push	r24
+     a88:	9f 93       	push	r25
+     a8a:	ef 93       	push	r30
+     a8c:	ff 93       	push	r31
+     a8e:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+     a92:	80 93 4f 01 	sts	0x014F, r24	; 0x80014f <characterReceived>
+     a96:	80 91 46 01 	lds	r24, 0x0146	; 0x800146 <numberOfCharactersReceived>
+     a9a:	90 91 47 01 	lds	r25, 0x0147	; 0x800147 <numberOfCharactersReceived+0x1>
+     a9e:	01 96       	adiw	r24, 0x01	; 1
+     aa0:	90 93 47 01 	sts	0x0147, r25	; 0x800147 <numberOfCharactersReceived+0x1>
+     aa4:	80 93 46 01 	sts	0x0146, r24	; 0x800146 <numberOfCharactersReceived>
+     aa8:	80 91 46 01 	lds	r24, 0x0146	; 0x800146 <numberOfCharactersReceived>
+     aac:	90 91 47 01 	lds	r25, 0x0147	; 0x800147 <numberOfCharactersReceived+0x1>
+     ab0:	45 97       	sbiw	r24, 0x15	; 21
+     ab2:	4c f0       	brlt	.+18     	; 0xac6 <__vector_18+0x4a>
+     ab4:	e0 91 46 01 	lds	r30, 0x0146	; 0x800146 <numberOfCharactersReceived>
+     ab8:	f0 91 47 01 	lds	r31, 0x0147	; 0x800147 <numberOfCharactersReceived+0x1>
+     abc:	80 91 4f 01 	lds	r24, 0x014F	; 0x80014f <characterReceived>
+     ac0:	e7 5f       	subi	r30, 0xF7	; 247
+     ac2:	fe 4f       	sbci	r31, 0xFE	; 254
+     ac4:	80 83       	st	Z, r24
+     ac6:	80 91 46 01 	lds	r24, 0x0146	; 0x800146 <numberOfCharactersReceived>
+     aca:	90 91 47 01 	lds	r25, 0x0147	; 0x800147 <numberOfCharactersReceived+0x1>
+     ace:	82 97       	sbiw	r24, 0x22	; 34
+     ad0:	4c f0       	brlt	.+18     	; 0xae4 <__vector_18+0x68>
+     ad2:	e0 91 46 01 	lds	r30, 0x0146	; 0x800146 <numberOfCharactersReceived>
+     ad6:	f0 91 47 01 	lds	r31, 0x0147	; 0x800147 <numberOfCharactersReceived+0x1>
+     ada:	80 91 4f 01 	lds	r24, 0x014F	; 0x80014f <characterReceived>
+     ade:	ea 51       	subi	r30, 0x1A	; 26
+     ae0:	ff 4f       	sbci	r31, 0xFF	; 255
+     ae2:	80 83       	st	Z, r24
+     ae4:	80 91 46 01 	lds	r24, 0x0146	; 0x800146 <numberOfCharactersReceived>
+     ae8:	90 91 47 01 	lds	r25, 0x0147	; 0x800147 <numberOfCharactersReceived+0x1>
+     aec:	86 97       	sbiw	r24, 0x26	; 38
+     aee:	7c f0       	brlt	.+30     	; 0xb0e <__vector_18+0x92>
+     af0:	e1 ec       	ldi	r30, 0xC1	; 193
+     af2:	f0 e0       	ldi	r31, 0x00	; 0
+     af4:	80 81       	ld	r24, Z
+     af6:	8f 77       	andi	r24, 0x7F	; 127
+     af8:	80 83       	st	Z, r24
+     afa:	80 81       	ld	r24, Z
+     afc:	8f 7e       	andi	r24, 0xEF	; 239
+     afe:	80 83       	st	Z, r24
+     b00:	81 e0       	ldi	r24, 0x01	; 1
+     b02:	80 93 48 01 	sts	0x0148, r24	; 0x800148 <messageReceived>
+     b06:	10 92 47 01 	sts	0x0147, r1	; 0x800147 <numberOfCharactersReceived+0x1>
+     b0a:	10 92 46 01 	sts	0x0146, r1	; 0x800146 <numberOfCharactersReceived>
+     b0e:	ff 91       	pop	r31
+     b10:	ef 91       	pop	r30
+     b12:	9f 91       	pop	r25
+     b14:	8f 91       	pop	r24
+     b16:	0f 90       	pop	r0
+     b18:	0f be       	out	0x3f, r0	; 63
+     b1a:	0f 90       	pop	r0
+     b1c:	1f 90       	pop	r1
+     b1e:	18 95       	reti
 
-void safetyShutdown(){
-	if(cmprJammed){
-		pumpingEffort = 0; //stop the coil if an error has occurred
-     a1c:	cf 93       	push	r28
-     a1e:	c8 2f       	mov	r28, r24
-     a20:	8a 30       	cpi	r24, 0x0A	; 10
-     a22:	19 f4       	brne	.+6      	; 0xa2a <usart_putchar_printf+0xe>
-     a24:	8d e0       	ldi	r24, 0x0D	; 13
-     a26:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-     a2a:	8c 2f       	mov	r24, r28
-     a2c:	0e 94 f1 00 	call	0x1e2	; 0x1e2 <UART_Transmit>
-     a30:	80 e0       	ldi	r24, 0x00	; 0
-     a32:	90 e0       	ldi	r25, 0x00	; 0
-     a34:	cf 91       	pop	r28
-     a36:	08 95       	ret
+00000b20 <__vector_20>:
+     b20:	1f 92       	push	r1
+     b22:	0f 92       	push	r0
+     b24:	0f b6       	in	r0, 0x3f	; 63
+     b26:	0f 92       	push	r0
+     b28:	11 24       	eor	r1, r1
+     b2a:	8f 93       	push	r24
+     b2c:	ef 93       	push	r30
+     b2e:	ff 93       	push	r31
+     b30:	e1 ec       	ldi	r30, 0xC1	; 193
+     b32:	f0 e0       	ldi	r31, 0x00	; 0
+     b34:	80 81       	ld	r24, Z
+     b36:	80 61       	ori	r24, 0x10	; 16
+     b38:	80 83       	st	Z, r24
+     b3a:	80 81       	ld	r24, Z
+     b3c:	80 68       	ori	r24, 0x80	; 128
+     b3e:	80 83       	st	Z, r24
+     b40:	ff 91       	pop	r31
+     b42:	ef 91       	pop	r30
+     b44:	8f 91       	pop	r24
+     b46:	0f 90       	pop	r0
+     b48:	0f be       	out	0x3f, r0	; 63
+     b4a:	0f 90       	pop	r0
+     b4c:	1f 90       	pop	r1
+     b4e:	18 95       	reti
 
-00000a38 <concatenate>:
-     a38:	c0 97       	sbiw	r24, 0x30	; 48
-     a3a:	e4 e6       	ldi	r30, 0x64	; 100
-     a3c:	e8 9f       	mul	r30, r24
-     a3e:	90 01       	movw	r18, r0
-     a40:	e9 9f       	mul	r30, r25
-     a42:	30 0d       	add	r19, r0
-     a44:	11 24       	eor	r1, r1
-     a46:	60 53       	subi	r22, 0x30	; 48
-     a48:	71 09       	sbc	r23, r1
-     a4a:	cb 01       	movw	r24, r22
-     a4c:	88 0f       	add	r24, r24
-     a4e:	99 1f       	adc	r25, r25
-     a50:	66 0f       	add	r22, r22
-     a52:	77 1f       	adc	r23, r23
-     a54:	66 0f       	add	r22, r22
-     a56:	77 1f       	adc	r23, r23
-     a58:	66 0f       	add	r22, r22
-     a5a:	77 1f       	adc	r23, r23
-     a5c:	68 0f       	add	r22, r24
-     a5e:	79 1f       	adc	r23, r25
-     a60:	62 0f       	add	r22, r18
-     a62:	73 1f       	adc	r23, r19
-     a64:	ca 01       	movw	r24, r20
-     a66:	c0 97       	sbiw	r24, 0x30	; 48
-     a68:	86 0f       	add	r24, r22
-     a6a:	97 1f       	adc	r25, r23
-     a6c:	08 95       	ret
+00000b50 <__vector_11>:
+     b50:	1f 92       	push	r1
+     b52:	0f 92       	push	r0
+     b54:	0f b6       	in	r0, 0x3f	; 63
+     b56:	0f 92       	push	r0
+     b58:	11 24       	eor	r1, r1
+     b5a:	2f 93       	push	r18
+     b5c:	3f 93       	push	r19
+     b5e:	4f 93       	push	r20
+     b60:	5f 93       	push	r21
+     b62:	6f 93       	push	r22
+     b64:	7f 93       	push	r23
+     b66:	8f 93       	push	r24
+     b68:	9f 93       	push	r25
+     b6a:	af 93       	push	r26
+     b6c:	bf 93       	push	r27
+     b6e:	ef 93       	push	r30
+     b70:	ff 93       	push	r31
+     b72:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <isLHS>
+     b76:	81 11       	cpse	r24, r1
+     b78:	04 c0       	rjmp	.+8      	; 0xb82 <__vector_11+0x32>
+     b7a:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <lowPowerMode>
+     b7e:	88 23       	and	r24, r24
+     b80:	b9 f1       	breq	.+110    	; 0xbf0 <__vector_11+0xa0>
+     b82:	90 91 4e 01 	lds	r25, 0x014E	; 0x80014e <count>
+     b86:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <noOfWaves>
+     b8a:	89 17       	cp	r24, r25
+     b8c:	60 f0       	brcs	.+24     	; 0xba6 <__vector_11+0x56>
+     b8e:	80 91 4d 01 	lds	r24, 0x014D	; 0x80014d <isDead>
+     b92:	81 11       	cpse	r24, r1
+     b94:	08 c0       	rjmp	.+16     	; 0xba6 <__vector_11+0x56>
+     b96:	2a 9a       	sbi	0x05, 2	; 5
+     b98:	5d 9a       	sbi	0x0b, 5	; 11
+     b9a:	80 91 4e 01 	lds	r24, 0x014E	; 0x80014e <count>
+     b9e:	8f 5f       	subi	r24, 0xFF	; 255
+     ba0:	80 93 4e 01 	sts	0x014E, r24	; 0x80014e <count>
+     ba4:	57 c0       	rjmp	.+174    	; 0xc54 <__vector_11+0x104>
+     ba6:	90 91 4e 01 	lds	r25, 0x014E	; 0x80014e <count>
+     baa:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <noOfWaves>
+     bae:	89 17       	cp	r24, r25
+     bb0:	a0 f4       	brcc	.+40     	; 0xbda <__vector_11+0x8a>
+     bb2:	2a 98       	cbi	0x05, 2	; 5
+     bb4:	5d 98       	cbi	0x0b, 5	; 11
+     bb6:	0e 94 f7 00 	call	0x1ee	; 0x1ee <PWM_CalculateDeadTime>
+     bba:	6f ef       	ldi	r22, 0xFF	; 255
+     bbc:	7f ef       	ldi	r23, 0xFF	; 255
+     bbe:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <PWM_Change>
+     bc2:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <lowPowerMode>
+     bc6:	81 11       	cpse	r24, r1
+     bc8:	02 c0       	rjmp	.+4      	; 0xbce <__vector_11+0x7e>
+     bca:	10 92 06 01 	sts	0x0106, r1	; 0x800106 <isLHS>
+     bce:	10 92 4e 01 	sts	0x014E, r1	; 0x80014e <count>
+     bd2:	81 e0       	ldi	r24, 0x01	; 1
+     bd4:	80 93 4d 01 	sts	0x014D, r24	; 0x80014d <isDead>
+     bd8:	3d c0       	rjmp	.+122    	; 0xc54 <__vector_11+0x104>
+     bda:	10 92 4d 01 	sts	0x014D, r1	; 0x80014d <isDead>
+     bde:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <PWM_ConvertTimerValueToDutyCycle>
+     be2:	68 2f       	mov	r22, r24
+     be4:	70 e0       	ldi	r23, 0x00	; 0
+     be6:	8d e7       	ldi	r24, 0x7D	; 125
+     be8:	90 e0       	ldi	r25, 0x00	; 0
+     bea:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <PWM_Change>
+     bee:	32 c0       	rjmp	.+100    	; 0xc54 <__vector_11+0x104>
+     bf0:	90 91 4e 01 	lds	r25, 0x014E	; 0x80014e <count>
+     bf4:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <noOfWaves>
+     bf8:	89 17       	cp	r24, r25
+     bfa:	60 f0       	brcs	.+24     	; 0xc14 <__vector_11+0xc4>
+     bfc:	80 91 4d 01 	lds	r24, 0x014D	; 0x80014d <isDead>
+     c00:	81 11       	cpse	r24, r1
+     c02:	08 c0       	rjmp	.+16     	; 0xc14 <__vector_11+0xc4>
+     c04:	5e 9a       	sbi	0x0b, 6	; 11
+     c06:	29 9a       	sbi	0x05, 1	; 5
+     c08:	80 91 4e 01 	lds	r24, 0x014E	; 0x80014e <count>
+     c0c:	8f 5f       	subi	r24, 0xFF	; 255
+     c0e:	80 93 4e 01 	sts	0x014E, r24	; 0x80014e <count>
+     c12:	20 c0       	rjmp	.+64     	; 0xc54 <__vector_11+0x104>
+     c14:	90 91 4e 01 	lds	r25, 0x014E	; 0x80014e <count>
+     c18:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <noOfWaves>
+     c1c:	89 17       	cp	r24, r25
+     c1e:	80 f4       	brcc	.+32     	; 0xc40 <__vector_11+0xf0>
+     c20:	29 98       	cbi	0x05, 1	; 5
+     c22:	5e 98       	cbi	0x0b, 6	; 11
+     c24:	0e 94 f7 00 	call	0x1ee	; 0x1ee <PWM_CalculateDeadTime>
+     c28:	6f ef       	ldi	r22, 0xFF	; 255
+     c2a:	7f ef       	ldi	r23, 0xFF	; 255
+     c2c:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <PWM_Change>
+     c30:	81 e0       	ldi	r24, 0x01	; 1
+     c32:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <isLHS>
+     c36:	10 92 4e 01 	sts	0x014E, r1	; 0x80014e <count>
+     c3a:	80 93 4d 01 	sts	0x014D, r24	; 0x80014d <isDead>
+     c3e:	0a c0       	rjmp	.+20     	; 0xc54 <__vector_11+0x104>
+     c40:	10 92 4d 01 	sts	0x014D, r1	; 0x80014d <isDead>
+     c44:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <PWM_ConvertTimerValueToDutyCycle>
+     c48:	68 2f       	mov	r22, r24
+     c4a:	70 e0       	ldi	r23, 0x00	; 0
+     c4c:	8d e7       	ldi	r24, 0x7D	; 125
+     c4e:	90 e0       	ldi	r25, 0x00	; 0
+     c50:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <PWM_Change>
+     c54:	ff 91       	pop	r31
+     c56:	ef 91       	pop	r30
+     c58:	bf 91       	pop	r27
+     c5a:	af 91       	pop	r26
+     c5c:	9f 91       	pop	r25
+     c5e:	8f 91       	pop	r24
+     c60:	7f 91       	pop	r23
+     c62:	6f 91       	pop	r22
+     c64:	5f 91       	pop	r21
+     c66:	4f 91       	pop	r20
+     c68:	3f 91       	pop	r19
+     c6a:	2f 91       	pop	r18
+     c6c:	0f 90       	pop	r0
+     c6e:	0f be       	out	0x3f, r0	; 63
+     c70:	0f 90       	pop	r0
+     c72:	1f 90       	pop	r1
+     c74:	18 95       	reti
 
-00000a6e <__vector_18>:
-     a6e:	1f 92       	push	r1
-     a70:	0f 92       	push	r0
-     a72:	0f b6       	in	r0, 0x3f	; 63
-     a74:	0f 92       	push	r0
-     a76:	11 24       	eor	r1, r1
-     a78:	8f 93       	push	r24
-     a7a:	9f 93       	push	r25
-     a7c:	ef 93       	push	r30
-     a7e:	ff 93       	push	r31
-     a80:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
-     a84:	80 93 e0 08 	sts	0x08E0, r24	; 0x8008e0 <received>
-     a88:	80 91 54 01 	lds	r24, 0x0154	; 0x800154 <rx_count>
-     a8c:	90 91 55 01 	lds	r25, 0x0155	; 0x800155 <rx_count+0x1>
-     a90:	01 96       	adiw	r24, 0x01	; 1
-     a92:	90 93 55 01 	sts	0x0155, r25	; 0x800155 <rx_count+0x1>
-     a96:	80 93 54 01 	sts	0x0154, r24	; 0x800154 <rx_count>
-     a9a:	80 91 54 01 	lds	r24, 0x0154	; 0x800154 <rx_count>
-     a9e:	90 91 55 01 	lds	r25, 0x0155	; 0x800155 <rx_count+0x1>
-     aa2:	45 97       	sbiw	r24, 0x15	; 21
-     aa4:	4c f0       	brlt	.+18     	; 0xab8 <__vector_18+0x4a>
-     aa6:	e0 91 54 01 	lds	r30, 0x0154	; 0x800154 <rx_count>
-     aaa:	f0 91 55 01 	lds	r31, 0x0155	; 0x800155 <rx_count+0x1>
-     aae:	80 91 e0 08 	lds	r24, 0x08E0	; 0x8008e0 <received>
-     ab2:	e9 5e       	subi	r30, 0xE9	; 233
-     ab4:	fe 4f       	sbci	r31, 0xFE	; 254
-     ab6:	80 83       	st	Z, r24
-     ab8:	80 91 54 01 	lds	r24, 0x0154	; 0x800154 <rx_count>
-     abc:	90 91 55 01 	lds	r25, 0x0155	; 0x800155 <rx_count+0x1>
-     ac0:	82 97       	sbiw	r24, 0x22	; 34
-     ac2:	4c f0       	brlt	.+18     	; 0xad6 <__vector_18+0x68>
-     ac4:	e0 91 54 01 	lds	r30, 0x0154	; 0x800154 <rx_count>
-     ac8:	f0 91 55 01 	lds	r31, 0x0155	; 0x800155 <rx_count+0x1>
-     acc:	80 91 e0 08 	lds	r24, 0x08E0	; 0x8008e0 <received>
-     ad0:	ec 50       	subi	r30, 0x0C	; 12
-     ad2:	ff 4f       	sbci	r31, 0xFF	; 255
-     ad4:	80 83       	st	Z, r24
-     ad6:	80 91 54 01 	lds	r24, 0x0154	; 0x800154 <rx_count>
-     ada:	90 91 55 01 	lds	r25, 0x0155	; 0x800155 <rx_count+0x1>
-     ade:	86 97       	sbiw	r24, 0x26	; 38
-     ae0:	7c f0       	brlt	.+30     	; 0xb00 <__vector_18+0x92>
-     ae2:	e1 ec       	ldi	r30, 0xC1	; 193
-     ae4:	f0 e0       	ldi	r31, 0x00	; 0
-     ae6:	80 81       	ld	r24, Z
-     ae8:	8f 77       	andi	r24, 0x7F	; 127
-     aea:	80 83       	st	Z, r24
-     aec:	80 81       	ld	r24, Z
-     aee:	8f 7e       	andi	r24, 0xEF	; 239
-     af0:	80 83       	st	Z, r24
-     af2:	81 e0       	ldi	r24, 0x01	; 1
-     af4:	80 93 56 01 	sts	0x0156, r24	; 0x800156 <finished>
-     af8:	10 92 55 01 	sts	0x0155, r1	; 0x800155 <rx_count+0x1>
-     afc:	10 92 54 01 	sts	0x0154, r1	; 0x800154 <rx_count>
-     b00:	ff 91       	pop	r31
-     b02:	ef 91       	pop	r30
-     b04:	9f 91       	pop	r25
-     b06:	8f 91       	pop	r24
-     b08:	0f 90       	pop	r0
-     b0a:	0f be       	out	0x3f, r0	; 63
-     b0c:	0f 90       	pop	r0
-     b0e:	1f 90       	pop	r1
-     b10:	18 95       	reti
+00000c76 <__vector_12>:
+     c76:	1f 92       	push	r1
+     c78:	0f 92       	push	r0
+     c7a:	0f b6       	in	r0, 0x3f	; 63
+     c7c:	0f 92       	push	r0
+     c7e:	11 24       	eor	r1, r1
+     c80:	8f 93       	push	r24
+     c82:	9f 93       	push	r25
+     c84:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <isLHS>
+     c88:	81 11       	cpse	r24, r1
+     c8a:	04 c0       	rjmp	.+8      	; 0xc94 <__vector_12+0x1e>
+     c8c:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <lowPowerMode>
+     c90:	88 23       	and	r24, r24
+     c92:	61 f0       	breq	.+24     	; 0xcac <__vector_12+0x36>
+     c94:	80 91 4d 01 	lds	r24, 0x014D	; 0x80014d <isDead>
+     c98:	81 11       	cpse	r24, r1
+     c9a:	13 c0       	rjmp	.+38     	; 0xcc2 <__vector_12+0x4c>
+     c9c:	90 91 4e 01 	lds	r25, 0x014E	; 0x80014e <count>
+     ca0:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <noOfWaves>
+     ca4:	89 17       	cp	r24, r25
+     ca6:	68 f0       	brcs	.+26     	; 0xcc2 <__vector_12+0x4c>
+     ca8:	2a 98       	cbi	0x05, 2	; 5
+     caa:	0b c0       	rjmp	.+22     	; 0xcc2 <__vector_12+0x4c>
+     cac:	80 91 4d 01 	lds	r24, 0x014D	; 0x80014d <isDead>
+     cb0:	81 11       	cpse	r24, r1
+     cb2:	07 c0       	rjmp	.+14     	; 0xcc2 <__vector_12+0x4c>
+     cb4:	90 91 4e 01 	lds	r25, 0x014E	; 0x80014e <count>
+     cb8:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <noOfWaves>
+     cbc:	89 17       	cp	r24, r25
+     cbe:	08 f0       	brcs	.+2      	; 0xcc2 <__vector_12+0x4c>
+     cc0:	29 98       	cbi	0x05, 1	; 5
+     cc2:	9f 91       	pop	r25
+     cc4:	8f 91       	pop	r24
+     cc6:	0f 90       	pop	r0
+     cc8:	0f be       	out	0x3f, r0	; 63
+     cca:	0f 90       	pop	r0
+     ccc:	1f 90       	pop	r1
+     cce:	18 95       	reti
 
-00000b12 <__vector_20>:
-     b12:	1f 92       	push	r1
-     b14:	0f 92       	push	r0
-     b16:	0f b6       	in	r0, 0x3f	; 63
-     b18:	0f 92       	push	r0
-     b1a:	11 24       	eor	r1, r1
-     b1c:	8f 93       	push	r24
-     b1e:	ef 93       	push	r30
-     b20:	ff 93       	push	r31
-     b22:	e1 ec       	ldi	r30, 0xC1	; 193
-     b24:	f0 e0       	ldi	r31, 0x00	; 0
-     b26:	80 81       	ld	r24, Z
-     b28:	80 61       	ori	r24, 0x10	; 16
-     b2a:	80 83       	st	Z, r24
-     b2c:	80 81       	ld	r24, Z
-     b2e:	80 68       	ori	r24, 0x80	; 128
-     b30:	80 83       	st	Z, r24
-     b32:	ff 91       	pop	r31
-     b34:	ef 91       	pop	r30
-     b36:	8f 91       	pop	r24
-     b38:	0f 90       	pop	r0
-     b3a:	0f be       	out	0x3f, r0	; 63
-     b3c:	0f 90       	pop	r0
-     b3e:	1f 90       	pop	r1
-     b40:	18 95       	reti
+00000cd0 <concatenate>:
+     cd0:	c0 97       	sbiw	r24, 0x30	; 48
+     cd2:	e4 e6       	ldi	r30, 0x64	; 100
+     cd4:	e8 9f       	mul	r30, r24
+     cd6:	90 01       	movw	r18, r0
+     cd8:	e9 9f       	mul	r30, r25
+     cda:	30 0d       	add	r19, r0
+     cdc:	11 24       	eor	r1, r1
+     cde:	60 53       	subi	r22, 0x30	; 48
+     ce0:	71 09       	sbc	r23, r1
+     ce2:	cb 01       	movw	r24, r22
+     ce4:	88 0f       	add	r24, r24
+     ce6:	99 1f       	adc	r25, r25
+     ce8:	66 0f       	add	r22, r22
+     cea:	77 1f       	adc	r23, r23
+     cec:	66 0f       	add	r22, r22
+     cee:	77 1f       	adc	r23, r23
+     cf0:	66 0f       	add	r22, r22
+     cf2:	77 1f       	adc	r23, r23
+     cf4:	68 0f       	add	r22, r24
+     cf6:	79 1f       	adc	r23, r25
+     cf8:	62 0f       	add	r22, r18
+     cfa:	73 1f       	adc	r23, r19
+     cfc:	ca 01       	movw	r24, r20
+     cfe:	c0 97       	sbiw	r24, 0x30	; 48
+     d00:	86 0f       	add	r24, r22
+     d02:	97 1f       	adc	r25, r23
+     d04:	08 95       	ret
 
-00000b42 <__vector_12>:
-     b42:	1f 92       	push	r1
-     b44:	0f 92       	push	r0
-     b46:	0f b6       	in	r0, 0x3f	; 63
-     b48:	0f 92       	push	r0
-     b4a:	11 24       	eor	r1, r1
-     b4c:	8f 93       	push	r24
-     b4e:	9f 93       	push	r25
-     b50:	80 91 14 01 	lds	r24, 0x0114	; 0x800114 <isLHS>
-     b54:	81 11       	cpse	r24, r1
-     b56:	04 c0       	rjmp	.+8      	; 0xb60 <__vector_12+0x1e>
-     b58:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <lowPowerMode>
-     b5c:	88 23       	and	r24, r24
-     b5e:	51 f0       	breq	.+20     	; 0xb74 <__vector_12+0x32>
-     b60:	80 91 5c 01 	lds	r24, 0x015C	; 0x80015c <isDead>
-     b64:	90 91 5d 01 	lds	r25, 0x015D	; 0x80015d <count>
-     b68:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <noOfWaves>
-     b6c:	89 17       	cp	r24, r25
-     b6e:	58 f0       	brcs	.+22     	; 0xb86 <__vector_12+0x44>
-     b70:	2a 98       	cbi	0x05, 2	; 5
-     b72:	09 c0       	rjmp	.+18     	; 0xb86 <__vector_12+0x44>
-     b74:	80 91 5c 01 	lds	r24, 0x015C	; 0x80015c <isDead>
-     b78:	90 91 5d 01 	lds	r25, 0x015D	; 0x80015d <count>
-     b7c:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <noOfWaves>
-     b80:	89 17       	cp	r24, r25
-     b82:	08 f0       	brcs	.+2      	; 0xb86 <__vector_12+0x44>
-     b84:	29 98       	cbi	0x05, 1	; 5
-     b86:	9f 91       	pop	r25
-     b88:	8f 91       	pop	r24
-     b8a:	0f 90       	pop	r0
-     b8c:	0f be       	out	0x3f, r0	; 63
-     b8e:	0f 90       	pop	r0
-     b90:	1f 90       	pop	r1
-     b92:	18 95       	reti
-
-00000b94 <ConvertTimerValueToDutyCycle>:
-	}
-}
-
-uint8_t ConvertTimerValueToDutyCycle(){
-	return ((dutyCycle*125)/100);
-     b94:	80 91 57 01 	lds	r24, 0x0157	; 0x800157 <dutyCycle>
-     b98:	90 91 58 01 	lds	r25, 0x0158	; 0x800158 <dutyCycle+0x1>
-     b9c:	4d e7       	ldi	r20, 0x7D	; 125
-     b9e:	48 9f       	mul	r20, r24
-     ba0:	90 01       	movw	r18, r0
-     ba2:	49 9f       	mul	r20, r25
-     ba4:	30 0d       	add	r19, r0
-     ba6:	11 24       	eor	r1, r1
-     ba8:	36 95       	lsr	r19
-     baa:	27 95       	ror	r18
-     bac:	36 95       	lsr	r19
-     bae:	27 95       	ror	r18
-     bb0:	ab e7       	ldi	r26, 0x7B	; 123
-     bb2:	b4 e1       	ldi	r27, 0x14	; 20
-     bb4:	0e 94 e2 08 	call	0x11c4	; 0x11c4 <__umulhisi3>
-     bb8:	96 95       	lsr	r25
-     bba:	87 95       	ror	r24
-}
-     bbc:	08 95       	ret
-
-00000bbe <CalculateDeadTime>:
-
-uint16_t CalculateDeadTime(){
-	return (((5000/frequency) - (noOfWaves*(1000/PWM_FREQUENCY))))*125; //in ms
-     bbe:	60 91 11 01 	lds	r22, 0x0111	; 0x800111 <frequency>
-     bc2:	70 91 12 01 	lds	r23, 0x0112	; 0x800112 <frequency+0x1>
-     bc6:	20 91 10 01 	lds	r18, 0x0110	; 0x800110 <noOfWaves>
-     bca:	88 e8       	ldi	r24, 0x88	; 136
-     bcc:	93 e1       	ldi	r25, 0x13	; 19
-     bce:	0e 94 98 08 	call	0x1130	; 0x1130 <__udivmodhi4>
-     bd2:	62 1b       	sub	r22, r18
-     bd4:	71 09       	sbc	r23, r1
-}
-     bd6:	8d e7       	ldi	r24, 0x7D	; 125
-     bd8:	28 2f       	mov	r18, r24
-     bda:	26 9f       	mul	r18, r22
-     bdc:	c0 01       	movw	r24, r0
-     bde:	27 9f       	mul	r18, r23
-     be0:	90 0d       	add	r25, r0
-     be2:	11 24       	eor	r1, r1
-     be4:	08 95       	ret
-
-00000be6 <__vector_11>:
-	UCSR0B |= (1<<RXEN0);
-	UCSR0B |= (1<<RXCIE0);
-}
-
-
-ISR(TIMER1_COMPA_vect){
-     be6:	1f 92       	push	r1
-     be8:	0f 92       	push	r0
-     bea:	0f b6       	in	r0, 0x3f	; 63
-     bec:	0f 92       	push	r0
-     bee:	11 24       	eor	r1, r1
-     bf0:	2f 93       	push	r18
-     bf2:	3f 93       	push	r19
-     bf4:	4f 93       	push	r20
-     bf6:	5f 93       	push	r21
-     bf8:	6f 93       	push	r22
-     bfa:	7f 93       	push	r23
-     bfc:	8f 93       	push	r24
-     bfe:	9f 93       	push	r25
-     c00:	af 93       	push	r26
-     c02:	bf 93       	push	r27
-     c04:	ef 93       	push	r30
-     c06:	ff 93       	push	r31
-	if(isLHS || lowPowerMode){	//LHS MOTION
-     c08:	80 91 14 01 	lds	r24, 0x0114	; 0x800114 <isLHS>
-     c0c:	81 11       	cpse	r24, r1
-     c0e:	04 c0       	rjmp	.+8      	; 0xc18 <__vector_11+0x32>
-     c10:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <lowPowerMode>
-     c14:	88 23       	and	r24, r24
-     c16:	e1 f1       	breq	.+120    	; 0xc90 <__vector_11+0xaa>
-		if((count <= noOfWaves) && (!isDead)){//PRODUCING X NUMBER OF PWM OSCILLATIONS
-     c18:	90 91 5d 01 	lds	r25, 0x015D	; 0x80015d <count>
-     c1c:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <noOfWaves>
-     c20:	89 17       	cp	r24, r25
-     c22:	78 f0       	brcs	.+30     	; 0xc42 <__vector_11+0x5c>
-     c24:	80 91 5c 01 	lds	r24, 0x015C	; 0x80015c <isDead>
-     c28:	81 11       	cpse	r24, r1
-     c2a:	0b c0       	rjmp	.+22     	; 0xc42 <__vector_11+0x5c>
-			pumpingIsOccurring = true;
-     c2c:	81 e0       	ldi	r24, 0x01	; 1
-     c2e:	80 93 59 01 	sts	0x0159, r24	; 0x800159 <pumpingIsOccurring>
-			PORTB |= (1<< PB2); //turn RHS ON
-     c32:	2a 9a       	sbi	0x05, 2	; 5
-			PORTD |= (1<<PD5);
-     c34:	5d 9a       	sbi	0x0b, 5	; 11
-			count++;
-     c36:	80 91 5d 01 	lds	r24, 0x015D	; 0x80015d <count>
-     c3a:	8f 5f       	subi	r24, 0xFF	; 255
-     c3c:	80 93 5d 01 	sts	0x015D, r24	; 0x80015d <count>
-     c40:	5e c0       	rjmp	.+188    	; 0xcfe <__vector_11+0x118>
-		}
-		else if(count > noOfWaves){//DEADZONE: leave the port off for 14ms in total
-     c42:	90 91 5d 01 	lds	r25, 0x015D	; 0x80015d <count>
-     c46:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <noOfWaves>
-     c4a:	89 17       	cp	r24, r25
-     c4c:	b0 f4       	brcc	.+44     	; 0xc7a <__vector_11+0x94>
-			pumpingIsOccurring = false;
-     c4e:	10 92 59 01 	sts	0x0159, r1	; 0x800159 <pumpingIsOccurring>
-			PORTD &= ~(1<<PD5); //turn pmos off
-     c52:	5d 98       	cbi	0x0b, 5	; 11
-			PORTB &= ~(1<<PB2);//turn nmos off
-     c54:	2a 98       	cbi	0x05, 2	; 5
-			PWM_Change(CalculateDeadTime(),65535);
-     c56:	0e 94 df 05 	call	0xbbe	; 0xbbe <CalculateDeadTime>
-     c5a:	6f ef       	ldi	r22, 0xFF	; 255
-     c5c:	7f ef       	ldi	r23, 0xFF	; 255
-     c5e:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <PWM_Change>
-			if(!lowPowerMode){
-     c62:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <lowPowerMode>
-     c66:	81 11       	cpse	r24, r1
-     c68:	02 c0       	rjmp	.+4      	; 0xc6e <__vector_11+0x88>
-				isLHS = false;
-     c6a:	10 92 14 01 	sts	0x0114, r1	; 0x800114 <isLHS>
-			}
-			count = 0;
-     c6e:	10 92 5d 01 	sts	0x015D, r1	; 0x80015d <count>
-			isDead = true; //deadzone begins
-     c72:	81 e0       	ldi	r24, 0x01	; 1
-     c74:	80 93 5c 01 	sts	0x015C, r24	; 0x80015c <isDead>
-     c78:	42 c0       	rjmp	.+132    	; 0xcfe <__vector_11+0x118>
-		}
-		else{	//end of deadzone, set the pwm frequency back to normal
-			isDead = false;
-     c7a:	10 92 5c 01 	sts	0x015C, r1	; 0x80015c <isDead>
-			PWM_Change(125,ConvertTimerValueToDutyCycle());
-     c7e:	0e 94 ca 05 	call	0xb94	; 0xb94 <ConvertTimerValueToDutyCycle>
-     c82:	68 2f       	mov	r22, r24
-     c84:	70 e0       	ldi	r23, 0x00	; 0
-     c86:	8d e7       	ldi	r24, 0x7D	; 125
-     c88:	90 e0       	ldi	r25, 0x00	; 0
-     c8a:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <PWM_Change>
-     c8e:	37 c0       	rjmp	.+110    	; 0xcfe <__vector_11+0x118>
-		}
-	}
-	else{//RHS MOTION
-		if((count <= noOfWaves) && (!isDead)){
-     c90:	90 91 5d 01 	lds	r25, 0x015D	; 0x80015d <count>
-     c94:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <noOfWaves>
-     c98:	89 17       	cp	r24, r25
-     c9a:	78 f0       	brcs	.+30     	; 0xcba <__vector_11+0xd4>
-     c9c:	80 91 5c 01 	lds	r24, 0x015C	; 0x80015c <isDead>
-     ca0:	81 11       	cpse	r24, r1
-     ca2:	0b c0       	rjmp	.+22     	; 0xcba <__vector_11+0xd4>
-			pumpingIsOccurring = true;
-     ca4:	81 e0       	ldi	r24, 0x01	; 1
-     ca6:	80 93 59 01 	sts	0x0159, r24	; 0x800159 <pumpingIsOccurring>
-			PORTD |= (1<< PD6); //NMOS and PMOS on
-     caa:	5e 9a       	sbi	0x0b, 6	; 11
-			PORTB |= (1<<PB1);
-     cac:	29 9a       	sbi	0x05, 1	; 5
-			count++;
-     cae:	80 91 5d 01 	lds	r24, 0x015D	; 0x80015d <count>
-     cb2:	8f 5f       	subi	r24, 0xFF	; 255
-     cb4:	80 93 5d 01 	sts	0x015D, r24	; 0x80015d <count>
-     cb8:	22 c0       	rjmp	.+68     	; 0xcfe <__vector_11+0x118>
-		}
-		else if(count > noOfWaves){//DEADZONE: leave the port off for 14ms in total
-     cba:	90 91 5d 01 	lds	r25, 0x015D	; 0x80015d <count>
-     cbe:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <noOfWaves>
-     cc2:	89 17       	cp	r24, r25
-     cc4:	90 f4       	brcc	.+36     	; 0xcea <__vector_11+0x104>
-			pumpingIsOccurring = false;
-     cc6:	10 92 59 01 	sts	0x0159, r1	; 0x800159 <pumpingIsOccurring>
-			PORTD &= ~(1<< PD6);
-     cca:	5e 98       	cbi	0x0b, 6	; 11
-			PORTB &= ~(1<<PB1);
-     ccc:	29 98       	cbi	0x05, 1	; 5
-			PWM_Change(CalculateDeadTime(),65535); //apply deadzone
-     cce:	0e 94 df 05 	call	0xbbe	; 0xbbe <CalculateDeadTime>
-     cd2:	6f ef       	ldi	r22, 0xFF	; 255
-     cd4:	7f ef       	ldi	r23, 0xFF	; 255
-     cd6:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <PWM_Change>
-			isLHS = true;
-     cda:	81 e0       	ldi	r24, 0x01	; 1
-     cdc:	80 93 14 01 	sts	0x0114, r24	; 0x800114 <isLHS>
-			count = 0;
-     ce0:	10 92 5d 01 	sts	0x015D, r1	; 0x80015d <count>
-			isDead = true; //deadzone begins
-     ce4:	80 93 5c 01 	sts	0x015C, r24	; 0x80015c <isDead>
-     ce8:	0a c0       	rjmp	.+20     	; 0xcfe <__vector_11+0x118>
-		}
-		else{	//end of deadzone, set the pwm frequency back to normal
-			isDead = false;
-     cea:	10 92 5c 01 	sts	0x015C, r1	; 0x80015c <isDead>
-			PWM_Change(125,ConvertTimerValueToDutyCycle());
-     cee:	0e 94 ca 05 	call	0xb94	; 0xb94 <ConvertTimerValueToDutyCycle>
-     cf2:	68 2f       	mov	r22, r24
-     cf4:	70 e0       	ldi	r23, 0x00	; 0
-     cf6:	8d e7       	ldi	r24, 0x7D	; 125
-     cf8:	90 e0       	ldi	r25, 0x00	; 0
-     cfa:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <PWM_Change>
-		}
-		
-	}
-}
-     cfe:	ff 91       	pop	r31
-     d00:	ef 91       	pop	r30
-     d02:	bf 91       	pop	r27
-     d04:	af 91       	pop	r26
-     d06:	9f 91       	pop	r25
-     d08:	8f 91       	pop	r24
-     d0a:	7f 91       	pop	r23
-     d0c:	6f 91       	pop	r22
-     d0e:	5f 91       	pop	r21
-     d10:	4f 91       	pop	r20
-     d12:	3f 91       	pop	r19
-     d14:	2f 91       	pop	r18
-     d16:	0f 90       	pop	r0
-     d18:	0f be       	out	0x3f, r0	; 63
-     d1a:	0f 90       	pop	r0
-     d1c:	1f 90       	pop	r1
-     d1e:	18 95       	reti
-
-00000d20 <ASCIIConversion>:
-}
-
-uint8_t ASCIIConversion(uint8_t value){
-	uint8_t asciiValue = value + 48;
-	return asciiValue;
-}
-     d20:	80 5d       	subi	r24, 0xD0	; 208
-     d22:	08 95       	ret
-
-00000d24 <main>:
-
+00000d06 <main>:
+/**************************************************************Main Function**************************************************************/
 int main(void)
 {	
-     d24:	cf 93       	push	r28
-     d26:	df 93       	push	r29
-     d28:	cd b7       	in	r28, 0x3d	; 61
-     d2a:	de b7       	in	r29, 0x3e	; 62
-     d2c:	c6 5e       	subi	r28, 0xE6	; 230
-     d2e:	d1 40       	sbci	r29, 0x01	; 1
-     d30:	0f b6       	in	r0, 0x3f	; 63
-     d32:	f8 94       	cli
-     d34:	de bf       	out	0x3e, r29	; 62
-     d36:	0f be       	out	0x3f, r0	; 63
-     d38:	cd bf       	out	0x3d, r28	; 61
-	stdout= &mystdout;//printf
-     d3a:	80 e0       	ldi	r24, 0x00	; 0
-     d3c:	91 e0       	ldi	r25, 0x01	; 1
-     d3e:	90 93 e4 08 	sts	0x08E4, r25	; 0x8008e4 <__iob+0x3>
-     d42:	80 93 e3 08 	sts	0x08E3, r24	; 0x8008e3 <__iob+0x2>
+     d06:	cf 93       	push	r28
+     d08:	df 93       	push	r29
+     d0a:	00 d0       	rcall	.+0      	; 0xd0c <main+0x6>
+     d0c:	00 d0       	rcall	.+0      	; 0xd0e <main+0x8>
+     d0e:	1f 92       	push	r1
+     d10:	cd b7       	in	r28, 0x3d	; 61
+     d12:	de b7       	in	r29, 0x3e	; 62
 
+	/*******************Intialisations*******************/
     sei();
-     d46:	78 94       	sei
+     d14:	78 94       	sei
 	UART_Init(UBRR_VALUE);
-     d48:	83 e3       	ldi	r24, 0x33	; 51
-     d4a:	90 e0       	ldi	r25, 0x00	; 0
-     d4c:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <UART_Init>
+     d16:	83 e3       	ldi	r24, 0x33	; 51
+     d18:	90 e0       	ldi	r25, 0x00	; 0
+     d1a:	0e 94 0b 01 	call	0x216	; 0x216 <UART_Init>
 	ADC_Init();
-     d50:	0e 94 53 00 	call	0xa6	; 0xa6 <ADC_Init>
+     d1e:	0e 94 53 00 	call	0xa6	; 0xa6 <ADC_Init>
 	PWM_Init();
-     d54:	0e 94 ce 00 	call	0x19c	; 0x19c <PWM_Init>
+     d22:	0e 94 ce 00 	call	0x19c	; 0x19c <PWM_Init>
+	uint16_t voltageAverageFinal = 0;
+	uint16_t currentAverageFinal = 0;
+	uint32_t averagePower = 0;
 	
-	//output pin setup
+	/*******************Output Pin Setup*******************/
 	DDRB |= (1<<PB1)|(1<<PB2);
-     d58:	84 b1       	in	r24, 0x04	; 4
-     d5a:	86 60       	ori	r24, 0x06	; 6
-     d5c:	84 b9       	out	0x04, r24	; 4
+     d26:	84 b1       	in	r24, 0x04	; 4
+     d28:	86 60       	ori	r24, 0x06	; 6
+     d2a:	84 b9       	out	0x04, r24	; 4
 	DDRD |= (1<<PD5)|(1<<PD6);
-     d5e:	8a b1       	in	r24, 0x0a	; 10
-     d60:	80 66       	ori	r24, 0x60	; 96
-     d62:	8a b9       	out	0x0a, r24	; 10
-	uint8_t voltageRMSArrayIndex = 0;
-	uint16_t voltageRMSFinal = 0;
-	uint32_t currentRMSFinal = 0;
-	uint16_t currentRMSAggregate = 0;
-     d64:	d1 2c       	mov	r13, r1
-	
-	//output pin setup
-	DDRB |= (1<<PB1)|(1<<PB2);
-	DDRD |= (1<<PD5)|(1<<PD6);
-	uint8_t voltageRMSArrayIndex = 0;
-	uint16_t voltageRMSFinal = 0;
-     d66:	21 2c       	mov	r2, r1
-     d68:	31 2c       	mov	r3, r1
+     d2c:	8a b1       	in	r24, 0x0a	; 10
+     d2e:	80 66       	ori	r24, 0x60	; 96
+     d30:	8a b9       	out	0x0a, r24	; 10
 	PWM_Init();
 	
-	//output pin setup
-	DDRB |= (1<<PB1)|(1<<PB2);
-	DDRD |= (1<<PD5)|(1<<PD6);
-	uint8_t voltageRMSArrayIndex = 0;
-     d6a:	f1 2c       	mov	r15, r1
-		voltageLHSIndex = 0;
-		uint32_t rmsVoltage = 0;
-		uint32_t currentSum = 0;
-		uint32_t rmsCurrent = 0;
-		uint32_t voltageSum = 0;
-		uint32_t powerArray[NUMBER_OF_SAMPLES] = {0};
-     d6c:	ce 01       	movw	r24, r28
-     d6e:	01 96       	adiw	r24, 0x01	; 1
-     d70:	cf 51       	subi	r28, 0x1F	; 31
-     d72:	de 4f       	sbci	r29, 0xFE	; 254
-     d74:	99 83       	std	Y+1, r25	; 0x01
-     d76:	88 83       	st	Y, r24
-     d78:	c1 5e       	subi	r28, 0xE1	; 225
-     d7a:	d1 40       	sbci	r29, 0x01	; 1
-     d7c:	fe 01       	movw	r30, r28
-     d7e:	e3 52       	subi	r30, 0x23	; 35
-     d80:	fe 4f       	sbci	r31, 0xFE	; 254
-     d82:	cd 51       	subi	r28, 0x1D	; 29
-     d84:	de 4f       	sbci	r29, 0xFE	; 254
-     d86:	f9 83       	std	Y+1, r31	; 0x01
-     d88:	e8 83       	st	Y, r30
-     d8a:	c3 5e       	subi	r28, 0xE3	; 227
-     d8c:	d1 40       	sbci	r29, 0x01	; 1
-int concatenate(int a, int b, int c){
-	return ((a-48)*100 + (b-48)*10 + (c-48));
-}
-
-bool checkForError(unsigned char a, unsigned char b){
-	if((a == 101) && (b == 119)){ //101 = e, 119 = w
-     d8e:	1f 2d       	mov	r17, r15
-     d90:	9d 2c       	mov	r9, r13
+	/*******************Local Variable Declaration*******************/
+	uint8_t voltageAverageIndex = 0;
+	uint16_t voltageAverageFinal = 0;
+	uint16_t currentAverageFinal = 0;
+     d32:	1b 82       	std	Y+3, r1	; 0x03
+	ADC_Init();
+	PWM_Init();
+	
+	/*******************Local Variable Declaration*******************/
+	uint8_t voltageAverageIndex = 0;
+	uint16_t voltageAverageFinal = 0;
+     d34:	21 2c       	mov	r2, r1
+     d36:	31 2c       	mov	r3, r1
+	UART_Init(UBRR_VALUE);
+	ADC_Init();
+	PWM_Init();
+	
+	/*******************Local Variable Declaration*******************/
+	uint8_t voltageAverageIndex = 0;
+     d38:	1c 82       	std	Y+4, r1	; 0x04
+				
+		/*******************Power Calculation*******************/	
+		uint32_t powerTotal = 0;
+		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
+			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
+			powerTotal += powerArray[j];
+     d3a:	0f 2e       	mov	r0, r31
+     d3c:	ff e9       	ldi	r31, 0x9F	; 159
+     d3e:	4f 2e       	mov	r4, r31
+     d40:	55 24       	eor	r5, r5
+     d42:	53 94       	inc	r5
+     d44:	61 2c       	mov	r6, r1
+     d46:	71 2c       	mov	r7, r1
+     d48:	f0 2d       	mov	r31, r0
 
     while (1) 
     {	
 		
-		/********Declare Local Variables**********/
-		voltageLHSIndex = 0;
-     d92:	10 92 2b 01 	sts	0x012B, r1	; 0x80012b <voltageLHSIndex>
-		uint32_t rmsVoltage = 0;
-		uint32_t currentSum = 0;
-		uint32_t rmsCurrent = 0;
+		/*******************Local Variable Declaration*******************/
+		measurementIndex = 0;
+     d4a:	10 92 1d 01 	sts	0x011D, r1	; 0x80011d <measurementIndex>
+		uint32_t averageVoltage = 0;
 		uint32_t voltageSum = 0;
 		uint32_t powerArray[NUMBER_OF_SAMPLES] = {0};
-     d96:	cf 51       	subi	r28, 0x1F	; 31
-     d98:	de 4f       	sbci	r29, 0xFE	; 254
-     d9a:	e8 81       	ld	r30, Y
-     d9c:	f9 81       	ldd	r31, Y+1	; 0x01
-     d9e:	c1 5e       	subi	r28, 0xE1	; 225
-     da0:	d1 40       	sbci	r29, 0x01	; 1
-     da2:	80 ee       	ldi	r24, 0xE0	; 224
-     da4:	91 e0       	ldi	r25, 0x01	; 1
-     da6:	11 92       	st	Z+, r1
-     da8:	01 97       	sbiw	r24, 0x01	; 1
-     daa:	e9 f7       	brne	.-6      	; 0xda6 <main+0x82>
 
-		/****************Voltage and Current****************/
-		//get voltage and current values
-		//if(pumpingIsOccurring){
-			while(voltageLHSIndex < NUMBER_OF_SAMPLES){
-     dac:	80 91 2b 01 	lds	r24, 0x012B	; 0x80012b <voltageLHSIndex>
-     db0:	88 37       	cpi	r24, 0x78	; 120
-     db2:	08 f0       	brcs	.+2      	; 0xdb6 <main+0x92>
-     db4:	a6 c1       	rjmp	.+844    	; 0x1102 <main+0x3de>
-     db6:	f1 2e       	mov	r15, r17
-				voltageLHS[voltageLHSIndex] = ADC_LHSVoltage();
-     db8:	00 91 2b 01 	lds	r16, 0x012B	; 0x80012b <voltageLHSIndex>
-     dbc:	10 e0       	ldi	r17, 0x00	; 0
-     dbe:	0e 94 95 00 	call	0x12a	; 0x12a <ADC_LHSVoltage>
-     dc2:	00 0f       	add	r16, r16
-     dc4:	11 1f       	adc	r17, r17
-     dc6:	00 0f       	add	r16, r16
-     dc8:	11 1f       	adc	r17, r17
-     dca:	f8 01       	movw	r30, r16
-     dcc:	e2 5c       	subi	r30, 0xC2	; 194
-     dce:	fc 4f       	sbci	r31, 0xFC	; 252
-     dd0:	60 83       	st	Z, r22
-     dd2:	71 83       	std	Z+1, r23	; 0x01
-     dd4:	82 83       	std	Z+2, r24	; 0x02
-     dd6:	93 83       	std	Z+3, r25	; 0x03
-				voltageRHS[voltageLHSIndex] = ADC_RHSVoltage();
-     dd8:	00 91 2b 01 	lds	r16, 0x012B	; 0x80012b <voltageLHSIndex>
-     ddc:	10 e0       	ldi	r17, 0x00	; 0
-     dde:	0e 94 b0 00 	call	0x160	; 0x160 <ADC_RHSVoltage>
-     de2:	00 0f       	add	r16, r16
-     de4:	11 1f       	adc	r17, r17
-     de6:	00 0f       	add	r16, r16
-     de8:	11 1f       	adc	r17, r17
-     dea:	f8 01       	movw	r30, r16
-     dec:	e2 5a       	subi	r30, 0xA2	; 162
-     dee:	fe 4f       	sbci	r31, 0xFE	; 254
-     df0:	60 83       	st	Z, r22
-     df2:	71 83       	std	Z+1, r23	; 0x01
-     df4:	82 83       	std	Z+2, r24	; 0x02
-     df6:	93 83       	std	Z+3, r25	; 0x03
-				//current[voltageLHSIndex] = ADC_Current();
-				voltageLHSIndex++;
-     df8:	80 91 2b 01 	lds	r24, 0x012B	; 0x80012b <voltageLHSIndex>
-     dfc:	8f 5f       	subi	r24, 0xFF	; 255
-     dfe:	80 93 2b 01 	sts	0x012B, r24	; 0x80012b <voltageLHSIndex>
+		/*******************Voltage Measurement*******************/
+			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples
+     d4e:	80 91 1d 01 	lds	r24, 0x011D	; 0x80011d <measurementIndex>
+     d52:	88 37       	cpi	r24, 0x78	; 120
+     d54:	08 f0       	brcs	.+2      	; 0xd58 <main+0x52>
+     d56:	5b c1       	rjmp	.+694    	; 0x100e <main+0x308>
+				voltageLHS[measurementIndex] = ADC_LHSVoltage();							//Sample LHS voltage
+     d58:	00 91 1d 01 	lds	r16, 0x011D	; 0x80011d <measurementIndex>
+     d5c:	10 e0       	ldi	r17, 0x00	; 0
+     d5e:	0e 94 95 00 	call	0x12a	; 0x12a <ADC_LHSVoltage>
+     d62:	00 0f       	add	r16, r16
+     d64:	11 1f       	adc	r17, r17
+     d66:	00 0f       	add	r16, r16
+     d68:	11 1f       	adc	r17, r17
+     d6a:	f8 01       	movw	r30, r16
+     d6c:	e0 5f       	subi	r30, 0xF0	; 240
+     d6e:	fa 4f       	sbci	r31, 0xFA	; 250
+     d70:	60 83       	st	Z, r22
+     d72:	71 83       	std	Z+1, r23	; 0x01
+     d74:	82 83       	std	Z+2, r24	; 0x02
+     d76:	93 83       	std	Z+3, r25	; 0x03
+				voltageRHS[measurementIndex] = ADC_RHSVoltage();							//Sample RHS voltage
+     d78:	00 91 1d 01 	lds	r16, 0x011D	; 0x80011d <measurementIndex>
+     d7c:	10 e0       	ldi	r17, 0x00	; 0
+     d7e:	0e 94 b0 00 	call	0x160	; 0x160 <ADC_RHSVoltage>
+     d82:	00 0f       	add	r16, r16
+     d84:	11 1f       	adc	r17, r17
+     d86:	00 0f       	add	r16, r16
+     d88:	11 1f       	adc	r17, r17
+     d8a:	f8 01       	movw	r30, r16
+     d8c:	e0 5d       	subi	r30, 0xD0	; 208
+     d8e:	fc 4f       	sbci	r31, 0xFC	; 252
+     d90:	60 83       	st	Z, r22
+     d92:	71 83       	std	Z+1, r23	; 0x01
+     d94:	82 83       	std	Z+2, r24	; 0x02
+     d96:	93 83       	std	Z+3, r25	; 0x03
+				measurementIndex++;											
+     d98:	80 91 1d 01 	lds	r24, 0x011D	; 0x80011d <measurementIndex>
+     d9c:	8f 5f       	subi	r24, 0xFF	; 255
+     d9e:	80 93 1d 01 	sts	0x011D, r24	; 0x80011d <measurementIndex>
+		uint32_t averageVoltage = 0;
+		uint32_t voltageSum = 0;
 		uint32_t powerArray[NUMBER_OF_SAMPLES] = {0};
 
-		/****************Voltage and Current****************/
-		//get voltage and current values
-		//if(pumpingIsOccurring){
-			while(voltageLHSIndex < NUMBER_OF_SAMPLES){
-     e02:	80 91 2b 01 	lds	r24, 0x012B	; 0x80012b <voltageLHSIndex>
-     e06:	88 37       	cpi	r24, 0x78	; 120
-     e08:	b8 f2       	brcs	.-82     	; 0xdb8 <main+0x94>
-     e0a:	1f 2d       	mov	r17, r15
-     e0c:	7a c1       	rjmp	.+756    	; 0x1102 <main+0x3de>
+		/*******************Voltage Measurement*******************/
+			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples
+     da2:	80 91 1d 01 	lds	r24, 0x011D	; 0x80011d <measurementIndex>
+     da6:	88 37       	cpi	r24, 0x78	; 120
+     da8:	b8 f2       	brcs	.-82     	; 0xd58 <main+0x52>
+     daa:	31 c1       	rjmp	.+610    	; 0x100e <main+0x308>
+				voltageRHS[measurementIndex] = ADC_RHSVoltage();							//Sample RHS voltage
+				measurementIndex++;											
 			}
-		//}
-				
-		////get voltage across the coil
-		for(int i = 0;i<NUMBER_OF_SAMPLES;i++){
-			if(lowPowerMode){
-     e0e:	20 91 13 01 	lds	r18, 0x0113	; 0x800113 <lowPowerMode>
-     e12:	22 23       	and	r18, r18
-     e14:	a1 f0       	breq	.+40     	; 0xe3e <main+0x11a>
-				voltageAcrossTheCoil[i] = voltageRHS[i];
-     e16:	9c 01       	movw	r18, r24
-     e18:	22 0f       	add	r18, r18
-     e1a:	33 1f       	adc	r19, r19
+		
+		for(int i = 0;i<NUMBER_OF_SAMPLES;i++){												//Calculate the voltage across the coil
+			if(voltageLHS[i]>voltageRHS[i]){												
+     dac:	9c 01       	movw	r18, r24
+     dae:	22 0f       	add	r18, r18
+     db0:	33 1f       	adc	r19, r19
+     db2:	22 0f       	add	r18, r18
+     db4:	33 1f       	adc	r19, r19
+     db6:	f9 01       	movw	r30, r18
+     db8:	e0 5f       	subi	r30, 0xF0	; 240
+     dba:	fa 4f       	sbci	r31, 0xFA	; 250
+     dbc:	c0 80       	ld	r12, Z
+     dbe:	d1 80       	ldd	r13, Z+1	; 0x01
+     dc0:	e2 80       	ldd	r14, Z+2	; 0x02
+     dc2:	f3 80       	ldd	r15, Z+3	; 0x03
+     dc4:	f9 01       	movw	r30, r18
+     dc6:	e0 5d       	subi	r30, 0xD0	; 208
+     dc8:	fc 4f       	sbci	r31, 0xFC	; 252
+     dca:	00 81       	ld	r16, Z
+     dcc:	11 81       	ldd	r17, Z+1	; 0x01
+     dce:	22 81       	ldd	r18, Z+2	; 0x02
+     dd0:	33 81       	ldd	r19, Z+3	; 0x03
+     dd2:	0c 15       	cp	r16, r12
+     dd4:	1d 05       	cpc	r17, r13
+     dd6:	2e 05       	cpc	r18, r14
+     dd8:	3f 05       	cpc	r19, r15
+     dda:	f8 f4       	brcc	.+62     	; 0xe1a <main+0x114>
+				voltageAcrossTheCoil[i] = voltageLHS[i]-voltageRHS[i];
+     ddc:	9c 01       	movw	r18, r24
+     dde:	22 0f       	add	r18, r18
+     de0:	33 1f       	adc	r19, r19
+     de2:	22 0f       	add	r18, r18
+     de4:	33 1f       	adc	r19, r19
+     de6:	f9 01       	movw	r30, r18
+     de8:	e0 5f       	subi	r30, 0xF0	; 240
+     dea:	fa 4f       	sbci	r31, 0xFA	; 250
+     dec:	c0 80       	ld	r12, Z
+     dee:	d1 80       	ldd	r13, Z+1	; 0x01
+     df0:	e2 80       	ldd	r14, Z+2	; 0x02
+     df2:	f3 80       	ldd	r15, Z+3	; 0x03
+     df4:	f9 01       	movw	r30, r18
+     df6:	e0 5d       	subi	r30, 0xD0	; 208
+     df8:	fc 4f       	sbci	r31, 0xFC	; 252
+     dfa:	80 80       	ld	r8, Z
+     dfc:	91 80       	ldd	r9, Z+1	; 0x01
+     dfe:	a2 80       	ldd	r10, Z+2	; 0x02
+     e00:	b3 80       	ldd	r11, Z+3	; 0x03
+     e02:	c8 18       	sub	r12, r8
+     e04:	d9 08       	sbc	r13, r9
+     e06:	ea 08       	sbc	r14, r10
+     e08:	fb 08       	sbc	r15, r11
+     e0a:	f9 01       	movw	r30, r18
+     e0c:	e0 51       	subi	r30, 0x10	; 16
+     e0e:	f9 4f       	sbci	r31, 0xF9	; 249
+     e10:	c0 82       	st	Z, r12
+     e12:	d1 82       	std	Z+1, r13	; 0x01
+     e14:	e2 82       	std	Z+2, r14	; 0x02
+     e16:	f3 82       	std	Z+3, r15	; 0x03
+     e18:	1e c0       	rjmp	.+60     	; 0xe56 <main+0x150>
+				}else{
+				voltageAcrossTheCoil[i] = voltageRHS[i]-voltageLHS[i];
+     e1a:	9c 01       	movw	r18, r24
      e1c:	22 0f       	add	r18, r18
      e1e:	33 1f       	adc	r19, r19
-     e20:	f9 01       	movw	r30, r18
-     e22:	e2 5a       	subi	r30, 0xA2	; 162
-     e24:	fe 4f       	sbci	r31, 0xFE	; 254
-     e26:	c0 80       	ld	r12, Z
-     e28:	d1 80       	ldd	r13, Z+1	; 0x01
-     e2a:	e2 80       	ldd	r14, Z+2	; 0x02
-     e2c:	f3 80       	ldd	r15, Z+3	; 0x03
-     e2e:	f9 01       	movw	r30, r18
-     e30:	e0 50       	subi	r30, 0x00	; 0
-     e32:	f9 4f       	sbci	r31, 0xF9	; 249
-     e34:	c0 82       	st	Z, r12
-     e36:	d1 82       	std	Z+1, r13	; 0x01
-     e38:	e2 82       	std	Z+2, r14	; 0x02
-     e3a:	f3 82       	std	Z+3, r15	; 0x03
-     e3c:	55 c0       	rjmp	.+170    	; 0xee8 <main+0x1c4>
-			}else{
-				if(voltageLHS[i]>voltageRHS[i]){
-     e3e:	9c 01       	movw	r18, r24
-     e40:	22 0f       	add	r18, r18
-     e42:	33 1f       	adc	r19, r19
-     e44:	22 0f       	add	r18, r18
-     e46:	33 1f       	adc	r19, r19
+     e20:	22 0f       	add	r18, r18
+     e22:	33 1f       	adc	r19, r19
+     e24:	f9 01       	movw	r30, r18
+     e26:	e0 5d       	subi	r30, 0xD0	; 208
+     e28:	fc 4f       	sbci	r31, 0xFC	; 252
+     e2a:	c0 80       	ld	r12, Z
+     e2c:	d1 80       	ldd	r13, Z+1	; 0x01
+     e2e:	e2 80       	ldd	r14, Z+2	; 0x02
+     e30:	f3 80       	ldd	r15, Z+3	; 0x03
+     e32:	f9 01       	movw	r30, r18
+     e34:	e0 5f       	subi	r30, 0xF0	; 240
+     e36:	fa 4f       	sbci	r31, 0xFA	; 250
+     e38:	80 80       	ld	r8, Z
+     e3a:	91 80       	ldd	r9, Z+1	; 0x01
+     e3c:	a2 80       	ldd	r10, Z+2	; 0x02
+     e3e:	b3 80       	ldd	r11, Z+3	; 0x03
+     e40:	c8 18       	sub	r12, r8
+     e42:	d9 08       	sbc	r13, r9
+     e44:	ea 08       	sbc	r14, r10
+     e46:	fb 08       	sbc	r15, r11
      e48:	f9 01       	movw	r30, r18
-     e4a:	e2 5c       	subi	r30, 0xC2	; 194
-     e4c:	fc 4f       	sbci	r31, 0xFC	; 252
-     e4e:	c0 80       	ld	r12, Z
-     e50:	d1 80       	ldd	r13, Z+1	; 0x01
-     e52:	e2 80       	ldd	r14, Z+2	; 0x02
-     e54:	f3 80       	ldd	r15, Z+3	; 0x03
-     e56:	f9 01       	movw	r30, r18
-     e58:	e2 5a       	subi	r30, 0xA2	; 162
-     e5a:	fe 4f       	sbci	r31, 0xFE	; 254
-     e5c:	00 81       	ld	r16, Z
-     e5e:	11 81       	ldd	r17, Z+1	; 0x01
-     e60:	22 81       	ldd	r18, Z+2	; 0x02
-     e62:	33 81       	ldd	r19, Z+3	; 0x03
-     e64:	0c 15       	cp	r16, r12
-     e66:	1d 05       	cpc	r17, r13
-     e68:	2e 05       	cpc	r18, r14
-     e6a:	3f 05       	cpc	r19, r15
-     e6c:	f8 f4       	brcc	.+62     	; 0xeac <main+0x188>
-					voltageAcrossTheCoil[i] = voltageLHS[i]-voltageRHS[i];
-     e6e:	9c 01       	movw	r18, r24
-     e70:	22 0f       	add	r18, r18
-     e72:	33 1f       	adc	r19, r19
-     e74:	22 0f       	add	r18, r18
-     e76:	33 1f       	adc	r19, r19
-     e78:	f9 01       	movw	r30, r18
-     e7a:	e2 5c       	subi	r30, 0xC2	; 194
-     e7c:	fc 4f       	sbci	r31, 0xFC	; 252
-     e7e:	c0 80       	ld	r12, Z
-     e80:	d1 80       	ldd	r13, Z+1	; 0x01
-     e82:	e2 80       	ldd	r14, Z+2	; 0x02
-     e84:	f3 80       	ldd	r15, Z+3	; 0x03
-     e86:	f9 01       	movw	r30, r18
-     e88:	e2 5a       	subi	r30, 0xA2	; 162
-     e8a:	fe 4f       	sbci	r31, 0xFE	; 254
-     e8c:	40 80       	ld	r4, Z
-     e8e:	51 80       	ldd	r5, Z+1	; 0x01
-     e90:	62 80       	ldd	r6, Z+2	; 0x02
-     e92:	73 80       	ldd	r7, Z+3	; 0x03
-     e94:	c4 18       	sub	r12, r4
-     e96:	d5 08       	sbc	r13, r5
-     e98:	e6 08       	sbc	r14, r6
-     e9a:	f7 08       	sbc	r15, r7
-     e9c:	f9 01       	movw	r30, r18
-     e9e:	e0 50       	subi	r30, 0x00	; 0
-     ea0:	f9 4f       	sbci	r31, 0xF9	; 249
-     ea2:	c0 82       	st	Z, r12
-     ea4:	d1 82       	std	Z+1, r13	; 0x01
-     ea6:	e2 82       	std	Z+2, r14	; 0x02
-     ea8:	f3 82       	std	Z+3, r15	; 0x03
-     eaa:	1e c0       	rjmp	.+60     	; 0xee8 <main+0x1c4>
-					}else{
-					voltageAcrossTheCoil[i] = voltageRHS[i]-voltageLHS[i];
-     eac:	9c 01       	movw	r18, r24
-     eae:	22 0f       	add	r18, r18
-     eb0:	33 1f       	adc	r19, r19
-     eb2:	22 0f       	add	r18, r18
-     eb4:	33 1f       	adc	r19, r19
-     eb6:	f9 01       	movw	r30, r18
-     eb8:	e2 5a       	subi	r30, 0xA2	; 162
-     eba:	fe 4f       	sbci	r31, 0xFE	; 254
-     ebc:	c0 80       	ld	r12, Z
-     ebe:	d1 80       	ldd	r13, Z+1	; 0x01
-     ec0:	e2 80       	ldd	r14, Z+2	; 0x02
-     ec2:	f3 80       	ldd	r15, Z+3	; 0x03
-     ec4:	f9 01       	movw	r30, r18
-     ec6:	e2 5c       	subi	r30, 0xC2	; 194
-     ec8:	fc 4f       	sbci	r31, 0xFC	; 252
-     eca:	40 80       	ld	r4, Z
-     ecc:	51 80       	ldd	r5, Z+1	; 0x01
-     ece:	62 80       	ldd	r6, Z+2	; 0x02
-     ed0:	73 80       	ldd	r7, Z+3	; 0x03
-     ed2:	c4 18       	sub	r12, r4
-     ed4:	d5 08       	sbc	r13, r5
-     ed6:	e6 08       	sbc	r14, r6
-     ed8:	f7 08       	sbc	r15, r7
-     eda:	f9 01       	movw	r30, r18
-     edc:	e0 50       	subi	r30, 0x00	; 0
-     ede:	f9 4f       	sbci	r31, 0xF9	; 249
-     ee0:	c0 82       	st	Z, r12
-     ee2:	d1 82       	std	Z+1, r13	; 0x01
-     ee4:	e2 82       	std	Z+2, r14	; 0x02
-     ee6:	f3 82       	std	Z+3, r15	; 0x03
-				}
-			}
-					
-			//voltageSum += voltageAcrossTheCoil[i]*voltageAcrossTheCoil[i];
+     e4a:	e0 51       	subi	r30, 0x10	; 16
+     e4c:	f9 4f       	sbci	r31, 0xF9	; 249
+     e4e:	c0 82       	st	Z, r12
+     e50:	d1 82       	std	Z+1, r13	; 0x01
+     e52:	e2 82       	std	Z+2, r14	; 0x02
+     e54:	f3 82       	std	Z+3, r15	; 0x03
+			}		
 			voltageSum += voltageAcrossTheCoil[i];
-     ee8:	fc 01       	movw	r30, r24
-     eea:	ee 0f       	add	r30, r30
-     eec:	ff 1f       	adc	r31, r31
-     eee:	ee 0f       	add	r30, r30
-     ef0:	ff 1f       	adc	r31, r31
-     ef2:	e0 50       	subi	r30, 0x00	; 0
-     ef4:	f9 4f       	sbci	r31, 0xF9	; 249
-     ef6:	00 81       	ld	r16, Z
-     ef8:	11 81       	ldd	r17, Z+1	; 0x01
-     efa:	22 81       	ldd	r18, Z+2	; 0x02
-     efc:	33 81       	ldd	r19, Z+3	; 0x03
-     efe:	40 0f       	add	r20, r16
-     f00:	51 1f       	adc	r21, r17
-     f02:	62 1f       	adc	r22, r18
-     f04:	73 1f       	adc	r23, r19
-				voltageLHSIndex++;
+     e56:	fc 01       	movw	r30, r24
+     e58:	ee 0f       	add	r30, r30
+     e5a:	ff 1f       	adc	r31, r31
+     e5c:	ee 0f       	add	r30, r30
+     e5e:	ff 1f       	adc	r31, r31
+     e60:	e0 51       	subi	r30, 0x10	; 16
+     e62:	f9 4f       	sbci	r31, 0xF9	; 249
+     e64:	00 81       	ld	r16, Z
+     e66:	11 81       	ldd	r17, Z+1	; 0x01
+     e68:	22 81       	ldd	r18, Z+2	; 0x02
+     e6a:	33 81       	ldd	r19, Z+3	; 0x03
+     e6c:	40 0f       	add	r20, r16
+     e6e:	51 1f       	adc	r21, r17
+     e70:	62 1f       	adc	r22, r18
+     e72:	73 1f       	adc	r23, r19
+				voltageLHS[measurementIndex] = ADC_LHSVoltage();							//Sample LHS voltage
+				voltageRHS[measurementIndex] = ADC_RHSVoltage();							//Sample RHS voltage
+				measurementIndex++;											
 			}
-		//}
-				
-		////get voltage across the coil
-		for(int i = 0;i<NUMBER_OF_SAMPLES;i++){
-     f06:	01 96       	adiw	r24, 0x01	; 1
-     f08:	88 37       	cpi	r24, 0x78	; 120
-     f0a:	91 05       	cpc	r25, r1
-     f0c:	09 f0       	breq	.+2      	; 0xf10 <main+0x1ec>
-     f0e:	7f cf       	rjmp	.-258    	; 0xe0e <main+0xea>
-     f10:	1a 2f       	mov	r17, r26
+		
+		for(int i = 0;i<NUMBER_OF_SAMPLES;i++){												//Calculate the voltage across the coil
+     e74:	01 96       	adiw	r24, 0x01	; 1
+     e76:	88 37       	cpi	r24, 0x78	; 120
+     e78:	91 05       	cpc	r25, r1
+     e7a:	09 f0       	breq	.+2      	; 0xe7e <main+0x178>
+     e7c:	97 cf       	rjmp	.-210    	; 0xdac <main+0xa6>
+			}		
 			voltageSum += voltageAcrossTheCoil[i];
 			
 		}
-				
-		//calculate rms voltage and current
-		rmsVoltage = voltageSum / NUMBER_OF_SAMPLES;
-     f12:	cb 01       	movw	r24, r22
-     f14:	ba 01       	movw	r22, r20
-     f16:	28 e7       	ldi	r18, 0x78	; 120
-     f18:	30 e0       	ldi	r19, 0x00	; 0
-     f1a:	40 e0       	ldi	r20, 0x00	; 0
-     f1c:	50 e0       	ldi	r21, 0x00	; 0
-     f1e:	0e 94 c0 08 	call	0x1180	; 0x1180 <__udivmodsi4>
-		//rmsVoltage = sqrt(rmsVoltage);
-	
-
-				
 		
-		voltageRMSArray[voltageRMSArrayIndex] = rmsVoltage;
-     f22:	e1 2f       	mov	r30, r17
-     f24:	f0 e0       	ldi	r31, 0x00	; 0
-     f26:	ee 0f       	add	r30, r30
-     f28:	ff 1f       	adc	r31, r31
-     f2a:	ee 0f       	add	r30, r30
-     f2c:	ff 1f       	adc	r31, r31
-     f2e:	e2 5e       	subi	r30, 0xE2	; 226
-     f30:	fa 4f       	sbci	r31, 0xFA	; 250
-     f32:	20 83       	st	Z, r18
-     f34:	31 83       	std	Z+1, r19	; 0x01
-     f36:	42 83       	std	Z+2, r20	; 0x02
-     f38:	53 83       	std	Z+3, r21	; 0x03
-		voltageRMSArrayIndex++;
-     f3a:	1f 5f       	subi	r17, 0xFF	; 255
+		averageVoltage = voltageSum / NUMBER_OF_SAMPLES;							
+     e7e:	cb 01       	movw	r24, r22
+     e80:	ba 01       	movw	r22, r20
+     e82:	28 e7       	ldi	r18, 0x78	; 120
+     e84:	30 e0       	ldi	r19, 0x00	; 0
+     e86:	40 e0       	ldi	r20, 0x00	; 0
+     e88:	50 e0       	ldi	r21, 0x00	; 0
+     e8a:	0e 94 45 08 	call	0x108a	; 0x108a <__udivmodsi4>
+
+		voltageAverageArray[voltageAverageIndex] = averageVoltage;
+     e8e:	8c 81       	ldd	r24, Y+4	; 0x04
+     e90:	e8 2f       	mov	r30, r24
+     e92:	f0 e0       	ldi	r31, 0x00	; 0
+     e94:	ee 0f       	add	r30, r30
+     e96:	ff 1f       	adc	r31, r31
+     e98:	ee 0f       	add	r30, r30
+     e9a:	ff 1f       	adc	r31, r31
+     e9c:	e0 5b       	subi	r30, 0xB0	; 176
+     e9e:	fe 4f       	sbci	r31, 0xFE	; 254
+     ea0:	20 83       	st	Z, r18
+     ea2:	31 83       	std	Z+1, r19	; 0x01
+     ea4:	42 83       	std	Z+2, r20	; 0x02
+     ea6:	53 83       	std	Z+3, r21	; 0x03
+		voltageAverageIndex++;
+     ea8:	8f 5f       	subi	r24, 0xFF	; 255
+     eaa:	8c 83       	std	Y+4, r24	; 0x04
 				
-				
-		if(voltageRMSArrayIndex==NUMBER_OF_SAMPLES){
-     f3c:	18 37       	cpi	r17, 0x78	; 120
-     f3e:	71 f5       	brne	.+92     	; 0xf9c <main+0x278>
-     f40:	80 e0       	ldi	r24, 0x00	; 0
-     f42:	90 e0       	ldi	r25, 0x00	; 0
+		/*******************Calculate Average Voltage and Current*******************/		
+		if(voltageAverageIndex==NUMBER_OF_SAMPLES){
+     eac:	88 37       	cpi	r24, 0x78	; 120
+     eae:	71 f5       	brne	.+92     	; 0xf0c <main+0x206>
+     eb0:	80 e0       	ldi	r24, 0x00	; 0
+     eb2:	90 e0       	ldi	r25, 0x00	; 0
 			for(int k = 0;k < NUMBER_OF_SAMPLES;k++){
-				voltageRMSFinal += voltageRMSArray[k];
-     f44:	fc 01       	movw	r30, r24
-     f46:	ee 0f       	add	r30, r30
-     f48:	ff 1f       	adc	r31, r31
-     f4a:	ee 0f       	add	r30, r30
-     f4c:	ff 1f       	adc	r31, r31
-     f4e:	e2 5e       	subi	r30, 0xE2	; 226
-     f50:	fa 4f       	sbci	r31, 0xFA	; 250
-     f52:	40 81       	ld	r20, Z
-     f54:	51 81       	ldd	r21, Z+1	; 0x01
-     f56:	62 81       	ldd	r22, Z+2	; 0x02
-     f58:	73 81       	ldd	r23, Z+3	; 0x03
-     f5a:	24 0e       	add	r2, r20
-     f5c:	35 1e       	adc	r3, r21
-		voltageRMSArray[voltageRMSArrayIndex] = rmsVoltage;
-		voltageRMSArrayIndex++;
+				voltageAverageFinal += voltageAverageArray[k];
+     eb4:	fc 01       	movw	r30, r24
+     eb6:	ee 0f       	add	r30, r30
+     eb8:	ff 1f       	adc	r31, r31
+     eba:	ee 0f       	add	r30, r30
+     ebc:	ff 1f       	adc	r31, r31
+     ebe:	e0 5b       	subi	r30, 0xB0	; 176
+     ec0:	fe 4f       	sbci	r31, 0xFE	; 254
+     ec2:	40 81       	ld	r20, Z
+     ec4:	51 81       	ldd	r21, Z+1	; 0x01
+     ec6:	62 81       	ldd	r22, Z+2	; 0x02
+     ec8:	73 81       	ldd	r23, Z+3	; 0x03
+     eca:	24 0e       	add	r2, r20
+     ecc:	35 1e       	adc	r3, r21
+		voltageAverageArray[voltageAverageIndex] = averageVoltage;
+		voltageAverageIndex++;
 				
-				
-		if(voltageRMSArrayIndex==NUMBER_OF_SAMPLES){
+		/*******************Calculate Average Voltage and Current*******************/		
+		if(voltageAverageIndex==NUMBER_OF_SAMPLES){
 			for(int k = 0;k < NUMBER_OF_SAMPLES;k++){
-     f5e:	01 96       	adiw	r24, 0x01	; 1
-     f60:	88 37       	cpi	r24, 0x78	; 120
-     f62:	91 05       	cpc	r25, r1
-     f64:	79 f7       	brne	.-34     	; 0xf44 <main+0x220>
-				voltageRMSFinal += voltageRMSArray[k];
-				
+     ece:	01 96       	adiw	r24, 0x01	; 1
+     ed0:	88 37       	cpi	r24, 0x78	; 120
+     ed2:	91 05       	cpc	r25, r1
+     ed4:	79 f7       	brne	.-34     	; 0xeb4 <main+0x1ae>
+				voltageAverageFinal += voltageAverageArray[k];
 			}
-			voltageRMSFinal /= NUMBER_OF_SAMPLES;
-     f66:	91 01       	movw	r18, r2
-     f68:	a9 e8       	ldi	r26, 0x89	; 137
-     f6a:	b8 e8       	ldi	r27, 0x88	; 136
-     f6c:	0e 94 e2 08 	call	0x11c4	; 0x11c4 <__umulhisi3>
-     f70:	1c 01       	movw	r2, r24
-     f72:	00 24       	eor	r0, r0
-     f74:	22 0c       	add	r2, r2
-     f76:	33 1c       	adc	r3, r3
-     f78:	00 1c       	adc	r0, r0
-     f7a:	22 0c       	add	r2, r2
-     f7c:	33 1c       	adc	r3, r3
-     f7e:	00 1c       	adc	r0, r0
-     f80:	23 2c       	mov	r2, r3
-     f82:	30 2c       	mov	r3, r0
-			currentRMSAggregate = (voltageRMSFinal*100)/415;
-     f84:	e4 e6       	ldi	r30, 0x64	; 100
-     f86:	e2 9d       	mul	r30, r2
-     f88:	c0 01       	movw	r24, r0
-     f8a:	e3 9d       	mul	r30, r3
-     f8c:	90 0d       	add	r25, r0
-     f8e:	11 24       	eor	r1, r1
-     f90:	6f e9       	ldi	r22, 0x9F	; 159
-     f92:	71 e0       	ldi	r23, 0x01	; 1
-     f94:	0e 94 98 08 	call	0x1130	; 0x1130 <__udivmodhi4>
-     f98:	96 2e       	mov	r9, r22
-			voltageRMSArrayIndex = 0;
-     f9a:	10 e0       	ldi	r17, 0x00	; 0
-     f9c:	ce 01       	movw	r24, r28
-     f9e:	01 96       	adiw	r24, 0x01	; 1
-     fa0:	5c 01       	movw	r10, r24
-     fa2:	6c 01       	movw	r12, r24
+			voltageAverageFinal /= NUMBER_OF_SAMPLES;
+     ed6:	91 01       	movw	r18, r2
+     ed8:	a9 e8       	ldi	r26, 0x89	; 137
+     eda:	b8 e8       	ldi	r27, 0x88	; 136
+     edc:	0e 94 67 08 	call	0x10ce	; 0x10ce <__umulhisi3>
+     ee0:	1c 01       	movw	r2, r24
+     ee2:	00 24       	eor	r0, r0
+     ee4:	22 0c       	add	r2, r2
+     ee6:	33 1c       	adc	r3, r3
+     ee8:	00 1c       	adc	r0, r0
+     eea:	22 0c       	add	r2, r2
+     eec:	33 1c       	adc	r3, r3
+     eee:	00 1c       	adc	r0, r0
+     ef0:	23 2c       	mov	r2, r3
+     ef2:	30 2c       	mov	r3, r0
+			currentAverageFinal = (voltageAverageFinal*100)/415;
+     ef4:	e4 e6       	ldi	r30, 0x64	; 100
+     ef6:	e2 9d       	mul	r30, r2
+     ef8:	c0 01       	movw	r24, r0
+     efa:	e3 9d       	mul	r30, r3
+     efc:	90 0d       	add	r25, r0
+     efe:	11 24       	eor	r1, r1
+     f00:	6f e9       	ldi	r22, 0x9F	; 159
+     f02:	71 e0       	ldi	r23, 0x01	; 1
+     f04:	0e 94 1d 08 	call	0x103a	; 0x103a <__udivmodhi4>
+     f08:	6b 83       	std	Y+3, r22	; 0x03
+			voltageAverageIndex = 0;
+     f0a:	1c 82       	std	Y+4, r1	; 0x04
 		}
 				
-		/*******************Power*******************/
-		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
-     fa4:	e1 2c       	mov	r14, r1
-     fa6:	f1 2c       	mov	r15, r1
-			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
-     fa8:	f7 01       	movw	r30, r14
-     faa:	ee 0f       	add	r30, r30
-     fac:	ff 1f       	adc	r31, r31
-     fae:	ee 0f       	add	r30, r30
-     fb0:	ff 1f       	adc	r31, r31
-     fb2:	e0 50       	subi	r30, 0x00	; 0
-     fb4:	f9 4f       	sbci	r31, 0xF9	; 249
-     fb6:	20 81       	ld	r18, Z
-     fb8:	31 81       	ldd	r19, Z+1	; 0x01
-     fba:	42 81       	ldd	r20, Z+2	; 0x02
-     fbc:	53 81       	ldd	r21, Z+3	; 0x03
-     fbe:	60 81       	ld	r22, Z
-     fc0:	71 81       	ldd	r23, Z+1	; 0x01
-     fc2:	82 81       	ldd	r24, Z+2	; 0x02
-     fc4:	93 81       	ldd	r25, Z+3	; 0x03
-     fc6:	0e 94 88 08 	call	0x1110	; 0x1110 <__mulsi3>
-     fca:	2f e9       	ldi	r18, 0x9F	; 159
-     fcc:	31 e0       	ldi	r19, 0x01	; 1
-     fce:	40 e0       	ldi	r20, 0x00	; 0
-     fd0:	50 e0       	ldi	r21, 0x00	; 0
-     fd2:	0e 94 c0 08 	call	0x1180	; 0x1180 <__udivmodsi4>
-     fd6:	f6 01       	movw	r30, r12
-     fd8:	21 93       	st	Z+, r18
-     fda:	31 93       	st	Z+, r19
-     fdc:	41 93       	st	Z+, r20
-     fde:	51 93       	st	Z+, r21
-     fe0:	6f 01       	movw	r12, r30
-			currentRMSAggregate = (voltageRMSFinal*100)/415;
-			voltageRMSArrayIndex = 0;
-		}
-				
-		/*******************Power*******************/
-		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
-     fe2:	ff ef       	ldi	r31, 0xFF	; 255
-     fe4:	ef 1a       	sub	r14, r31
-     fe6:	ff 0a       	sbc	r15, r31
-     fe8:	28 e7       	ldi	r18, 0x78	; 120
-     fea:	e2 16       	cp	r14, r18
-     fec:	f1 04       	cpc	r15, r1
-     fee:	e1 f6       	brne	.-72     	; 0xfa8 <main+0x284>
-     ff0:	c1 2c       	mov	r12, r1
-     ff2:	d1 2c       	mov	r13, r1
-     ff4:	76 01       	movw	r14, r12
-			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
-		}
+		/*******************Power Calculation*******************/	
 		uint32_t powerTotal = 0;
-		for (int i = 0; i < NUMBER_OF_SAMPLES-1; i++) {
-			powerTotal += (powerArray[i] + powerArray[i+1])/2;	//trapezoidal approx
-     ff6:	f5 01       	movw	r30, r10
-     ff8:	41 91       	ld	r20, Z+
-     ffa:	51 91       	ld	r21, Z+
-     ffc:	61 91       	ld	r22, Z+
-     ffe:	71 91       	ld	r23, Z+
-    1000:	5f 01       	movw	r10, r30
-    1002:	80 81       	ld	r24, Z
-    1004:	91 81       	ldd	r25, Z+1	; 0x01
-    1006:	a2 81       	ldd	r26, Z+2	; 0x02
-    1008:	b3 81       	ldd	r27, Z+3	; 0x03
-    100a:	84 0f       	add	r24, r20
-    100c:	95 1f       	adc	r25, r21
-    100e:	a6 1f       	adc	r26, r22
-    1010:	b7 1f       	adc	r27, r23
-    1012:	b6 95       	lsr	r27
-    1014:	a7 95       	ror	r26
-    1016:	97 95       	ror	r25
-    1018:	87 95       	ror	r24
-    101a:	c8 0e       	add	r12, r24
-    101c:	d9 1e       	adc	r13, r25
-    101e:	ea 1e       	adc	r14, r26
-    1020:	fb 1e       	adc	r15, r27
-		/*******************Power*******************/
 		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
-			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
-		}
-		uint32_t powerTotal = 0;
-		for (int i = 0; i < NUMBER_OF_SAMPLES-1; i++) {
-    1022:	cd 51       	subi	r28, 0x1D	; 29
-    1024:	de 4f       	sbci	r29, 0xFE	; 254
-    1026:	88 81       	ld	r24, Y
-    1028:	99 81       	ldd	r25, Y+1	; 0x01
-    102a:	c3 5e       	subi	r28, 0xE3	; 227
-    102c:	d1 40       	sbci	r29, 0x01	; 1
-    102e:	8e 17       	cp	r24, r30
-    1030:	9f 07       	cpc	r25, r31
-    1032:	09 f7       	brne	.-62     	; 0xff6 <main+0x2d2>
-			powerTotal += (powerArray[i] + powerArray[i+1])/2;	//trapezoidal approx
+     f0c:	00 e0       	ldi	r16, 0x00	; 0
+     f0e:	10 e0       	ldi	r17, 0x00	; 0
+			currentAverageFinal = (voltageAverageFinal*100)/415;
+			voltageAverageIndex = 0;
 		}
 				
-		rmsPower = powerTotal / (NUMBER_OF_SAMPLES-1);
-		//receive message code
-		if(finished){
-    1034:	80 91 56 01 	lds	r24, 0x0156	; 0x800156 <finished>
-    1038:	88 23       	and	r24, r24
-    103a:	09 f4       	brne	.+2      	; 0x103e <main+0x31a>
-    103c:	5f c0       	rjmp	.+190    	; 0x10fc <main+0x3d8>
+		/*******************Power Calculation*******************/	
+		uint32_t powerTotal = 0;
+     f10:	c1 2c       	mov	r12, r1
+     f12:	d1 2c       	mov	r13, r1
+     f14:	76 01       	movw	r14, r12
+		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
+			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
+     f16:	f8 01       	movw	r30, r16
+     f18:	ee 0f       	add	r30, r30
+     f1a:	ff 1f       	adc	r31, r31
+     f1c:	ee 0f       	add	r30, r30
+     f1e:	ff 1f       	adc	r31, r31
+     f20:	e0 51       	subi	r30, 0x10	; 16
+     f22:	f9 4f       	sbci	r31, 0xF9	; 249
+     f24:	20 81       	ld	r18, Z
+     f26:	31 81       	ldd	r19, Z+1	; 0x01
+     f28:	42 81       	ldd	r20, Z+2	; 0x02
+     f2a:	53 81       	ldd	r21, Z+3	; 0x03
+     f2c:	60 81       	ld	r22, Z
+     f2e:	71 81       	ldd	r23, Z+1	; 0x01
+     f30:	82 81       	ldd	r24, Z+2	; 0x02
+     f32:	93 81       	ldd	r25, Z+3	; 0x03
+			powerTotal += powerArray[j];
+     f34:	0e 94 0d 08 	call	0x101a	; 0x101a <__mulsi3>
+     f38:	a3 01       	movw	r20, r6
+     f3a:	92 01       	movw	r18, r4
+     f3c:	0e 94 45 08 	call	0x108a	; 0x108a <__udivmodsi4>
+     f40:	c2 0e       	add	r12, r18
+     f42:	d3 1e       	adc	r13, r19
+     f44:	e4 1e       	adc	r14, r20
+     f46:	f5 1e       	adc	r15, r21
+			voltageAverageIndex = 0;
+		}
+				
+		/*******************Power Calculation*******************/	
+		uint32_t powerTotal = 0;
+		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
+     f48:	0f 5f       	subi	r16, 0xFF	; 255
+     f4a:	1f 4f       	sbci	r17, 0xFF	; 255
+     f4c:	08 37       	cpi	r16, 0x78	; 120
+     f4e:	11 05       	cpc	r17, r1
+     f50:	11 f7       	brne	.-60     	; 0xf16 <main+0x210>
+		}
+		
+		averagePower = powerTotal / NUMBER_OF_SAMPLES;
+					
+		/*******************Receive Message Protocol*******************/
+		if(messageReceived){
+     f52:	80 91 48 01 	lds	r24, 0x0148	; 0x800148 <messageReceived>
+     f56:	88 23       	and	r24, r24
+     f58:	09 f4       	brne	.+2      	; 0xf5c <main+0x256>
+     f5a:	56 c0       	rjmp	.+172    	; 0x1008 <main+0x302>
 			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
-    103e:	40 91 2e 01 	lds	r20, 0x012E	; 0x80012e <pumpingEffortArray+0x2>
-    1042:	60 91 2d 01 	lds	r22, 0x012D	; 0x80012d <pumpingEffortArray+0x1>
-    1046:	ec e2       	ldi	r30, 0x2C	; 44
-    1048:	f1 e0       	ldi	r31, 0x01	; 1
-    104a:	80 81       	ld	r24, Z
-    104c:	50 e0       	ldi	r21, 0x00	; 0
-    104e:	70 e0       	ldi	r23, 0x00	; 0
-    1050:	90 e0       	ldi	r25, 0x00	; 0
-    1052:	0e 94 1c 05 	call	0xa38	; 0xa38 <concatenate>
-    1056:	80 93 5b 01 	sts	0x015B, r24	; 0x80015b <pumpingEffort>
+     f5c:	40 91 20 01 	lds	r20, 0x0120	; 0x800120 <pumpingEffortArray+0x2>
+     f60:	60 91 1f 01 	lds	r22, 0x011F	; 0x80011f <pumpingEffortArray+0x1>
+     f64:	ee e1       	ldi	r30, 0x1E	; 30
+     f66:	f1 e0       	ldi	r31, 0x01	; 1
+     f68:	80 81       	ld	r24, Z
+     f6a:	50 e0       	ldi	r21, 0x00	; 0
+     f6c:	70 e0       	ldi	r23, 0x00	; 0
+     f6e:	90 e0       	ldi	r25, 0x00	; 0
+     f70:	0e 94 68 06 	call	0xcd0	; 0xcd0 <concatenate>
+     f74:	80 93 4c 01 	sts	0x014C, r24	; 0x80014c <pumpingEffort>
 				
 			for(int i = 0; i < 38; i++){
-    105a:	80 e0       	ldi	r24, 0x00	; 0
-    105c:	90 e0       	ldi	r25, 0x00	; 0
+     f78:	80 e0       	ldi	r24, 0x00	; 0
+     f7a:	90 e0       	ldi	r25, 0x00	; 0
 				pumpingEffortArray[i] = 0;
-    105e:	fc 01       	movw	r30, r24
-    1060:	e4 5d       	subi	r30, 0xD4	; 212
-    1062:	fe 4f       	sbci	r31, 0xFE	; 254
-    1064:	10 82       	st	Z, r1
-		rmsPower = powerTotal / (NUMBER_OF_SAMPLES-1);
-		//receive message code
-		if(finished){
+     f7c:	fc 01       	movw	r30, r24
+     f7e:	e2 5e       	subi	r30, 0xE2	; 226
+     f80:	fe 4f       	sbci	r31, 0xFE	; 254
+     f82:	10 82       	st	Z, r1
+					
+		/*******************Receive Message Protocol*******************/
+		if(messageReceived){
 			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
 				
 			for(int i = 0; i < 38; i++){
-    1066:	01 96       	adiw	r24, 0x01	; 1
-    1068:	86 32       	cpi	r24, 0x26	; 38
-    106a:	91 05       	cpc	r25, r1
-    106c:	c1 f7       	brne	.-16     	; 0x105e <main+0x33a>
+     f84:	01 96       	adiw	r24, 0x01	; 1
+     f86:	86 32       	cpi	r24, 0x26	; 38
+     f88:	91 05       	cpc	r25, r1
+     f8a:	c1 f7       	brne	.-16     	; 0xf7c <main+0x276>
 				pumpingEffortArray[i] = 0;
 			}
 			clearErrorFlag = checkForError(clearErrorArray[0],clearErrorArray[1]);
-    106e:	90 91 17 01 	lds	r25, 0x0117	; 0x800117 <__data_end+0x1>
-    1072:	e6 e1       	ldi	r30, 0x16	; 22
-    1074:	f1 e0       	ldi	r31, 0x01	; 1
-    1076:	80 81       	ld	r24, Z
+     f8c:	90 91 09 01 	lds	r25, 0x0109	; 0x800109 <__data_end+0x1>
+     f90:	e8 e0       	ldi	r30, 0x08	; 8
+     f92:	f1 e0       	ldi	r31, 0x01	; 1
+     f94:	80 81       	ld	r24, Z
 int concatenate(int a, int b, int c){
 	return ((a-48)*100 + (b-48)*10 + (c-48));
 }
 
 bool checkForError(unsigned char a, unsigned char b){
 	if((a == 101) && (b == 119)){ //101 = e, 119 = w
-    1078:	85 36       	cpi	r24, 0x65	; 101
-    107a:	29 f4       	brne	.+10     	; 0x1086 <main+0x362>
-    107c:	81 e0       	ldi	r24, 0x01	; 1
-    107e:	97 37       	cpi	r25, 0x77	; 119
-    1080:	19 f0       	breq	.+6      	; 0x1088 <main+0x364>
-    1082:	80 e0       	ldi	r24, 0x00	; 0
-    1084:	01 c0       	rjmp	.+2      	; 0x1088 <main+0x364>
+     f96:	85 36       	cpi	r24, 0x65	; 101
+     f98:	29 f4       	brne	.+10     	; 0xfa4 <main+0x29e>
+     f9a:	81 e0       	ldi	r24, 0x01	; 1
+     f9c:	97 37       	cpi	r25, 0x77	; 119
+     f9e:	19 f0       	breq	.+6      	; 0xfa6 <main+0x2a0>
+     fa0:	80 e0       	ldi	r24, 0x00	; 0
+     fa2:	01 c0       	rjmp	.+2      	; 0xfa6 <main+0x2a0>
 		return true;
-	}else{
+		}else{
 		return false;
-    1086:	80 e0       	ldi	r24, 0x00	; 0
+     fa4:	80 e0       	ldi	r24, 0x00	; 0
 			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
 				
 			for(int i = 0; i < 38; i++){
 				pumpingEffortArray[i] = 0;
 			}
 			clearErrorFlag = checkForError(clearErrorArray[0],clearErrorArray[1]);
-    1088:	80 93 2a 01 	sts	0x012A, r24	; 0x80012a <clearErrorFlag>
+     fa6:	80 93 1c 01 	sts	0x011C, r24	; 0x80011c <clearErrorFlag>
 			if(clearErrorFlag){
-    108c:	80 91 2a 01 	lds	r24, 0x012A	; 0x80012a <clearErrorFlag>
-    1090:	88 23       	and	r24, r24
-    1092:	21 f0       	breq	.+8      	; 0x109c <main+0x378>
+     faa:	80 91 1c 01 	lds	r24, 0x011C	; 0x80011c <clearErrorFlag>
+     fae:	88 23       	and	r24, r24
+     fb0:	21 f0       	breq	.+8      	; 0xfba <main+0x2b4>
 				cmprCollide = false;
-    1094:	10 92 0e 01 	sts	0x010E, r1	; 0x80010e <cmprCollide>
+     fb2:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__data_start>
 				cmprJammed = false;;
-    1098:	10 92 0f 01 	sts	0x010F, r1	; 0x80010f <cmprJammed>
+     fb6:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <cmprJammed>
 			}
-			UART_SendJson(rmsPower,frequency,voltageRMSFinal,currentRMSAggregate,cmprJammed,cmprCollide, pumpingEffort,pumpingEffort);
-    109c:	80 90 5b 01 	lds	r8, 0x015B	; 0x80015b <pumpingEffort>
-    10a0:	a0 90 5b 01 	lds	r10, 0x015B	; 0x80015b <pumpingEffort>
-    10a4:	b0 90 0e 01 	lds	r11, 0x010E	; 0x80010e <cmprCollide>
-    10a8:	00 91 0f 01 	lds	r16, 0x010F	; 0x80010f <cmprJammed>
-    10ac:	80 91 11 01 	lds	r24, 0x0111	; 0x800111 <frequency>
-    10b0:	90 91 12 01 	lds	r25, 0x0112	; 0x800112 <frequency+0x1>
-    10b4:	cb 51       	subi	r28, 0x1B	; 27
-    10b6:	de 4f       	sbci	r29, 0xFE	; 254
-    10b8:	99 83       	std	Y+1, r25	; 0x01
-    10ba:	88 83       	st	Y, r24
-    10bc:	c5 5e       	subi	r28, 0xE5	; 229
-    10be:	d1 40       	sbci	r29, 0x01	; 1
-    10c0:	21 01       	movw	r4, r2
-    10c2:	61 2c       	mov	r6, r1
-    10c4:	71 2c       	mov	r7, r1
-    10c6:	c7 01       	movw	r24, r14
-    10c8:	b6 01       	movw	r22, r12
-    10ca:	27 e7       	ldi	r18, 0x77	; 119
-    10cc:	30 e0       	ldi	r19, 0x00	; 0
-    10ce:	40 e0       	ldi	r20, 0x00	; 0
-    10d0:	50 e0       	ldi	r21, 0x00	; 0
-    10d2:	0e 94 c0 08 	call	0x1180	; 0x1180 <__udivmodsi4>
-    10d6:	82 2f       	mov	r24, r18
-    10d8:	cb 2c       	mov	r12, r11
-    10da:	e0 2e       	mov	r14, r16
-    10dc:	09 2d       	mov	r16, r9
-    10de:	a3 01       	movw	r20, r6
-    10e0:	92 01       	movw	r18, r4
-    10e2:	cb 51       	subi	r28, 0x1B	; 27
-    10e4:	de 4f       	sbci	r29, 0xFE	; 254
-    10e6:	68 81       	ld	r22, Y
-    10e8:	c5 5e       	subi	r28, 0xE5	; 229
-    10ea:	d1 40       	sbci	r29, 0x01	; 1
-    10ec:	0e 94 dd 04 	call	0x9ba	; 0x9ba <UART_SendJson>
-			finished = false;
-    10f0:	10 92 56 01 	sts	0x0156, r1	; 0x800156 <finished>
-			rx_count = 0;
-    10f4:	10 92 55 01 	sts	0x0155, r1	; 0x800155 <rx_count+0x1>
-    10f8:	10 92 54 01 	sts	0x0154, r1	; 0x800154 <rx_count>
+			UART_SendJson(averagePower,frequency,voltageAverageFinal,currentAverageFinal,cmprJammed,cmprCollide, pumpingEffort,pumpingEffort);
+     fba:	80 90 4c 01 	lds	r8, 0x014C	; 0x80014c <pumpingEffort>
+     fbe:	a0 90 4c 01 	lds	r10, 0x014C	; 0x80014c <pumpingEffort>
+     fc2:	10 91 00 01 	lds	r17, 0x0100	; 0x800100 <__data_start>
+     fc6:	f0 91 01 01 	lds	r31, 0x0101	; 0x800101 <cmprJammed>
+     fca:	fd 83       	std	Y+5, r31	; 0x05
+     fcc:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <frequency>
+     fd0:	90 91 04 01 	lds	r25, 0x0104	; 0x800104 <frequency+0x1>
+     fd4:	9a 83       	std	Y+2, r25	; 0x02
+     fd6:	89 83       	std	Y+1, r24	; 0x01
+     fd8:	c7 01       	movw	r24, r14
+     fda:	b6 01       	movw	r22, r12
+     fdc:	28 e7       	ldi	r18, 0x78	; 120
+     fde:	30 e0       	ldi	r19, 0x00	; 0
+     fe0:	40 e0       	ldi	r20, 0x00	; 0
+     fe2:	50 e0       	ldi	r21, 0x00	; 0
+     fe4:	0e 94 45 08 	call	0x108a	; 0x108a <__udivmodsi4>
+     fe8:	82 2f       	mov	r24, r18
+     fea:	c1 2e       	mov	r12, r17
+     fec:	ed 80       	ldd	r14, Y+5	; 0x05
+     fee:	0b 81       	ldd	r16, Y+3	; 0x03
+     ff0:	91 01       	movw	r18, r2
+     ff2:	40 e0       	ldi	r20, 0x00	; 0
+     ff4:	50 e0       	ldi	r21, 0x00	; 0
+     ff6:	69 81       	ldd	r22, Y+1	; 0x01
+     ff8:	0e 94 0d 05 	call	0xa1a	; 0xa1a <UART_SendJson>
+			messageReceived = false;
+     ffc:	10 92 48 01 	sts	0x0148, r1	; 0x800148 <messageReceived>
+			numberOfCharactersReceived = 0;
+    1000:	10 92 47 01 	sts	0x0147, r1	; 0x800147 <numberOfCharactersReceived+0x1>
+    1004:	10 92 46 01 	sts	0x0146, r1	; 0x800146 <numberOfCharactersReceived>
 		}
-	
-		//change the pumping effort
-		UART_InterpretPumpingEffort();
-    10fc:	0e 94 01 01 	call	0x202	; 0x202 <UART_InterpretPumpingEffort>
-			
+		UART_InterpretPumpingEffort();													//Interpret pumping effort 	
+    1008:	0e 94 2a 01 	call	0x254	; 0x254 <UART_InterpretPumpingEffort>
     }
-    1100:	48 ce       	rjmp	.-880    	; 0xd92 <main+0x6e>
+    100c:	9e ce       	rjmp	.-708    	; 0xd4a <main+0x44>
+	UART_Init(UBRR_VALUE);
+	ADC_Init();
 	PWM_Init();
 	
-	//output pin setup
-	DDRB |= (1<<PB1)|(1<<PB2);
-	DDRD |= (1<<PD5)|(1<<PD6);
-	uint8_t voltageRMSArrayIndex = 0;
-    1102:	80 e0       	ldi	r24, 0x00	; 0
-    1104:	90 e0       	ldi	r25, 0x00	; 0
-    1106:	40 e0       	ldi	r20, 0x00	; 0
-    1108:	50 e0       	ldi	r21, 0x00	; 0
-    110a:	ba 01       	movw	r22, r20
-    110c:	a1 2f       	mov	r26, r17
-    110e:	7f ce       	rjmp	.-770    	; 0xe0e <main+0xea>
+	/*******************Local Variable Declaration*******************/
+	uint8_t voltageAverageIndex = 0;
+    100e:	80 e0       	ldi	r24, 0x00	; 0
+    1010:	90 e0       	ldi	r25, 0x00	; 0
+    1012:	40 e0       	ldi	r20, 0x00	; 0
+    1014:	50 e0       	ldi	r21, 0x00	; 0
+    1016:	ba 01       	movw	r22, r20
+    1018:	c9 ce       	rjmp	.-622    	; 0xdac <main+0xa6>
 
-00001110 <__mulsi3>:
-    1110:	db 01       	movw	r26, r22
-    1112:	8f 93       	push	r24
-    1114:	9f 93       	push	r25
-    1116:	0e 94 f1 08 	call	0x11e2	; 0x11e2 <__muluhisi3>
-    111a:	bf 91       	pop	r27
-    111c:	af 91       	pop	r26
-    111e:	a2 9f       	mul	r26, r18
-    1120:	80 0d       	add	r24, r0
-    1122:	91 1d       	adc	r25, r1
-    1124:	a3 9f       	mul	r26, r19
-    1126:	90 0d       	add	r25, r0
-    1128:	b2 9f       	mul	r27, r18
-    112a:	90 0d       	add	r25, r0
-    112c:	11 24       	eor	r1, r1
-    112e:	08 95       	ret
+0000101a <__mulsi3>:
+    101a:	db 01       	movw	r26, r22
+    101c:	8f 93       	push	r24
+    101e:	9f 93       	push	r25
+    1020:	0e 94 76 08 	call	0x10ec	; 0x10ec <__muluhisi3>
+    1024:	bf 91       	pop	r27
+    1026:	af 91       	pop	r26
+    1028:	a2 9f       	mul	r26, r18
+    102a:	80 0d       	add	r24, r0
+    102c:	91 1d       	adc	r25, r1
+    102e:	a3 9f       	mul	r26, r19
+    1030:	90 0d       	add	r25, r0
+    1032:	b2 9f       	mul	r27, r18
+    1034:	90 0d       	add	r25, r0
+    1036:	11 24       	eor	r1, r1
+    1038:	08 95       	ret
 
-00001130 <__udivmodhi4>:
-    1130:	aa 1b       	sub	r26, r26
-    1132:	bb 1b       	sub	r27, r27
-    1134:	51 e1       	ldi	r21, 0x11	; 17
-    1136:	07 c0       	rjmp	.+14     	; 0x1146 <__udivmodhi4_ep>
+0000103a <__udivmodhi4>:
+    103a:	aa 1b       	sub	r26, r26
+    103c:	bb 1b       	sub	r27, r27
+    103e:	51 e1       	ldi	r21, 0x11	; 17
+    1040:	07 c0       	rjmp	.+14     	; 0x1050 <__udivmodhi4_ep>
 
-00001138 <__udivmodhi4_loop>:
-    1138:	aa 1f       	adc	r26, r26
-    113a:	bb 1f       	adc	r27, r27
-    113c:	a6 17       	cp	r26, r22
-    113e:	b7 07       	cpc	r27, r23
-    1140:	10 f0       	brcs	.+4      	; 0x1146 <__udivmodhi4_ep>
-    1142:	a6 1b       	sub	r26, r22
-    1144:	b7 0b       	sbc	r27, r23
+00001042 <__udivmodhi4_loop>:
+    1042:	aa 1f       	adc	r26, r26
+    1044:	bb 1f       	adc	r27, r27
+    1046:	a6 17       	cp	r26, r22
+    1048:	b7 07       	cpc	r27, r23
+    104a:	10 f0       	brcs	.+4      	; 0x1050 <__udivmodhi4_ep>
+    104c:	a6 1b       	sub	r26, r22
+    104e:	b7 0b       	sbc	r27, r23
 
-00001146 <__udivmodhi4_ep>:
-    1146:	88 1f       	adc	r24, r24
-    1148:	99 1f       	adc	r25, r25
-    114a:	5a 95       	dec	r21
-    114c:	a9 f7       	brne	.-22     	; 0x1138 <__udivmodhi4_loop>
-    114e:	80 95       	com	r24
-    1150:	90 95       	com	r25
-    1152:	bc 01       	movw	r22, r24
-    1154:	cd 01       	movw	r24, r26
-    1156:	08 95       	ret
+00001050 <__udivmodhi4_ep>:
+    1050:	88 1f       	adc	r24, r24
+    1052:	99 1f       	adc	r25, r25
+    1054:	5a 95       	dec	r21
+    1056:	a9 f7       	brne	.-22     	; 0x1042 <__udivmodhi4_loop>
+    1058:	80 95       	com	r24
+    105a:	90 95       	com	r25
+    105c:	bc 01       	movw	r22, r24
+    105e:	cd 01       	movw	r24, r26
+    1060:	08 95       	ret
 
-00001158 <__divmodhi4>:
-    1158:	97 fb       	bst	r25, 7
-    115a:	07 2e       	mov	r0, r23
-    115c:	16 f4       	brtc	.+4      	; 0x1162 <__divmodhi4+0xa>
-    115e:	00 94       	com	r0
-    1160:	07 d0       	rcall	.+14     	; 0x1170 <__divmodhi4_neg1>
-    1162:	77 fd       	sbrc	r23, 7
-    1164:	09 d0       	rcall	.+18     	; 0x1178 <__divmodhi4_neg2>
-    1166:	0e 94 98 08 	call	0x1130	; 0x1130 <__udivmodhi4>
-    116a:	07 fc       	sbrc	r0, 7
-    116c:	05 d0       	rcall	.+10     	; 0x1178 <__divmodhi4_neg2>
-    116e:	3e f4       	brtc	.+14     	; 0x117e <__divmodhi4_exit>
+00001062 <__divmodhi4>:
+    1062:	97 fb       	bst	r25, 7
+    1064:	07 2e       	mov	r0, r23
+    1066:	16 f4       	brtc	.+4      	; 0x106c <__divmodhi4+0xa>
+    1068:	00 94       	com	r0
+    106a:	07 d0       	rcall	.+14     	; 0x107a <__divmodhi4_neg1>
+    106c:	77 fd       	sbrc	r23, 7
+    106e:	09 d0       	rcall	.+18     	; 0x1082 <__divmodhi4_neg2>
+    1070:	0e 94 1d 08 	call	0x103a	; 0x103a <__udivmodhi4>
+    1074:	07 fc       	sbrc	r0, 7
+    1076:	05 d0       	rcall	.+10     	; 0x1082 <__divmodhi4_neg2>
+    1078:	3e f4       	brtc	.+14     	; 0x1088 <__divmodhi4_exit>
 
-00001170 <__divmodhi4_neg1>:
-    1170:	90 95       	com	r25
-    1172:	81 95       	neg	r24
-    1174:	9f 4f       	sbci	r25, 0xFF	; 255
-    1176:	08 95       	ret
+0000107a <__divmodhi4_neg1>:
+    107a:	90 95       	com	r25
+    107c:	81 95       	neg	r24
+    107e:	9f 4f       	sbci	r25, 0xFF	; 255
+    1080:	08 95       	ret
 
-00001178 <__divmodhi4_neg2>:
-    1178:	70 95       	com	r23
-    117a:	61 95       	neg	r22
-    117c:	7f 4f       	sbci	r23, 0xFF	; 255
+00001082 <__divmodhi4_neg2>:
+    1082:	70 95       	com	r23
+    1084:	61 95       	neg	r22
+    1086:	7f 4f       	sbci	r23, 0xFF	; 255
 
-0000117e <__divmodhi4_exit>:
-    117e:	08 95       	ret
+00001088 <__divmodhi4_exit>:
+    1088:	08 95       	ret
 
-00001180 <__udivmodsi4>:
-    1180:	a1 e2       	ldi	r26, 0x21	; 33
-    1182:	1a 2e       	mov	r1, r26
-    1184:	aa 1b       	sub	r26, r26
-    1186:	bb 1b       	sub	r27, r27
-    1188:	fd 01       	movw	r30, r26
-    118a:	0d c0       	rjmp	.+26     	; 0x11a6 <__udivmodsi4_ep>
+0000108a <__udivmodsi4>:
+    108a:	a1 e2       	ldi	r26, 0x21	; 33
+    108c:	1a 2e       	mov	r1, r26
+    108e:	aa 1b       	sub	r26, r26
+    1090:	bb 1b       	sub	r27, r27
+    1092:	fd 01       	movw	r30, r26
+    1094:	0d c0       	rjmp	.+26     	; 0x10b0 <__udivmodsi4_ep>
 
-0000118c <__udivmodsi4_loop>:
-    118c:	aa 1f       	adc	r26, r26
-    118e:	bb 1f       	adc	r27, r27
-    1190:	ee 1f       	adc	r30, r30
-    1192:	ff 1f       	adc	r31, r31
-    1194:	a2 17       	cp	r26, r18
-    1196:	b3 07       	cpc	r27, r19
-    1198:	e4 07       	cpc	r30, r20
-    119a:	f5 07       	cpc	r31, r21
-    119c:	20 f0       	brcs	.+8      	; 0x11a6 <__udivmodsi4_ep>
-    119e:	a2 1b       	sub	r26, r18
-    11a0:	b3 0b       	sbc	r27, r19
-    11a2:	e4 0b       	sbc	r30, r20
-    11a4:	f5 0b       	sbc	r31, r21
+00001096 <__udivmodsi4_loop>:
+    1096:	aa 1f       	adc	r26, r26
+    1098:	bb 1f       	adc	r27, r27
+    109a:	ee 1f       	adc	r30, r30
+    109c:	ff 1f       	adc	r31, r31
+    109e:	a2 17       	cp	r26, r18
+    10a0:	b3 07       	cpc	r27, r19
+    10a2:	e4 07       	cpc	r30, r20
+    10a4:	f5 07       	cpc	r31, r21
+    10a6:	20 f0       	brcs	.+8      	; 0x10b0 <__udivmodsi4_ep>
+    10a8:	a2 1b       	sub	r26, r18
+    10aa:	b3 0b       	sbc	r27, r19
+    10ac:	e4 0b       	sbc	r30, r20
+    10ae:	f5 0b       	sbc	r31, r21
 
-000011a6 <__udivmodsi4_ep>:
-    11a6:	66 1f       	adc	r22, r22
-    11a8:	77 1f       	adc	r23, r23
-    11aa:	88 1f       	adc	r24, r24
-    11ac:	99 1f       	adc	r25, r25
-    11ae:	1a 94       	dec	r1
-    11b0:	69 f7       	brne	.-38     	; 0x118c <__udivmodsi4_loop>
-    11b2:	60 95       	com	r22
-    11b4:	70 95       	com	r23
-    11b6:	80 95       	com	r24
-    11b8:	90 95       	com	r25
-    11ba:	9b 01       	movw	r18, r22
-    11bc:	ac 01       	movw	r20, r24
-    11be:	bd 01       	movw	r22, r26
-    11c0:	cf 01       	movw	r24, r30
-    11c2:	08 95       	ret
+000010b0 <__udivmodsi4_ep>:
+    10b0:	66 1f       	adc	r22, r22
+    10b2:	77 1f       	adc	r23, r23
+    10b4:	88 1f       	adc	r24, r24
+    10b6:	99 1f       	adc	r25, r25
+    10b8:	1a 94       	dec	r1
+    10ba:	69 f7       	brne	.-38     	; 0x1096 <__udivmodsi4_loop>
+    10bc:	60 95       	com	r22
+    10be:	70 95       	com	r23
+    10c0:	80 95       	com	r24
+    10c2:	90 95       	com	r25
+    10c4:	9b 01       	movw	r18, r22
+    10c6:	ac 01       	movw	r20, r24
+    10c8:	bd 01       	movw	r22, r26
+    10ca:	cf 01       	movw	r24, r30
+    10cc:	08 95       	ret
 
-000011c4 <__umulhisi3>:
-    11c4:	a2 9f       	mul	r26, r18
-    11c6:	b0 01       	movw	r22, r0
-    11c8:	b3 9f       	mul	r27, r19
-    11ca:	c0 01       	movw	r24, r0
-    11cc:	a3 9f       	mul	r26, r19
-    11ce:	70 0d       	add	r23, r0
-    11d0:	81 1d       	adc	r24, r1
-    11d2:	11 24       	eor	r1, r1
-    11d4:	91 1d       	adc	r25, r1
-    11d6:	b2 9f       	mul	r27, r18
-    11d8:	70 0d       	add	r23, r0
-    11da:	81 1d       	adc	r24, r1
-    11dc:	11 24       	eor	r1, r1
-    11de:	91 1d       	adc	r25, r1
-    11e0:	08 95       	ret
+000010ce <__umulhisi3>:
+    10ce:	a2 9f       	mul	r26, r18
+    10d0:	b0 01       	movw	r22, r0
+    10d2:	b3 9f       	mul	r27, r19
+    10d4:	c0 01       	movw	r24, r0
+    10d6:	a3 9f       	mul	r26, r19
+    10d8:	70 0d       	add	r23, r0
+    10da:	81 1d       	adc	r24, r1
+    10dc:	11 24       	eor	r1, r1
+    10de:	91 1d       	adc	r25, r1
+    10e0:	b2 9f       	mul	r27, r18
+    10e2:	70 0d       	add	r23, r0
+    10e4:	81 1d       	adc	r24, r1
+    10e6:	11 24       	eor	r1, r1
+    10e8:	91 1d       	adc	r25, r1
+    10ea:	08 95       	ret
 
-000011e2 <__muluhisi3>:
-    11e2:	0e 94 e2 08 	call	0x11c4	; 0x11c4 <__umulhisi3>
-    11e6:	a5 9f       	mul	r26, r21
-    11e8:	90 0d       	add	r25, r0
-    11ea:	b4 9f       	mul	r27, r20
-    11ec:	90 0d       	add	r25, r0
-    11ee:	a4 9f       	mul	r26, r20
-    11f0:	80 0d       	add	r24, r0
-    11f2:	91 1d       	adc	r25, r1
-    11f4:	11 24       	eor	r1, r1
-    11f6:	08 95       	ret
+000010ec <__muluhisi3>:
+    10ec:	0e 94 67 08 	call	0x10ce	; 0x10ce <__umulhisi3>
+    10f0:	a5 9f       	mul	r26, r21
+    10f2:	90 0d       	add	r25, r0
+    10f4:	b4 9f       	mul	r27, r20
+    10f6:	90 0d       	add	r25, r0
+    10f8:	a4 9f       	mul	r26, r20
+    10fa:	80 0d       	add	r24, r0
+    10fc:	91 1d       	adc	r25, r1
+    10fe:	11 24       	eor	r1, r1
+    1100:	08 95       	ret
 
-000011f8 <_exit>:
-    11f8:	f8 94       	cli
+00001102 <_exit>:
+    1102:	f8 94       	cli
 
-000011fa <__stop_program>:
-    11fa:	ff cf       	rjmp	.-2      	; 0x11fa <__stop_program>
+00001104 <__stop_program>:
+    1104:	ff cf       	rjmp	.-2      	; 0x1104 <__stop_program>

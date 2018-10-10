@@ -15,7 +15,7 @@
 #define PROPORTIONALITY_CONSTANT 21983
 #define MAX_VOLTAGE 13
 
-//uart intializer
+
 void UART_Init(unsigned int BAUD_RATE){
 	
 	UBRR0H = BAUD_RATE >>8;
@@ -34,41 +34,35 @@ void UART_Transmit(uint8_t myValue){
 	UDR0 = myValue;//once ready, store next value for transmission
 }
 
-
+uint8_t UART_ASCIIConversion(uint8_t value){
+	uint8_t asciiValue = value + 48;
+	return asciiValue;
+}
 
 
 //only changes dutycycle
 void UART_InterpretPumpingEffort(){
-	uint32_t voltageEquivalentValue;
-	//pumpingEffort = 179; //mock pumping effort
-	if(pumpingEffort==255){ //255 lose your mind
-		//power_all_enable();
-		//change duty cycle and pwm to max out the motors
-		
+	if(pumpingEffort==255){
+		power_all_enable();
 		dutyCycle = 99;
 		lowPowerMode = false;
 	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){
-		//power_all_enable();
-		//70% of values - care about efficiency and meeting pumpingEffort
-		//efficiency actions turn two switches off
-		//disable all unused modules
+		power_all_enable();
 		if(!lowPowerMode){
 			frequency /= 2;
 		}
 		lowPowerMode = true; //turn off two switches push from one direction
 		dutyCycle = (30*pumpingEffort + 1300)/100;
 	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){
-		//power_all_enable();
-		//30% of values - go ham fam
+		power_all_enable();
 		if(lowPowerMode){
 			frequency *= 2;
 		}
 		lowPowerMode = false;
 		dutyCycle = 37*pumpingEffort/100;
 	}else{ 
-		//turn off mode
-		//power_all_disable(); //disables all modules on the microcontroller
-		//power_usart0_enable();
+		power_all_disable(); //disables all modules on the microcontroller
+		power_usart0_enable();
 		dutyCycle = 0;
 	}
 	changePumpingEffort	 = false;
@@ -132,9 +126,9 @@ void MFCmodulator(uint8_t requiredValue, uint8_t currentValue){
 	firstDigit = requiredValue/100;
 	secondDigit = (requiredValue-(firstDigit*100))/10;
 	thirdDigit = requiredValue - (firstDigit*100) - (secondDigit*10);
-	UART_Transmit(ASCIIConversion(firstDigit));
-	UART_Transmit(ASCIIConversion(secondDigit)); 
-	UART_Transmit(ASCIIConversion(thirdDigit));
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+	UART_Transmit(UART_ASCIIConversion(secondDigit)); 
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
 	UART_Transmit(34);//"
 	UART_Transmit(44);//,
 	
@@ -150,9 +144,9 @@ void MFCmodulator(uint8_t requiredValue, uint8_t currentValue){
 	firstDigit = currentValue/100;
 	secondDigit = (currentValue-(firstDigit*100))/10;
 	thirdDigit = currentValue - (firstDigit*100) - (secondDigit*10);
-	UART_Transmit(ASCIIConversion(firstDigit));
-	UART_Transmit(ASCIIConversion(secondDigit));
-	UART_Transmit(ASCIIConversion(thirdDigit));
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
 	
 	UART_Transmit(34);//"
 	UART_Transmit(125);//}
@@ -212,10 +206,10 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t a
 	firstDigit = averagePower/100;
 	secondDigit = (averagePower-(firstDigit*100))/10;
 	thirdDigit = averagePower - (firstDigit*100) - (secondDigit*10);
-	UART_Transmit(ASCIIConversion(firstDigit));
-	UART_Transmit(ASCIIConversion(secondDigit));
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
 	UART_Transmit(46); //decimal point
-	UART_Transmit(ASCIIConversion(thirdDigit));
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
 	UART_Transmit(87); //W
 	UART_Transmit(34); //"
 	UART_Transmit(44); //,
@@ -233,8 +227,8 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t a
 	UART_Transmit(34);//"
 	firstDigit = operatingFrequency/10;
 	secondDigit = operatingFrequency-(firstDigit*10);
-	UART_Transmit(ASCIIConversion(firstDigit));
-	UART_Transmit(ASCIIConversion(secondDigit));
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
 	UART_Transmit(72); //H
 	UART_Transmit(122);//z
 	UART_Transmit(34);//"
@@ -253,9 +247,9 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t a
 	firstDigit = current/100;
 	secondDigit = (current-(firstDigit*100))/10;
 	thirdDigit = current - (firstDigit*100) - (secondDigit*10);
-	UART_Transmit(ASCIIConversion(firstDigit));
-	UART_Transmit(ASCIIConversion(secondDigit));
-	UART_Transmit(ASCIIConversion(thirdDigit));
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
 	UART_Transmit(109); //m
 	UART_Transmit(65); //A
 	UART_Transmit(34); //"
@@ -275,11 +269,11 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t a
 	secondDigit = (appliedVoltage-(firstDigit*1000))/100;
 	thirdDigit = (appliedVoltage - (firstDigit*1000) - (secondDigit*100))/10;
 	fourthDigit = appliedVoltage -(firstDigit*1000) - (secondDigit*100) - (thirdDigit*10);
-	UART_Transmit(ASCIIConversion(firstDigit));
-	UART_Transmit(ASCIIConversion(secondDigit));
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+	UART_Transmit(UART_ASCIIConversion(secondDigit));
 	UART_Transmit(46); //decimal point
-	UART_Transmit(ASCIIConversion(thirdDigit));
-	UART_Transmit(ASCIIConversion(fourthDigit));
+	UART_Transmit(UART_ASCIIConversion(thirdDigit));
+	UART_Transmit(UART_ASCIIConversion(fourthDigit));
 	UART_Transmit(86); //V
 	UART_Transmit(34); //"
 	
