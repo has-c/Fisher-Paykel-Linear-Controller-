@@ -30,6 +30,7 @@
 #define PWM_FREQUENCY 1000
 #define NUMBER_OF_SAMPLES 120
 #define BACKEMF
+#COIL_INDUCTANCE 5080																		//This value is in micro-Henries(uH)
 
 /**************************************************************Global Variables**************************************************************/
 /*******************PWM Global Variables*******************/
@@ -215,7 +216,7 @@ int main(void)
 	DDRD |= (1<<PD5)|(1<<PD6);
 	
 	/*******************Coil Impedence*******************/
-	uint32_t coilImpedence;
+	uint32_t coilImpedence = sqrt((42*42)+(((2*pi*operatingFrequency*COIL_INDUCTANCE)/1000)**2)); 
 
     while (1) 
     {	
@@ -224,7 +225,6 @@ int main(void)
 		measurementIndex = 0;
 		uint32_t averageVoltage = 0;
 		uint32_t voltageSum = 0;
-		uint32_t powerArray[NUMBER_OF_SAMPLES];
 
 		/*******************Voltage Measurement*******************/
 			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples
@@ -254,7 +254,7 @@ int main(void)
 				voltageAverageFinal += voltageAverageArray[k];
 			}
 			voltageAverageFinal /= NUMBER_OF_SAMPLES;										//This the average voltage across multiple samples taken 
-			currentAverageFinal = (voltageAverageFinal*100)/415;							//From average voltage, average current through the coil is calculated using Ohms law			
+			currentAverageFinal = (voltageAverageFinal*100)/coilImpedence;							//From average voltage, average current through the coil is calculated using Ohms law			
 			voltageAverageIndex = 0;
 		}
 				
@@ -267,7 +267,7 @@ int main(void)
 		
 		averagePower = powerTotal / NUMBER_OF_SAMPLES;										
 					
-		/*******************Receive Message Protocol*******************/
+		n 
 		if(messageReceived){
 			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
 				
