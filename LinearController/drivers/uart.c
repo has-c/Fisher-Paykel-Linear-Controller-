@@ -253,29 +253,28 @@ void PARAMmodulator(uint8_t averagePower, uint8_t operatingFrequency, uint32_t a
 	UART_Transmit(34); 																						//"
 	UART_Transmit(58); 																						//:
 	UART_Transmit(34);																						//"
-	firstDigit = current/100;																				//The dividing by powers of 10 and multiplying by powers of 10 is necessary to extract a digit from a number 
-	secondDigit = (current-(firstDigit*100))/10;
+	firstDigit = current/100;																				//The dividing and multiplying by powers of 10 below is necessary to extract a digit from a number 
 	thirdDigit = current - (firstDigit*100) - (secondDigit*10);
-	UART_Transmit(UART_ASCIIConversion(firstDigit));														
+	UART_Transmit(UART_ASCIIConversion(firstDigit));
+	UART_Transmit(46); 																						//decimal point												
 	UART_Transmit(UART_ASCIIConversion(secondDigit));
 	UART_Transmit(UART_ASCIIConversion(thirdDigit));
-	UART_Transmit(109); 																					//m
 	UART_Transmit(65); 																						//A
 	UART_Transmit(34); 																						//"
 	UART_Transmit(44); 																						//,
 	
 																											//Transmit average voltage across the coil
 	 
-	UART_Transmit(34); //"
-	UART_Transmit(118); //v
-	UART_Transmit(111); //o
-	UART_Transmit(108); //l
-	UART_Transmit(116); //t
-	UART_Transmit(34); //"
-	UART_Transmit(58); //:
-	UART_Transmit(34); //"
-	firstDigit = appliedVoltage/1000;
-	secondDigit = (appliedVoltage-(firstDigit*1000))/100;
+	UART_Transmit(34); 																						//"
+	UART_Transmit(118); 																					//v
+	UART_Transmit(111); 																					//o
+	UART_Transmit(108); 																					//l
+	UART_Transmit(116); 																					//t
+	UART_Transmit(34); 																						//"
+	UART_Transmit(58); 																						//:
+	UART_Transmit(34); 																						//"
+	firstDigit = appliedVoltage/1000;																		//The dividing and multiplying by powers of 10 below is necessary to extract a digit from a number 
+	secondDigit = (appliedVoltage-(firstDigit*1000))/100;												
 	thirdDigit = (appliedVoltage - (firstDigit*1000) - (secondDigit*100))/10;
 	fourthDigit = appliedVoltage -(firstDigit*1000) - (secondDigit*100) - (thirdDigit*10);
 	UART_Transmit(UART_ASCIIConversion(firstDigit));
