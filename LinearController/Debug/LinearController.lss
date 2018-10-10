@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000130  00000000  00000000  00001218  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000022d1  00000000  00000000  00001348  2**0
+  6 .debug_info   000022b6  00000000  00000000  00001348  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000a98  00000000  00000000  00003619  2**0
+  7 .debug_abbrev 00000a8b  00000000  00000000  000035fe  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000fc8  00000000  00000000  000040b1  2**0
+  8 .debug_line   00000fc7  00000000  00000000  00004089  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000344  00000000  00000000  0000507c  2**2
+  9 .debug_frame  00000344  00000000  00000000  00005050  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000007e9  00000000  00000000  000053c0  2**0
+ 10 .debug_str    000007de  00000000  00000000  00005394  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000daa  00000000  00000000  00005ba9  2**0
+ 11 .debug_loc    00000daa  00000000  00000000  00005b72  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000f0  00000000  00000000  00006953  2**0
+ 12 .debug_ranges 000000f0  00000000  00000000  0000691c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -505,7 +505,7 @@ __power_all_enable()
      32e:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <lowPowerMode>
 		dutyCycle = HIGH_POWER_PROPORTIONALITY_CONSTANT*pumpingEffort/100;									//High power relationship between duty cycle and pumping effort - again found through analysis
      332:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <pumpingEffort>
-     336:	25 e2       	ldi	r18, 0x25	; 37
+     336:	20 e2       	ldi	r18, 0x20	; 32
      338:	82 9f       	mul	r24, r18
      33a:	c0 01       	movw	r24, r0
      33c:	11 24       	eor	r1, r1
@@ -1926,10 +1926,10 @@ int main(void)
 	/*******************Local Variable Declaration*******************/
 	uint8_t voltageAverageIndex = 0;
      d4e:	10 e0       	ldi	r17, 0x00	; 0
-		//averagePower = powerTotal / NUMBER_OF_SAMPLES;		
+		}		
 		averagePower = (voltageAverageFinal*currentAverageFinal)/1000;						
 					
-		/*******************Receive Message Protocol*******************/
+		
 		if(messageReceived){
 			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
      d50:	0f 2e       	mov	r0, r31
@@ -1958,7 +1958,6 @@ int main(void)
      d68:	10 92 1e 01 	sts	0x011E, r1	; 0x80011e <measurementIndex>
 		uint32_t averageVoltage = 0;
 		uint32_t voltageSum = 0;
-		uint32_t powerArray[NUMBER_OF_SAMPLES];
 
 		/*******************Voltage Measurement*******************/
 			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples
@@ -2000,9 +1999,9 @@ int main(void)
      db6:	80 91 1e 01 	lds	r24, 0x011E	; 0x80011e <measurementIndex>
      dba:	8f 5f       	subi	r24, 0xFF	; 255
      dbc:	80 93 1e 01 	sts	0x011E, r24	; 0x80011e <measurementIndex>
+		measurementIndex = 0;
 		uint32_t averageVoltage = 0;
 		uint32_t voltageSum = 0;
-		uint32_t powerArray[NUMBER_OF_SAMPLES];
 
 		/*******************Voltage Measurement*******************/
 			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples
@@ -2210,7 +2209,7 @@ int main(void)
      f08:	00 1c       	adc	r0, r0
      f0a:	cd 2f       	mov	r28, r29
      f0c:	d0 2d       	mov	r29, r0
-			currentAverageFinal = (voltageAverageFinal*100)/415;							//From average voltage, average current through the coil is calculated using Ohms law			
+			currentAverageFinal = (voltageAverageFinal*100)/IMPEDANCE;							//From average voltage, average current through the coil is calculated using Ohms law			
      f0e:	24 e6       	ldi	r18, 0x64	; 100
      f10:	2c 9f       	mul	r18, r28
      f12:	c0 01       	movw	r24, r0
@@ -2223,11 +2222,10 @@ int main(void)
      f22:	1b 01       	movw	r2, r22
 			voltageAverageIndex = 0;
      f24:	10 e0       	ldi	r17, 0x00	; 0
-		//
-		//averagePower = powerTotal / NUMBER_OF_SAMPLES;		
+		}		
 		averagePower = (voltageAverageFinal*currentAverageFinal)/1000;						
 					
-		/*******************Receive Message Protocol*******************/
+		
 		if(messageReceived){
      f26:	80 91 49 01 	lds	r24, 0x0149	; 0x800149 <messageReceived>
      f2a:	88 23       	and	r24, r24
@@ -2253,7 +2251,7 @@ int main(void)
      f4e:	fe 4f       	sbci	r31, 0xFE	; 254
      f50:	10 82       	st	Z, r1
 					
-		/*******************Receive Message Protocol*******************/
+		
 		if(messageReceived){
 			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
 				
@@ -2376,8 +2374,13 @@ bool checkForError(unsigned char a, unsigned char b){
     1026:	10 92 48 01 	sts	0x0148, r1	; 0x800148 <numberOfCharactersReceived+0x1>
     102a:	10 92 47 01 	sts	0x0147, r1	; 0x800147 <numberOfCharactersReceived>
 		}
-		UART_InterpretPumpingEffort();														
+		UART_InterpretPumpingEffort();	
     102e:	0e 94 26 01 	call	0x24c	; 0x24c <UART_InterpretPumpingEffort>
+		//}else{
+			//hallPreviousAverage = hallCurrentAverage;
+			//hallCurrentAverage = 0;
+			//hallArray = {0};
+		//}
     }
     1032:	9a ce       	rjmp	.-716    	; 0xd68 <main+0x40>
 	UART_Init(UBRR_VALUE);

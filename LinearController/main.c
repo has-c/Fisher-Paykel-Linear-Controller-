@@ -31,6 +31,7 @@
 #define NUMBER_OF_SAMPLES 120
 #define BACKEMF
 #define COIL_INDUCTANCE 5080																//This value is in micro Henries (uH)
+#define IMPEDANCE 415
 
 /**************************************************************Global Variables**************************************************************/
 /*******************PWM Global Variables*******************/
@@ -216,9 +217,9 @@ int main(void)
 	DDRB |= (1<<PB1)|(1<<PB2);
 	DDRD |= (1<<PD5)|(1<<PD6);
 	
-	/*******************Coil Impedence*******************/
-
-	uint32_t coilImpedence = sqrt((42*42)+(((2*pi*operatingFrequency*COIL_INDUCTANCE)/1000)**2)); 
+	/*******************Coil Impedance*******************/
+	//Using coil inductance was considered however it makes negligible impact 
+	//uint32_t coilImpedence = sqrt((42*42)+(((2*M_PI*operatingFrequency*COIL_INDUCTANCE)/1000)**2)); 
 
     while (1) 
     {	
@@ -256,21 +257,12 @@ int main(void)
 				voltageAverageFinal += voltageAverageArray[k];
 			}
 			voltageAverageFinal /= NUMBER_OF_SAMPLES;										//This the average voltage across multiple samples taken 
-			currentAverageFinal = (voltageAverageFinal*100)/coilImpedence;							//From average voltage, average current through the coil is calculated using Ohms law			
+			currentAverageFinal = (voltageAverageFinal*100)/IMPEDANCE;							//From average voltage, average current through the coil is calculated using Ohms law			
 			voltageAverageIndex = 0;
-		}
-				
-		/*******************Power Calculation*******************/	
-		//uint32_t powerTotal = 0;												
-		//for(int j = 0; j < NUMBER_OF_SAMPLES; j++){											//This for-loop calculates the average power dissipated over the coil
-			//powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
-			//powerTotal += powerArray[j];
-		//}
-		//
-		//averagePower = powerTotal / NUMBER_OF_SAMPLES;		
+		}		
 		averagePower = (voltageAverageFinal*currentAverageFinal)/1000;						
 					
-		n 
+		
 		if(messageReceived){
 			pumpingEffort = concatenate(pumpingEffortArray[0],pumpingEffortArray[1],pumpingEffortArray[2]);
 				
