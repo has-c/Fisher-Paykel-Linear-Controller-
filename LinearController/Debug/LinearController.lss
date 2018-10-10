@@ -1934,7 +1934,7 @@ int main(void)
      d4a:	10 92 1d 01 	sts	0x011D, r1	; 0x80011d <measurementIndex>
 		uint32_t averageVoltage = 0;
 		uint32_t voltageSum = 0;
-		uint32_t powerArray[NUMBER_OF_SAMPLES] = {0};
+		uint32_t powerArray[NUMBER_OF_SAMPLES];
 
 		/*******************Voltage Measurement*******************/
 			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples
@@ -1978,7 +1978,7 @@ int main(void)
      d9e:	80 93 1d 01 	sts	0x011D, r24	; 0x80011d <measurementIndex>
 		uint32_t averageVoltage = 0;
 		uint32_t voltageSum = 0;
-		uint32_t powerArray[NUMBER_OF_SAMPLES] = {0};
+		uint32_t powerArray[NUMBER_OF_SAMPLES];
 
 		/*******************Voltage Measurement*******************/
 			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples

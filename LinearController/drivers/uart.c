@@ -2,7 +2,7 @@
  * uart.c
  *
  * Created: 17/09/2018 11:29:15 AM
- *  Author: hasna
+ *  Author: Hasnain
  */ 
 
 
@@ -11,11 +11,13 @@
 #include <avr/power.h>
 #include <string.h>
 
+
+/**************************************************************Macros**************************************************************/
 #define MAX_LOW_POWER 37885
 #define PROPORTIONALITY_CONSTANT 21983
 #define MAX_VOLTAGE 13
 
-
+/**************************************************************UART Intialisation**************************************************************/
 void UART_Init(unsigned int BAUD_RATE){
 	
 	UBRR0H = BAUD_RATE >>8;
@@ -25,7 +27,8 @@ void UART_Init(unsigned int BAUD_RATE){
 	UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);
 }
 
-//
+/**************************************************************UART Transmit**************************************************************/
+
 void UART_Transmit(uint8_t myValue){
 	//disable receive
 	UCSR0B &= ~(1 << RXEN0);

@@ -26,6 +26,7 @@
 #define BAUDRATE 9600
 #define UBRR_VALUE F_CPU/16/BAUDRATE - 1
 
+/**************************************************************Macros**************************************************************/
 #define PWM_FREQUENCY 1000
 #define NUMBER_OF_SAMPLES 120
 #define BACKEMF
@@ -223,7 +224,7 @@ int main(void)
 		measurementIndex = 0;
 		uint32_t averageVoltage = 0;
 		uint32_t voltageSum = 0;
-		uint32_t powerArray[NUMBER_OF_SAMPLES] = {0};
+		uint32_t powerArray[NUMBER_OF_SAMPLES];
 
 		/*******************Voltage Measurement*******************/
 			while(measurementIndex < NUMBER_OF_SAMPLES){									//Keep on sampling the LHS and RHS of the coil until you reach the total number of samples
@@ -260,7 +261,6 @@ int main(void)
 		/*******************Power Calculation*******************/	
 		uint32_t powerTotal = 0;
 		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){
-			uint16_t 
 			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
 			powerTotal += powerArray[j];
 		}
