@@ -21,6 +21,7 @@
 extern volatile uint8_t pumpingEffort;
 extern volatile uint16_t dutyCycle;
 extern volatile bool lowPowerMode;
+extern volatile bool isOn;
 extern volatile bool changePumpingEffort;
 extern volatile uint16_t frequency;
 extern volatile uint8_t noOfWaves;

@@ -30,7 +30,7 @@
 #define PWM_FREQUENCY 1000
 #define NUMBER_OF_SAMPLES 120
 #define BACKEMF
-#COIL_INDUCTANCE 5080																		//This value is in micro-Henries(uH)
+#define COIL_INDUCTANCE 5080																//This value is in micro Henries (uH)
 
 /**************************************************************Global Variables**************************************************************/
 /*******************PWM Global Variables*******************/
@@ -38,6 +38,7 @@ volatile uint8_t count = 0;
 volatile bool isDead = false;																//Gives indication of whether we are in the dead-zone
 volatile bool isLHS = true;																	//Checks whether we are using the left-hand side MOSFET pair
 volatile bool lowPowerMode = true;															//Indicates whether we are in the low-power mode
+volatile bool isOn = false;
 volatile uint8_t pumpingEffort = 0;															//Mass-Flow Control Number 
 volatile uint16_t frequency = 65;															//Operating Frequency. Note: Must be halved when in the low power mode to adjust for dead-time 
 volatile uint8_t noOfWaves = 32;															//Number of PWM waves being pulsed
@@ -216,6 +217,7 @@ int main(void)
 	DDRD |= (1<<PD5)|(1<<PD6);
 	
 	/*******************Coil Impedence*******************/
+
 	uint32_t coilImpedence = sqrt((42*42)+(((2*pi*operatingFrequency*COIL_INDUCTANCE)/1000)**2)); 
 
     while (1) 
@@ -259,13 +261,14 @@ int main(void)
 		}
 				
 		/*******************Power Calculation*******************/	
-		uint32_t powerTotal = 0;												
-		for(int j = 0; j < NUMBER_OF_SAMPLES; j++){											//This for-loop calculates the average power dissipated over the coil
-			powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
-			powerTotal += powerArray[j];
-		}
-		
-		averagePower = powerTotal / NUMBER_OF_SAMPLES;										
+		//uint32_t powerTotal = 0;												
+		//for(int j = 0; j < NUMBER_OF_SAMPLES; j++){											//This for-loop calculates the average power dissipated over the coil
+			//powerArray[j] = (voltageAcrossTheCoil[j] *voltageAcrossTheCoil[j])/415;
+			//powerTotal += powerArray[j];
+		//}
+		//
+		//averagePower = powerTotal / NUMBER_OF_SAMPLES;		
+		averagePower = (voltageAverageFinal*currentAverageFinal)/1000;						
 					
 		n 
 		if(messageReceived){
