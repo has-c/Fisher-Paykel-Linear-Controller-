@@ -49,18 +49,27 @@ uint8_t UART_ASCIIConversion(uint8_t value){
 to adjust stroke length which is proportionally related to exerted pumping effort*/
 void UART_InterpretPumpingEffort(){
 	if(pumpingEffort==255){																					//MFC at maximum
-		power_all_enable();
+		if(!isOn){
+			power_all_enable();
+			isOn = true;
+		}
 		dutyCycle = 99;
 		lowPowerMode = false;
 	}else if((pumpingEffort>=1)&&(pumpingEffort<=178)){														
-		power_all_enable();
+		if(!isOn){
+			power_all_enable();
+			isOn = true;
+		}
 		if(!lowPowerMode){
 			frequency /= 2;																					//Frequency is halved to maintain the current operating frequency
 		}
 		lowPowerMode = true; 																				//Turns on low power mode meaning we are only using one pair of drivers
 		dutyCycle = (LOW_POWER_PROPORTIONALITY_CONSTANT*pumpingEffort + LOW_POWER_INTERCEPT)/100;			//Low power relationship between duty cycle and pumping effort - found through analysis
 	}else if((pumpingEffort>178)&&(pumpingEffort<=254)){													//Higher MFC range, 
-		power_all_enable();
+		if(!isOn){
+			power_all_enable();
+			isOn = true;
+		}
 		if(lowPowerMode){
 			frequency *= 2;																					//Frequency is doubled to maintain the current operating frequency
 		}
@@ -68,7 +77,8 @@ void UART_InterpretPumpingEffort(){
 		dutyCycle = HIGH_POWER_PROPORTIONALITY_CONSTANT*pumpingEffort/100;									//High power relationship between duty cycle and pumping effort - again found through analysis
 	}else{ 																									//When a zero or other undefined character is received through the master turn off the coil
 		power_all_disable(); 																				//Disable all units																			
-		power_usart0_enable();																				//Enable UART so that communication can still occur
+		power_usart0_enable();
+		isOn = false;																				//Enable UART so that communication can still occur
 		dutyCycle = 0;																						
 	}
 }

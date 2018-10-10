@@ -37,6 +37,7 @@ volatile uint8_t count = 0;
 volatile bool isDead = false;																//Gives indication of whether we are in the dead-zone
 volatile bool isLHS = true;																	//Checks whether we are using the left-hand side MOSFET pair
 volatile bool lowPowerMode = true;															//Indicates whether we are in the low-power mode
+volatile bool isOn = false;
 volatile uint8_t pumpingEffort = 0;															//Mass-Flow Control Number 
 volatile uint16_t frequency = 65;															//Operating Frequency. Note: Must be halved when in the low power mode to adjust for dead-time 
 volatile uint8_t noOfWaves = 32;															//Number of PWM waves being pulsed
