@@ -15,7 +15,7 @@
 /**************************************************************Macros**************************************************************/
 #define LOW_POWER_PROPORTIONALITY_CONSTANT 30
 #define LOW_POWER_INTERCEPT 1300
-#define HIGH_POWER_PROPORTIONALITY_CONSTANT 37
+#define HIGH_POWER_PROPORTIONALITY_CONSTANT 32
 
 /**************************************************************UART Intialisation**************************************************************/
 void UART_Init(unsigned int BAUD_RATE){
