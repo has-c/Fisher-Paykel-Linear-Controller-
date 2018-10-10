@@ -28,7 +28,6 @@ void UART_Init(unsigned int BAUD_RATE){
 }
 
 /**************************************************************UART Transmit**************************************************************/
-
 void UART_Transmit(uint8_t myValue){
 	//disable receive
 	UCSR0B &= ~(1 << RXEN0);
@@ -48,7 +47,7 @@ uint8_t UART_ASCIIConversion(uint8_t value){
 /*Puropose: This function allows the controller to interpret the mass-flow control (MFC) value sent by the master. This function changes duty cyle in an effort 
 to adjust stroke length which is proportionally related to exerted pumping effort*/
 void UART_InterpretPumpingEffort(){
-	if(pumpingEffort==255){																					//MFC at maximum
+	if(pumpingEffort==255){																				
 		power_all_enable();
 		dutyCycle = 99;
 		lowPowerMode = false;
@@ -76,7 +75,7 @@ void UART_InterpretPumpingEffort(){
 /**************************************************************JSON Structure**************************************************************/
 
 /**************************************************************Send JSON Structure**************************************************************/
-/*The functions encapsulated within UART_SendJSON create the JSON Structure that is send to the master from the controller*/
+/*Note:The functions encapsulated within UART_SendJSON create the JSON Structure that is send to the master from the controller*/
 void UART_SendJson(uint8_t averagePower, uint8_t operatingFrequency, uint32_t appliedVoltage, uint8_t current,bool jamErrorFlag, bool collisionErrorFlag, uint8_t requiredValue, uint8_t currentValue){
 	MFCmodulator(requiredValue,currentValue);
 	VERmodulator();
@@ -348,25 +347,23 @@ void ERRORmodulator(bool jamErrorFlag, bool collisionErrorFlag){
 			}
 			
 			
-			UART_Transmit(93); //[
+			UART_Transmit(93); 																				//[
 			
-			}else{ //no errors present
-			UART_Transmit(10); //line feed
-			UART_Transmit(13); //carriage return
+			}else{ 																							//No errors present
+			UART_Transmit(10); 																				//line feed
+			UART_Transmit(13); 																				//carriage return
 		}
 	}
 	
 	
-	//print final curly brackets
-	
-	UART_Transmit(10); //line feed
-	UART_Transmit(13); //carriage return
-	UART_Transmit(125); // }
-	UART_Transmit(10); //line feed
-	UART_Transmit(13); //carriage return
-	UART_Transmit(125); // }
-	UART_Transmit(10); //line feed
-	UART_Transmit(13); //carriage return
+	UART_Transmit(10); 																						//line feed
+	UART_Transmit(13); 																						//carriage return
+	UART_Transmit(125); 																					// }
+	UART_Transmit(10); 																						//line feed
+	UART_Transmit(13);																						//carriage return
+	UART_Transmit(125); 																					// }
+	UART_Transmit(10); 																						//line feed
+	UART_Transmit(13); 																						//carriage return
 
 
 }

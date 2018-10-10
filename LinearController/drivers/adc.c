@@ -11,7 +11,6 @@
 #define ADC_RESOLUTION 1024
 #define UPPER_LIMIT_VOLTAGE 5
 #define OPAMP_VOLTAGE_GAIN 27
-#define LEVEL_SHIFT
 
 /**************************************************************ADC Intialisation**************************************************************/
 void ADC_Init(){
