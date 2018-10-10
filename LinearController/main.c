@@ -280,11 +280,11 @@ int main(void)
 				cmprJammed = false;;
 			}
 			if(lowPowerMode){
-				frequency = frequency*2/10;
+				operatingFrequency = frequency*2/10;
 			}else{
-				frequency = frequency/10;
+				operatingFrequency = frequency/10;
 			}
-			UART_SendJson(averagePower,frequency,voltageAverageFinal,currentAverageFinal,cmprJammed,cmprCollide, pumpingEffort,pumpingEffort);
+			UART_SendJson(averagePower,operatingFrequency,voltageAverageFinal,currentAverageFinal,cmprJammed,cmprCollide, pumpingEffort,pumpingEffort);
 			messageReceived = false;
 			numberOfCharactersReceived = 0;
 		}
